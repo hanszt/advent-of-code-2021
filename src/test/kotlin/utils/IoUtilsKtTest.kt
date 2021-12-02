@@ -1,4 +1,4 @@
-package hzt.utils
+package utils
 
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -8,11 +8,11 @@ internal class IoUtilsKtTest {
 
     @Test
     fun testReadLines() =
-        assertEquals(listOf("hallo", "dit", "is", "een", "test"), File("input/test.txt").readLines().map { it.trim() })
+        assertEquals(listOf("hallo", "dit", "is", "een", "test"), File("input/iotest.txt").readLines().map { it.trim() })
 
     @Test
     fun testUseLines() {
-        val actual = File("input/test.txt").useLines { it.map { s -> s.trim().length }.toList() }
+        val actual = File("input/iotest.txt").useLines { it.map { s -> s.trim().length }.toList() }
         assertEquals(listOf(5, 3, 2, 3, 4), actual)
     }
 

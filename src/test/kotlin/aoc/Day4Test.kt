@@ -1,17 +1,17 @@
-package hzt
+package aoc
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class Day2Test {
+internal class Day4Test {
 
     @Test
     fun testPart1() {
-        assertEquals(0, Day2.part1("day2.txt"))
+        assertEquals(0, Day4.part1("input/day4.txt"))
     }
 
     @Test
     fun testPart2() {
-        assertEquals(0, Day2.part2("day2.txt"))
+        assertEquals(0, Day4.part2("input/day4.txt"))
     }
 }
