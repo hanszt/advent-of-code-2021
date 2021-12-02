@@ -15,7 +15,7 @@ object Day2Dive {
         "up" -> Vector(0, -size)
         "down" -> Vector(0, size)
         "forward" -> Vector(size, 0)
-        else -> throw IllegalStateException("Unknown dir")
+        else -> Vector(0,0)
     }
 
     fun part2(filePath: String): Int {

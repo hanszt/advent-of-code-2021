@@ -6,16 +6,10 @@ import kotlin.test.assertEquals
 internal class Day1SonarSweepTest {
 
     @Test
-    fun testSumDepthIncreases() {
-        val result = Day1SonarSweep.calculatePart1("input/day1.txt")
-        println(result)
-        assertEquals(1722, result)
-    }
+    fun testSumDepthIncreases() =
+        assertEquals(1722, Day1SonarSweep.part1("input/day1.txt").also(::println))
 
     @Test
-    fun testSumDepthRangeIncreases() {
-        val result = Day1SonarSweep.calculatePart2("input/day1.txt")
-        println(result)
-        assertEquals(1748, result)
-    }
+    fun testSumDepthRangeIncreases() =
+        assertEquals(1748, Day1SonarSweep.part2("input/day1.txt").also(::println))
 }

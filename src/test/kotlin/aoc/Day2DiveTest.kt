@@ -6,22 +6,14 @@ import org.junit.jupiter.api.Test
 internal class Day2DiveTest {
 
     @Test
-    fun testPart1Test() = assertEquals(150, Day2Dive.part1("input/day2test.txt"))
+    fun testPart1TestInput() = assertEquals(150, Day2Dive.part1("input/day2test.txt"))
 
     @Test
-    fun testPart1() {
-        val part1 = Day2Dive.part1("input/day2.txt")
-        println(part1)
-        assertEquals(2019945, part1)
-    }
+    fun testPart1() = assertEquals(2019945, Day2Dive.part1("input/day2.txt").also(::println))
 
     @Test
-    fun testPart2Test() = assertEquals(900, Day2Dive.part2("input/day2test.txt"))
+    fun testPart2TestInput() = assertEquals(900, Day2Dive.part2("input/day2test.txt"))
 
     @Test
-    fun testPart2() {
-        val result = Day2Dive.part2("input/day2.txt")
-        println(result)
-        assertEquals(1599311480, result)
-    }
+    fun testPart2() = assertEquals(1599311480, Day2Dive.part2("input/day2.txt").also(::println))
 }
