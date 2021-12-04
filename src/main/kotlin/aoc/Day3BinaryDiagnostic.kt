@@ -20,11 +20,11 @@ object Day3BinaryDiagnostic {
 
     fun part2(path: String): Int = File(path).readLines()
         .map(String::toCharArray)
-        .let { it.toMutableList().toLiftSupportRating() * it.toMutableList().toCo2ScrubbingRating() }
+        .let { it.toLiftSupportRating() * it.toCo2ScrubbingRating() }
 
-    private fun MutableList<CharArray>.toLiftSupportRating() = calculate { ones, zeros -> ones >= zeros }
+    private fun List<CharArray>.toLiftSupportRating() = toMutableList().calculate { ones, zeros -> ones >= zeros }
 
-    private fun MutableList<CharArray>.toCo2ScrubbingRating() = calculate { ones, zeros -> ones < zeros }
+    private fun List<CharArray>.toCo2ScrubbingRating() = toMutableList().calculate { ones, zeros -> ones < zeros }
 
     private fun MutableList<CharArray>.calculate(biPredicate: (Int, Int) -> Boolean): Int {
         var index = 0
