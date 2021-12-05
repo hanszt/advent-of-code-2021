@@ -10,18 +10,16 @@ data class Line(val begin: Vector, val end: Vector) {
 
     private fun createCoordinates(begin: Vector, end: Vector): Set<Vector> {
         val coordinates: MutableSet<Vector> = LinkedHashSet()
-        val rangeX = if (begin.x < end.x) begin.x..end.x else end.x..begin.x
-        val rangeY = if (begin.y < end.y) begin.y..end.y else end.y..begin.y
-        if (isHorizontal()) {
-            for (x in rangeX) {
-                coordinates.add(Vector(x, begin.y))
+        when {
+            isHorizontal() -> {
+                val rangeX = if (begin.x < end.x) begin.x..end.x else end.x..begin.x
+                rangeX.mapTo(coordinates) { Vector(it, begin.y) }
             }
-        } else if (isVertical()) {
-            for (y in rangeY) {
-                coordinates.add(Vector(begin.x, y))
+            isVertical() -> {
+                val rangeY = if (begin.y < end.y) begin.y..end.y else end.y..begin.y
+                rangeY.mapTo(coordinates) { Vector(begin.x, it) }
             }
-        } else {
-            coordinates.addAll(JavaUtils.diagonals(begin, end))
+            else -> coordinates.addAll(JavaUtils.diagonal(begin, end))
         }
         return coordinates
     }
@@ -29,8 +27,6 @@ data class Line(val begin: Vector, val end: Vector) {
     fun isHorizontal(): Boolean = begin.y == end.y
 
     fun isVertical(): Boolean = begin.x == end.x
-
-    fun intersections(other: Line): Set<Vector> = coordinates.intersect(other.coordinates)
 
     override fun toString(): String = "Line(begin=$begin, end=$end, coordinates=$coordinates)"
 }

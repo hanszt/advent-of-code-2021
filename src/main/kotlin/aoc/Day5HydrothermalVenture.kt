@@ -10,18 +10,13 @@ object Day5HydrothermalVenture {
 
     fun part1(path: String): Int {
         val lines = extractLines(path).filter { it.isHorizontal().or(it.isVertical()) }
-        return countIntersections(lines.toSet())
+        return countIntersections(lines.asGrid())
     }
 
-    fun countIntersections(lines: Set<Line>): Int {
-        val intersections: MutableSet<Vector> = HashSet()
-        for (line in lines) {
-            for (other in lines) {
-                if (line != other) intersections.addAll(line.intersections(other))
-            }
-        }
-        return intersections.count()
-    }
+    fun countIntersections(grid: Array<IntArray>): Int = grid.asSequence()
+        .flatMap { it.asSequence() }
+        .filter { it > 1 }
+        .count()
 
     fun extractLines(path: String): Set<Line> = File(path).useLines { lines ->
         lines.map(::toVectorPair)
@@ -36,14 +31,14 @@ object Day5HydrothermalVenture {
     fun part2(path: String): Int {
         val lines = extractLines(path)
         val grid = lines.asGrid()
-        return countIntersections(lines.toSet())
+        return countIntersections(grid)
     }
 
-    fun Set<Line>.asGrid(): Array<IntArray> {
+    fun Iterable<Line>.asGrid(): Array<IntArray> {
         val maxX = maxOf { max(it.begin.x, it.end.x) }
         val maxY = maxOf { min(it.begin.y, it.end.y) }
-        val side = max(maxX, maxY) + 1
-        val grid: Array<IntArray> = Array(side) { IntArray(side) }
+        val sideLength = max(maxX, maxY) + 1
+        val grid: Array<IntArray> = Array(sideLength) { IntArray(sideLength) }
         for (line in this) {
             for (coordinate in line.coordinates) {
                 grid[coordinate.y][coordinate.x]++
