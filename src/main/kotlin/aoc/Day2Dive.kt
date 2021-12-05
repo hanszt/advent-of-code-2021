@@ -1,5 +1,6 @@
 package aoc
 
+import utils.Vector
 import java.io.File
 
 object Day2Dive {
@@ -34,7 +35,4 @@ object Day2Dive {
 
     private fun Sequence<String>.asPairs() = map { it.split(" ") }.map { Pair(it.first(), it.last().toInt()) }
 
-    data class Vector(val x: Int, val y: Int) {
-        operator fun plus(other: Vector) = Vector(x + other.x, y + other.y)
-    }
 }

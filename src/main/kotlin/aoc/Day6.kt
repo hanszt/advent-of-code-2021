@@ -1,6 +1,6 @@
 package aoc
 
-object Day5 {
+object Day6 {
 
     fun part1(path: String): Int {
         return 0

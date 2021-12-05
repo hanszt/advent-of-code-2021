@@ -1,5 +1,7 @@
 package utils
 
+val ONE_OR_MORE_WHITE_SPACES = Regex("\\s+")
+
 fun List<List<Int>>.rotatedClockWise(): Array<IntArray> {
     val rotated = Array(size) { IntArray(size) }
     for (row in indices) {
@@ -10,5 +12,12 @@ fun List<List<Int>>.rotatedClockWise(): Array<IntArray> {
     return rotated
 }
 
-fun String.toIntGrid(): List<List<Int>> = split(Regex("\\n"))
-    .map { it.trim().split(Regex("\\s+")).map(String::toInt) }
+fun CharSequence.toIntGrid(): List<List<Int>> = split(Regex("\\n"))
+    .map { it.trim().split(ONE_OR_MORE_WHITE_SPACES).map(String::toInt) }
+
+fun CharSequence.splitByEmptyLine() = split(Regex("(?m)^\\s*$")).map(String::trim)
+
+fun print2DGrid(grid: Array<IntArray>) = grid.forEach { row ->
+    row.forEach { print("$it ") }
+    println()
+}
