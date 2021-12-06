@@ -3,9 +3,9 @@ package utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class JavaUtils {
+public final class JavaAocUtils {
 
-    private JavaUtils() {
+    private JavaAocUtils() {
     }
 
     public static List<Vector> diagonal(Vector begin, Vector end) {

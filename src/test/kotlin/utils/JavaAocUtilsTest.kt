@@ -2,11 +2,11 @@ package utils
 
 import org.junit.jupiter.api.Test
 
-internal class JavaUtilsTest {
+internal class JavaAocUtilsTest {
 
     @Test
     fun diagonals() {
-        val diagonals = JavaUtils.diagonal(Vector(0, 8), Vector(8, 0))
+        val diagonals = JavaAocUtils.diagonal(Vector(0, 8), Vector(8, 0))
         diagonals.forEach(::println)
     }
 }

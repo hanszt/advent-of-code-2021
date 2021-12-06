@@ -8,31 +8,26 @@ import kotlin.math.min
 
 object Day5HydrothermalVenture {
 
-    fun part1(path: String): Int {
-        val lines = extractLines(path).filter { it.isHorizontal().or(it.isVertical()) }
-        return countIntersections(lines.asGrid())
-    }
+    fun part1(path: String): Int = File(path).toVentureLines()
+            .filter { it.isHorizontal().or(it.isVertical()) }.asGrid()
+            .countIntersections()
 
-    fun countIntersections(grid: Array<IntArray>): Int = grid.asSequence()
+    fun Array<IntArray>.countIntersections(): Int = asSequence()
         .flatMap { it.asSequence() }
         .filter { it > 1 }
         .count()
 
-    fun extractLines(path: String): Set<Line> = File(path).useLines { lines ->
-        lines.map(::toVectorPair)
+    fun File.toVentureLines(): Set<Line> = this.useLines { lines ->
+        lines.map(::toBeginAndEndPoint)
             .map { (begin, end) -> Line(begin, end) }
             .toSet()
     }
 
-    private fun toVectorPair(line: String) = line.split("->").map(String::trim).map(::toVector)
+    private fun toBeginAndEndPoint(line: String) = line.split("->").map(String::trim).map(::toVector)
 
     private fun toVector(it: String) = it.split(',').map(String::toInt).let { (x, y) -> Vector(x, y) }
 
-    fun part2(path: String): Int {
-        val lines = extractLines(path)
-        val grid = lines.asGrid()
-        return countIntersections(grid)
-    }
+    fun part2(path: String): Int = File(path).toVentureLines().asGrid().countIntersections()
 
     fun Iterable<Line>.asGrid(): Array<IntArray> {
         val maxX = maxOf { max(it.begin.x, it.end.x) }

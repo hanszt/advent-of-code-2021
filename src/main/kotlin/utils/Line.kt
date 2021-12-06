@@ -19,7 +19,7 @@ data class Line(val begin: Vector, val end: Vector) {
                 val rangeY = if (begin.y < end.y) begin.y..end.y else end.y..begin.y
                 rangeY.mapTo(coordinates) { Vector(begin.x, it) }
             }
-            else -> coordinates.addAll(JavaUtils.diagonal(begin, end))
+            else -> coordinates.addAll(JavaAocUtils.diagonal(begin, end))
         }
         return coordinates
     }

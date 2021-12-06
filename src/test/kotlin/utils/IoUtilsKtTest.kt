@@ -3,6 +3,7 @@ package utils
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 internal class IoUtilsKtTest {
 
@@ -30,4 +31,19 @@ internal class IoUtilsKtTest {
 
         assertEquals(listOf("hallo dit is een test"), list)
     }
+
+    @Test
+    fun testCreateInputFiles() {
+        val directory = File("input")
+        val createdFiles = directory.createFilesIfNotPresent(25, "day", ".txt")
+        assertTrue(createdFiles.isNotEmpty())
+    }
+
+    @Test
+    fun testCreateTestInputFiles() {
+        val directory = File("input")
+        val createdFiles = directory.createFilesIfNotPresent(25, "day", "test.txt")
+        assertTrue(createdFiles.isNotEmpty())
+    }
+
 }
