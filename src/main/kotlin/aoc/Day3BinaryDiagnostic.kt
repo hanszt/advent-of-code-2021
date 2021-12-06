@@ -2,7 +2,7 @@ package aoc
 
 import java.io.File
 
-object Day3BinaryDiagnostic {
+object Day3BinaryDiagnostic : ChallengeDay {
 
     fun part1(path: String): Int = File(path).readLines()
         .map(String::toCharArray)
@@ -36,4 +36,7 @@ object Day3BinaryDiagnostic {
         }
         return first().joinToString("").toInt(radix = 2)
     }
+
+    override fun part1() = part1("input/day3.txt")
+    override fun part2() = part2("input/day3.txt")
 }

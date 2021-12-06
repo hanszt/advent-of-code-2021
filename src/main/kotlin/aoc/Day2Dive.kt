@@ -3,7 +3,7 @@ package aoc
 import utils.Vector
 import java.io.File
 
-object Day2Dive {
+object Day2Dive : ChallengeDay {
 
     fun part1(filePath: String) = File(filePath).useLines { lines ->
         lines.asPairs()
@@ -35,4 +35,6 @@ object Day2Dive {
 
     private fun Sequence<String>.asPairs() = map { it.split(" ") }.map { Pair(it.first(), it.last().toInt()) }
 
+    override fun part1() = part1("input/day2.txt")
+    override fun part2() = part2("input/day2.txt")
 }

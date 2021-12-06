@@ -5,7 +5,7 @@ import utils.splitByEmptyLine
 import utils.toIntGrid
 import java.io.File
 
-object Day4GiantSquid {
+object Day4GiantSquid : ChallengeDay {
 
     fun part1(path: String): Int {
         val (boards, allNrsToDrawList) = toBoardsAndNrsToDrawList(path)
@@ -45,4 +45,7 @@ object Day4GiantSquid {
             .run { Pair(slice(1 until size).map(String::toIntGrid), nrsToDrawList()) }
 
     private fun List<String>.nrsToDrawList() = first().split(",").map(String::toInt)
+
+    override fun part1() = part1("input/day4.txt")
+    override fun part2() = part2("input/day4.txt")
 }

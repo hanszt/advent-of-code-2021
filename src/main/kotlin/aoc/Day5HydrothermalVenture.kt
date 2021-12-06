@@ -6,7 +6,7 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.min
 
-object Day5HydrothermalVenture {
+object Day5HydrothermalVenture : ChallengeDay {
 
     fun part1(path: String): Int = File(path).toVentureLines()
             .filter { it.isHorizontal().or(it.isVertical()) }.asGrid()
@@ -42,4 +42,6 @@ object Day5HydrothermalVenture {
         return grid
     }
 
+    override fun part1() = part1("input/day5.txt")
+    override fun part2() = part2("input/day5.txt")
 }
