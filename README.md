@@ -13,3 +13,4 @@ Project by Hans Zuidervaart, december 2021
 - [Get Ready for Advent of Code 2021](https://www.youtube.com/watch?v=6-XSehwRgSY)
 - [Advent of Code 2021 in Kotlin](https://blog.jetbrains.com/kotlin/2021/11/advent-of-code-2021-in-kotlin/)
 - [Kotlin](https://kotlinlang.org/)
+- [Ascii art Advent of code 2021!](http://patorjk.com/software/taag/#p=display&f=Cursive&t=Advent%20of%20code%202021!)

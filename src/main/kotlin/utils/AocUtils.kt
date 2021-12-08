@@ -39,3 +39,5 @@ fun Long.nanoTimeToFormattedDuration(decimalPlaces: Int = 3): String = when {
     this < 1e9 -> "%.${decimalPlaces}f ms".format(this / 1e6)
     else -> "%.${decimalPlaces}f s".format(this / 1e9)
 }
+
+fun readTextFromResource(path: String) = {}::class.java.getResource(path)?.readText() ?: ""
