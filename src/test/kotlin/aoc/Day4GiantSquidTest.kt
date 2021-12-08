@@ -23,11 +23,11 @@ internal class Day4GiantSquidTest {
     @Test
     fun testWinningBoardTrueIfPresentInRow() {
         val nrsDrawn = listOf(1, 4, 5, 7)
-        val winningBoard = listOf(
-            listOf(7, 4, 5, 1),
-            listOf(2, 3, 6, 8),
-            listOf(12, 11, 10, 9),
-            listOf(13, 14, 15, 16)
+        val winningBoard = arrayOf(
+            intArrayOf(7, 4, 5, 1),
+            intArrayOf(2, 3, 6, 8),
+            intArrayOf(12, 11, 10, 9),
+            intArrayOf(13, 14, 15, 16)
         )
         assertTrue(winningBoard.isWinningBoard(nrsDrawn))
     }
@@ -35,11 +35,11 @@ internal class Day4GiantSquidTest {
     @Test
     fun testWinningBoardTrueIfPresentInCol() {
         val nrsDrawn = listOf(1, 4, 5, 7)
-        val winningBoard = listOf(
-            listOf(1, 6, 9, 8),
-            listOf(4, 2, 3, 10),
-            listOf(7, 11, 12, 13),
-            listOf(5, 16, 15, 14)
+        val winningBoard = arrayOf(
+            intArrayOf(1, 6, 9, 8),
+            intArrayOf(4, 2, 3, 10),
+            intArrayOf(7, 11, 12, 13),
+            intArrayOf(5, 16, 15, 14)
         )
         assertTrue(winningBoard.isWinningBoard(nrsDrawn))
     }
@@ -47,11 +47,11 @@ internal class Day4GiantSquidTest {
     @Test
     fun testWinningBoardFalseIfNotPresentInRowOrCol() {
         val nrsDrawn = listOf(1, 4, 5, 7)
-        val winningBoard = listOf(
-            listOf(6, 4, 5, 1),
-            listOf(2, 3, 7, 8),
-            listOf(12, 11, 10, 9),
-            listOf(13, 14, 15, 16)
+        val winningBoard = arrayOf(
+            intArrayOf(6, 4, 5, 1),
+            intArrayOf(2, 3, 7, 8),
+            intArrayOf(12, 11, 10, 9),
+            intArrayOf(13, 14, 15, 16)
         )
         assertFalse(winningBoard.isWinningBoard(nrsDrawn))
     }

@@ -9,11 +9,11 @@ internal class Day8Test {
     fun testPart1testInput() = assertEquals(0, Day8.part1("input/day8test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(0, Day8.part1("input/day8.txt").also(::println))
+    fun testPart1() = assertEquals(0, Day8.part1().also(::println))
 
     @Test
     fun testPart2testInput() = assertEquals(0, Day8.part2("input/day8test.txt"))
 
     @Test
-    fun testPart2() = assertEquals(0, Day8.part2("input/day8.txt").also(::println))
+    fun testPart2() = assertEquals(0, Day8.part2().also(::println))
 }

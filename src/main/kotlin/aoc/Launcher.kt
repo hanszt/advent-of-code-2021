@@ -1,5 +1,7 @@
 package aoc
 
+import utils.nanoTimeToFormattedDuration
+
 fun main() = sequenceOf(
     Day1SonarSweep,
     Day2Dive,
@@ -7,12 +9,14 @@ fun main() = sequenceOf(
     Day4GiantSquid,
     Day5HydrothermalVenture,
     Day6LanternFish,
-    Day7,
+    Day7TheTreacheryOfWales,
+    Day8,
 ).flatMap(ChallengeDay::results)
-    .sortedBy(Result::name)
+    .sortedBy(Result::solveTimeNanos)
     .forEach(Result::print)
 
-data class Result(val name: String, val result: Number, val solveTimeMillis: Long) {
+data class Result(val name: String, val result: Number, val solveTimeNanos: Long) {
 
-    fun print() = println("%-40s Result: %-20s Elapsed Time: %-7s ms".format(name, result, solveTimeMillis))
+    fun print() = println("%-40s Result: %-20s Elapsed Time: %-7s"
+        .format(name, result, solveTimeNanos.nanoTimeToFormattedDuration()))
 }

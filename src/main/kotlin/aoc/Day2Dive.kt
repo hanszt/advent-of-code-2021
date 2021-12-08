@@ -1,31 +1,31 @@
 package aoc
 
-import utils.Vector
+import utils.GridPoint
 import java.io.File
 
 object Day2Dive : ChallengeDay {
 
     fun part1(filePath: String) = File(filePath).useLines { lines ->
-        lines.asPairs()
+        lines.toDirAndStepSize()
             .map { (dir, size) -> toVector(dir, size) }
-            .reduce(Vector::plus)
-            .let { it.x * it.y }
+            .reduce(GridPoint::plus)
+            .run { x * y }
     }
 
     private fun toVector(dir: String, size: Int) = when (dir) {
-        "up" -> Vector(0, -size)
-        "down" -> Vector(0, size)
-        "forward" -> Vector(size, 0)
-        else -> Vector(0,0)
+        "up" -> GridPoint(0, -size)
+        "down" -> GridPoint(0, size)
+        "forward" -> GridPoint(size, 0)
+        else -> GridPoint(0, 0)
     }
 
     fun part2(filePath: String): Int {
-        val pairs = File(filePath).useLines { it.asPairs().toList() }
-        var result = Vector(0, 0)
+        val pairs = File(filePath).useLines { it.toDirAndStepSize().toList() }
+        var result = GridPoint(0, 0)
         var aim = 0
         for ((dir, stepSize) in pairs) {
             when (dir) {
-                "forward" -> result += Vector(stepSize, stepSize * aim)
+                "forward" -> result += GridPoint(stepSize, stepSize * aim)
                 "up" -> aim -= stepSize
                 "down" -> aim += stepSize
             }
@@ -33,7 +33,7 @@ object Day2Dive : ChallengeDay {
         return result.x * result.y
     }
 
-    private fun Sequence<String>.asPairs() = map { it.split(" ") }.map { Pair(it.first(), it.last().toInt()) }
+    private fun Sequence<String>.toDirAndStepSize() = map { it.split(" ") }.map { Pair(it.first(), it.last().toInt()) }
 
     override fun part1() = part1("input/day2.txt")
     override fun part2() = part2("input/day2.txt")

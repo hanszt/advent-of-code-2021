@@ -13,7 +13,7 @@ object Day6LanternFish : ChallengeDay {
     fun part2(path: String): BigInteger = File(path).toFishCount(days = 256)
 
     private fun File.toFishCount(days: Int): BigInteger {
-        val daysLeftTillNewSpawnCounts = countsArray()
+        val daysLeftTillNewSpawnCounts = toCountsArray()
         for (day in 1..days) {
             val curDaysLeftTillNewSpawnCounts = daysLeftTillNewSpawnCounts.copyOf()
             val nrOfNewBorns = curDaysLeftTillNewSpawnCounts[0]
@@ -27,7 +27,7 @@ object Day6LanternFish : ChallengeDay {
         return daysLeftTillNewSpawnCounts.sumOf { it }
     }
 
-    private fun File.countsArray(): Array<BigInteger> {
+    private fun File.toCountsArray(): Array<BigInteger> {
         val daysLeftTillNewSpawnCounts = Array(INIT_TIMER_VAL_NEW_BORN + 1) { 0.toBigInteger() }
         readText().split(',').map { it.trim().toInt() }
             .forEach { daysLeft -> daysLeftTillNewSpawnCounts[daysLeft]++ }

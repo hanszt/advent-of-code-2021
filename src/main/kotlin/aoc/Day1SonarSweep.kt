@@ -4,16 +4,16 @@ import java.io.File
 
 object Day1SonarSweep : ChallengeDay {
 
-    fun part1(filePath: String) = File(filePath).readLines().map(String::toInt).let(::calculateNrIncreases)
+    fun part1(filePath: String) = File(filePath).readLines().map(String::toInt).toDepthIncreaseCount()
 
-    private fun calculateNrIncreases(depths: List<Int>): Int =
-        (0 until depths.size - 1).count { depths[it] < depths[it + 1] }
+    private fun List<Int>.toDepthIncreaseCount(): Int =
+        (0 until size - 1).count { this[it] < this[it + 1] }
 
-    fun part2(filePath: String) = File(filePath).readLines().map(String::toInt).let(::calculateNrSumIncreases)
+    fun part2(filePath: String) = File(filePath).readLines().map(String::toInt).toWindowIncreaseCount()
 
-    private fun calculateNrSumIncreases(depths: List<Int>): Int = (0 until depths.size - 3).count {
-        val window1 = depths[it] + depths[it + 1] + depths[it + 2]
-        val window2 = depths[it + 1] + depths[it + 2] + depths[it + 3]
+    private fun List<Int>.toWindowIncreaseCount(): Int = (0 until size - 3).count {
+        val window1 = this[it] + this[it + 1] + this[it + 2]
+        val window2 = this[it + 1] + this[it + 2] + this[it + 3]
         window1 < window2
     }
 

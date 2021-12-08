@@ -1,23 +1,22 @@
 package aoc
 
 import utils.Line
-import utils.Vector
+import utils.GridPoint
 import java.io.File
 import kotlin.math.max
-import kotlin.math.min
 
 object Day5HydrothermalVenture : ChallengeDay {
 
     fun part1(path: String): Int = File(path).toVentureLines()
-            .filter { it.isHorizontal().or(it.isVertical()) }.asGrid()
+            .filter { it.isHorizontal() or it.isVertical() }.asGrid()
             .countIntersections()
 
     fun Array<IntArray>.countIntersections(): Int = asSequence()
-        .flatMap { it.asSequence() }
+        .flatMap(IntArray::asSequence)
         .filter { it > 1 }
         .count()
 
-    fun File.toVentureLines(): Set<Line> = this.useLines { lines ->
+    fun File.toVentureLines(): Set<Line> = useLines { lines ->
         lines.map(::toBeginAndEndPoint)
             .map { (begin, end) -> Line(begin, end) }
             .toSet()
@@ -25,13 +24,13 @@ object Day5HydrothermalVenture : ChallengeDay {
 
     private fun toBeginAndEndPoint(line: String) = line.split("->").map(String::trim).map(::toVector)
 
-    private fun toVector(it: String) = it.split(',').map(String::toInt).let { (x, y) -> Vector(x, y) }
+    private fun toVector(it: String) = it.split(',').map(String::toInt).let { (x, y) -> GridPoint(x, y) }
 
     fun part2(path: String): Int = File(path).toVentureLines().asGrid().countIntersections()
 
     fun Iterable<Line>.asGrid(): Array<IntArray> {
         val maxX = maxOf { max(it.begin.x, it.end.x) }
-        val maxY = maxOf { min(it.begin.y, it.end.y) }
+        val maxY = maxOf { max(it.begin.y, it.end.y) }
         val sideLength = max(maxX, maxY) + 1
         val grid: Array<IntArray> = Array(sideLength) { IntArray(sideLength) }
         for (line in this) {
