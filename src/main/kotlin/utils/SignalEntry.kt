@@ -1,20 +1,14 @@
 package utils
 
-data class SignalEntry(val uniqueSignalPatterns: List<String>, val fourDigitOutput: List<String>) {
+data class SignalEntry(val uniqueSignalPatterns: List<String>, val fourDigitPatterns: List<String>) {
 
-    fun decodeFourDigitOutPut(): Int {
-        val patternsToDigits: Map<String, Int> = patternToNr()
-        return fourDigitOutput.map { digits -> findDigits(patternsToDigits, digits) }
-            .joinToString("") { "$it" }.toInt()
-    }
+    fun decodeNumber(): Int = patternNrsRepresentedByIndex()
+        .let { patterns -> fourDigitPatterns.joinToString("") { it.decodeToDigit(patterns).toString() }.toInt() }
 
-    private fun findDigits(patternsToDigits: Map<String, Int>, output: String): Int? {
-        val match = patternsToDigits.keys
-            .first { (it.length == output.length) and (it.toSet().containsAll(output.toSet())) }
-        return patternsToDigits[match]
-    }
+    private fun String.decodeToDigit(patterns: List<String>): Int =
+        patterns.find { (length == it.length) and ( containsAllCharsOf(it)) }.let(patterns::indexOf)
 
-    // A representation of all the segments with nr 0 to 6. They are tracked in the segments array in this method
+    // A representation of all the segments labeled with nr 0 to 6.
     //      0  xxxx
     //      1 x    x 2
     //        x    x
@@ -22,45 +16,25 @@ data class SignalEntry(val uniqueSignalPatterns: List<String>, val fourDigitOutp
     //      4 x    x 5
     //        x    x
     //      6  xxxx
-    fun patternToNr(): Map<String, Int> {
-        val segments: Array<Char> = Array(7) { '0' }
-        val patternsToDigits: MutableMap<String, Int> = HashMap()
-        val onePattern = uniqueSignalPatterns.first { it.length == 2 }
-        patternsToDigits[onePattern] = 1
-        val fourPattern = uniqueSignalPatterns.first { it.length == 4 }
-        patternsToDigits[fourPattern] = 4
-        val sevenPattern = uniqueSignalPatterns.first { it.length == 3 }
-        patternsToDigits[sevenPattern] = 7
-        val eightPattern = uniqueSignalPatterns.first { it.length == 7 }
-        patternsToDigits[eightPattern] = 8
+    fun patternNrsRepresentedByIndex(): List<String> {
+        val one = uniqueSignalPatterns.first { it.length == 2 }
+        val four = uniqueSignalPatterns.first { it.length == 4 }
+        val seven = uniqueSignalPatterns.first { it.length == 3 }
+        val eight = uniqueSignalPatterns.first { it.length == 7 }
 
-        segments[0] = sevenPattern.first { onePattern.contains(it).not() }
-
-        val placeOneAndThree = fourPattern.filter { onePattern.contains(it).not() }
         val twoThreeFive = uniqueSignalPatterns.filter { it.length == 5 }
         val zeroSixNine = uniqueSignalPatterns.filter { it.length == 6 }
 
-        val twoThreeFivePartition = twoThreeFive.partition { it.toSet().containsAll(onePattern.toSet()) }
+        val (three, twoFive) = twoThreeFive.partition { it.containsAllCharsOf(one) }.mapFirst(List<String>::first)
+        val (nine, zeroSix) = zeroSixNine.partition { it.containsAllCharsOf(three) }.mapFirst(List<String>::first)
 
-        val threePattern = twoThreeFivePartition.first.first()
-        patternsToDigits[threePattern] = 3
-        val twoFive = twoThreeFivePartition.second
+        val segmentOneAndThree = four.filter { it !in one }
+        val segment1Char = nine.first { it !in three }
+        val segment3Char = segmentOneAndThree.first { it != segment1Char }
 
-        val partitionZeroSixNine = zeroSixNine.partition { it.toSet().containsAll(threePattern.toSet())}
-        val ninePattern = partitionZeroSixNine.first.first()
-        patternsToDigits[ninePattern] = 9
-        val zeroSix = partitionZeroSixNine.second
+        val (five, two) = twoFive.partition { segment1Char in it }.mapBoth(List<String>::first)
+        val (six, zero) = zeroSix.partition { segment3Char in it }.mapBoth(List<String>::first)
 
-        segments[1] = ninePattern.first { threePattern.contains(it).not() }
-        segments[3] = placeOneAndThree.first { it != segments[1] }
-
-        val partitionZeroSix = zeroSix.partition { it.contains(segments[3]) }
-        patternsToDigits[partitionZeroSix.first.first()] = 6
-        patternsToDigits[partitionZeroSix.second.first()] = 0
-
-        val partitionTwoFive = twoFive.partition { it.contains(segments[1]) }
-        patternsToDigits[partitionTwoFive.first.first()] = 5
-        patternsToDigits[partitionTwoFive.second.first()] = 2
-        return patternsToDigits
+        return listOf(zero, one, two, three, four, five, six, seven, eight, nine)
     }
 }

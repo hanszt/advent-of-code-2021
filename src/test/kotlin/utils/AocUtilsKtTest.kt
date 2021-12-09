@@ -1,25 +1,10 @@
 package utils
 
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 
 internal class AocUtilsKtTest {
-
-    @Test
-    fun `test rotated clockwise rotates matrix by 90 deg clockwise`() {
-        val input = arrayOf(
-            intArrayOf(1, 2),
-            intArrayOf(3, 4)
-        )
-        val expected = arrayOf(
-            intArrayOf(3, 1),
-            intArrayOf(4, 2)
-        )
-        assertArrayEquals(expected, input.rotatedClockWise())
-    }
 
     @ParameterizedTest
     @ValueSource(strings = ["sdfsd", "hallo"])

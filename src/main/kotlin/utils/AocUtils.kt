@@ -3,35 +3,26 @@ package utils
 val oneOrMoreWhiteSpaces = "\\s+".toRegex()
 val camelRegex = "(?<=[a-zA-Z0-9])[A-Z0-9]".toRegex()
 
-fun Array<IntArray>.rotatedClockWise(): Array<IntArray> {
-    val rotated = Array(size) { IntArray(size) }
-    for (row in indices) {
-        for (col in indices) {
-            rotated[row][col] = this[size - col - 1][row]
-        }
-    }
-    return rotated
-}
+fun <A, B, R> Pair<A, B>.mapFirst(mapToR: (A) -> R): Pair<R, B> = Pair(mapToR(first), second)
+
+fun <A, B, R> Pair<A, B>.mapSecond(mapToR: (B) -> R): Pair<A, R> = Pair(first, mapToR(second))
+
+fun <A, R> Pair<A, A>.mapBoth(mapToR: (A) -> R): Pair<R, R> = Pair(mapToR(first), mapToR(second))
+
+fun <T> Iterable<T>.toEnds() = first() to last()
+
+fun <T, R> Iterable<T>.endsTo(mapToR: (T, T) -> R) = mapToR(first(), last())
+
+fun CharSequence.containsAllCharsOf(other: CharSequence) = toSet().containsAll(other.toSet())
 
 fun CharSequence.isNaturalNumber() = "\\d+".toRegex().matches(this)
 
 fun CharSequence.containsNoDigits() = "\\D+".toRegex().matches(this)
 
-fun CharSequence.toIntGrid(): Array<IntArray> = split(Regex("\\n"))
-    .map { it.trim().split(oneOrMoreWhiteSpaces).map(String::toInt).toIntArray() }.toTypedArray()
+fun CharSequence.splitByBlankLine(): List<String> = split(Regex("(?m)^\\s*$")).map(String::trim)
 
-fun CharSequence.splitByBlankLine() = split(Regex("(?m)^\\s*$")).map(String::trim)
-
-fun Array<IntArray>.printAsGrid(spacing: Int, delimiter: String = "") = forEach { row ->
-    row.forEach { print("%${spacing}d$delimiter".format(it)) }
-    println()
-}
-
-fun String.camelCaseToSentence(): String {
-    return camelRegex.replace(this) {
-        " ${it.value}"
-    }.lowercase().replaceFirstChar(Char::uppercase)
-}
+fun String.camelCaseToSentence(): String = camelRegex.replace(this) { " ${it.value}" }
+    .lowercase().replaceFirstChar(Char::uppercase)
 
 fun Long.nanoTimeToFormattedDuration(decimalPlaces: Int = 3): String = when {
     this < 1e3 -> "$this ns"
@@ -39,5 +30,3 @@ fun Long.nanoTimeToFormattedDuration(decimalPlaces: Int = 3): String = when {
     this < 1e9 -> "%.${decimalPlaces}f ms".format(this / 1e6)
     else -> "%.${decimalPlaces}f s".format(this / 1e9)
 }
-
-fun readTextFromResource(path: String) = {}::class.java.getResource(path)?.readText() ?: ""

@@ -1,6 +1,8 @@
 package aoc
 
 import utils.GridPoint
+import utils.mapSecond
+import utils.toEnds
 import java.io.File
 
 object Day2Dive : ChallengeDay {
@@ -33,7 +35,7 @@ object Day2Dive : ChallengeDay {
         return result.x * result.y
     }
 
-    private fun Sequence<String>.toDirAndStepSize() = map { it.split(" ") }.map { Pair(it.first(), it.last().toInt()) }
+    private fun Sequence<String>.toDirAndStepSize() = map { it.split(" ").toEnds().mapSecond(String::toInt) }
 
     override fun part1() = part1("input/day2.txt")
     override fun part2() = part2("input/day2.txt")

@@ -11,15 +11,15 @@ internal class SignalEntryTest {
     fun deduceSignalToNumberMatches() {
         val entry = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
         val signalEntry = entry.toSignalEntry()
-        val signalToNr = signalEntry.patternToNr()
-        assertEquals(5, signalToNr["cdfbe"])
+        val patterns = signalEntry.patternNrsRepresentedByIndex()
+        assertEquals(5, patterns.indexOf("cdfbe"))
     }
 
     @Test
-    fun testDecodeFourDigitOutput() {
+    fun testDecodeDigits() {
         val entry = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
         val signalEntry = entry.toSignalEntry()
-        val output = signalEntry.decodeFourDigitOutPut()
+        val output = signalEntry.decodeNumber()
         assertEquals(5353, output)
     }
 }

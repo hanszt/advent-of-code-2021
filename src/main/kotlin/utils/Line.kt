@@ -14,9 +14,9 @@ data class Line(val begin: GridPoint, val end: GridPoint) {
 
     private fun toLineCoordinates(begin: GridPoint, end: GridPoint): Set<GridPoint> {
         if (isVertical() or isHorizontal() or isDiagonal()) {
-            val dir = end.minus(begin).toSignVector()
+            val dir = (end - begin).toSignVector()
             return (0..begin.gridDistance(end))
-                .map { step -> begin + dir.multiply(step) }
+                .map { step -> begin + dir * step }
                 .toSet()
         } else throw UnsupportedOperationException("Only horizontal, vertical or diagonal lines supported")
     }

@@ -9,7 +9,7 @@ private const val GREEN = "\u001B[32m"
 
 fun main() {
     println(RED + readTextFromResource("/title.txt") + RESET)
-    sequenceOf(
+    listOf(
         Day1SonarSweep,
         Day2Dive,
         Day3BinaryDiagnostic,
@@ -26,6 +26,6 @@ fun main() {
 
 data class Result(val name: String, val result: Number, val solveTimeNanos: Long) {
 
-    fun print() = println("%-40s Result: %-20s Elapsed Time: %-7s"
+    fun print() = println("%-40s Result: %-20s Elapsed time: %-7s"
         .format(name, result, solveTimeNanos.nanoTimeToFormattedDuration()))
 }

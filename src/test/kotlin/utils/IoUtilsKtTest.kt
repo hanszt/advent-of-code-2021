@@ -8,8 +8,11 @@ import kotlin.test.assertTrue
 internal class IoUtilsKtTest {
 
     @Test
-    fun testReadLines() =
-        assertEquals(listOf("hallo", "dit", "is", "een", "test"), File("input/iotest.txt").readLines().map { it.trim() })
+    fun testReadLines() {
+        val actual = File("input/iotest.txt").readLines().map(String::trim)
+        val expected = listOf("hallo", "dit", "is", "een", "test")
+        assertEquals(expected, actual)
+    }
 
     @Test
     fun testUseLines() {
@@ -19,7 +22,7 @@ internal class IoUtilsKtTest {
 
     @Test
     fun testReadFileTextUsingGetResource() {
-        val actual = this::class.java.getResource("/testFiles/test.txt")?.readText(Charsets.UTF_8) ?: ""
+        val actual = this::class.java.getResource("/testFiles/test.txt")?.readText() ?: ""
         assertEquals("hallo dit is een test", actual.trim())
     }
 
@@ -35,14 +38,14 @@ internal class IoUtilsKtTest {
     @Test
     fun testCreateInputFiles() {
         val directory = File("input")
-        val createdFiles = directory.createFilesIfNotPresent(25, "day", ".txt")
+        val createdFiles = directory.createFilesIfNotPresent(25, "day")
         assertTrue(createdFiles.isNotEmpty())
     }
 
     @Test
     fun testCreateTestInputFiles() {
         val directory = File("input")
-        val createdFiles = directory.createFilesIfNotPresent(25, "day", "test.txt")
+        val createdFiles = directory.createFilesIfNotPresent(25, "day", "test")
         assertTrue(createdFiles.isNotEmpty())
     }
 

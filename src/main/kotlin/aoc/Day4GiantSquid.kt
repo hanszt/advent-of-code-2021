@@ -1,6 +1,6 @@
 package aoc
 
-import utils.rotatedClockWise
+import utils.rotated
 import utils.splitByBlankLine
 import utils.toIntGrid
 import java.io.File
@@ -20,7 +20,7 @@ object Day4GiantSquid : ChallengeDay {
 
     fun Array<IntArray>.isWinningBoard(drawnNumbers: List<Int>): Boolean =
         any { row -> row.all(drawnNumbers::contains) } or
-                rotatedClockWise().any { col -> col.all(drawnNumbers::contains) }
+                rotated().any { col -> col.all(drawnNumbers::contains) }
 
     fun part2(path: String): Int {
         val (boards, allNrToBeDrawn) = File(path).toBoardsAndNrsToDrawList()
@@ -40,8 +40,7 @@ object Day4GiantSquid : ChallengeDay {
         .filter { drawnNrs.contains(it).not() }.sum()
 
     private fun File.toBoardsAndNrsToDrawList(): Pair<List<Array<IntArray>>, List<Int>> =
-        readText()
-            .splitByBlankLine()
+        readText().splitByBlankLine()
             .run { Pair(slice(1 until size).map(String::toIntGrid), nrsToDrawList()) }
 
     private fun List<String>.nrsToDrawList() = first().split(",").map(String::toInt)

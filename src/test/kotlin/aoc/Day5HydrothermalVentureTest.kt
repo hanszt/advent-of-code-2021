@@ -20,7 +20,7 @@ internal class Day5HydrothermalVentureTest {
     fun testPart2testInput() {
         val lines = File("input/day5test.txt").toVentureLines()
         val grid = lines.asGrid()
-        grid.printAsGrid(delimiter = ",", spacing = 2)
+        grid.printAsGrid(spacing = 2)
         val nrOfIntersections = grid.countIntersections()
         assertEquals(12, nrOfIntersections)
     }
