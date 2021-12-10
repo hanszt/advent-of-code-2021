@@ -4,7 +4,7 @@ import utils.SignalEntry
 import utils.endsTo
 import java.io.File
 
-object Day8SevenSegmentSearch : ChallengeDay {
+object Day08SevenSegmentSearch : ChallengeDay {
 
     fun part1(path: String): Int = File(path).readLines()
         .flatMap { it.toSignalEntry().fourDigitPatterns }

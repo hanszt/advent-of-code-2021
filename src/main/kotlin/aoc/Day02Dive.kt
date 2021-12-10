@@ -5,7 +5,7 @@ import utils.mapSecond
 import utils.toEnds
 import java.io.File
 
-object Day2Dive : ChallengeDay {
+object Day02Dive : ChallengeDay {
 
     fun part1(filePath: String) = File(filePath).useLines { lines ->
         lines.toDirAndStepSize()

@@ -1,7 +1,7 @@
 package utils
 
 val oneOrMoreWhiteSpaces = "\\s+".toRegex()
-val camelRegex = "(?<=[a-zA-Z0-9])[A-Z0-9]".toRegex()
+val camelRegex = "(?<=[a-zA-Z0-9])[A-Z]".toRegex()
 
 fun <A, B, R> Pair<A, B>.mapFirst(mapToR: (A) -> R): Pair<R, B> = Pair(mapToR(first), second)
 

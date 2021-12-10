@@ -1,6 +1,6 @@
 package aoc
 
-object Day20 {
+object Day20 : ChallengeDay {
 
     fun part1(path: String): Int {
         return 0
@@ -9,4 +9,7 @@ object Day20 {
     fun part2(path: String): Int {
         return 0
     }
+
+    override fun part1() = part1("input/day20.txt")
+    override fun part2() = part2("input/day20.txt")
 }

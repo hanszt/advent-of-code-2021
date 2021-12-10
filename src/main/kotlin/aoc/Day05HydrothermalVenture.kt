@@ -1,11 +1,11 @@
 package aoc
 
-import utils.Line
 import utils.GridPoint
+import utils.Line
 import java.io.File
 import kotlin.math.max
 
-object Day5HydrothermalVenture : ChallengeDay {
+object Day05HydrothermalVenture : ChallengeDay {
 
     fun part1(path: String): Int = File(path).toVentureLines()
             .filter { it.isHorizontal() or it.isVertical() }.asGrid()
@@ -29,15 +29,10 @@ object Day5HydrothermalVenture : ChallengeDay {
     fun part2(path: String): Int = File(path).toVentureLines().asGrid().countIntersections()
 
     fun Iterable<Line>.asGrid(): Array<IntArray> {
-        val maxX = maxOf { max(it.begin.x, it.end.x) }
-        val maxY = maxOf { max(it.begin.y, it.end.y) }
-        val sideLength = max(maxX, maxY) + 1
-        val grid: Array<IntArray> = Array(sideLength) { IntArray(sideLength) }
-        for (line in this) {
-            for (coordinate in line.coordinates) {
-                grid[coordinate.y][coordinate.x]++
-            }
-        }
+        val nrOfRows = maxOf { (begin, end) -> max(begin.y, end.y) } + 1
+        val nrOfCols = maxOf { (begin, end) -> max(begin.x, end.x) } + 1
+        val grid: Array<IntArray> = Array(nrOfRows) { IntArray(nrOfCols) }
+        flatMap(Line::coordinates).forEach { (col, row) -> grid[row][col]++ }
         return grid
     }
 

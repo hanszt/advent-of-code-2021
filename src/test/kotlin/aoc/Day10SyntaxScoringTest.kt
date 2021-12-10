@@ -1,0 +1,47 @@
+package aoc
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
+import kotlin.test.assertTrue
+
+internal class Day10SyntaxScoringTest {
+
+    @Test
+    fun testPart1testInput() = assertEquals(26397, Day10SyntaxScoring.part1("input/day10test.txt"))
+
+    @Test
+    fun testPart1() = assertEquals(290691, Day10SyntaxScoring.part1().also(::println))
+
+    @Test
+    fun testPart2testInput() = assertEquals(288957, Day10SyntaxScoring.part2("input/day10test.txt"))
+
+    @Test
+    fun testPart2() = assertEquals(2768166558, Day10SyntaxScoring.part2().also(::println))
+
+    @ParameterizedTest
+    @ValueSource( strings = ["[]", "([])", "<([{}])>", "{()()()}"])
+    fun `Test expect white space char and empty remainder when valid line`(input: String) {
+        val (char, remainder) = Day10SyntaxScoring.toCorruptedClosingCharAndRemainingChars(input)
+        assertEquals(' ', char)
+        assertTrue(remainder.isEmpty())
+    }
+
+    @ParameterizedTest
+    @ValueSource( strings = ["(] : ]", "{()()()> : >", "<([]){()}[{}]) : )", "{([(<{}[<>[]}>{[]{[(<()> : }"])
+    fun `Test find first wrong closing character when corrupted`(inputToExpectedWrongTag: String) {
+        val (input, expectedWrongTag) = inputToExpectedWrongTag.split(" : ")
+        val (closingTag, remainder) = Day10SyntaxScoring.toCorruptedClosingCharAndRemainingChars(input)
+        assertEquals(expectedWrongTag.first(), closingTag)
+        assertTrue(remainder.isNotEmpty())
+    }
+
+    @ParameterizedTest
+    @ValueSource( strings = ["[[]", "{([])", "(<([{}])>", "<[{{()()()}", "[({(<(())[]>[[{[]{<()<>>"])
+    fun `Test expect white space char and remainder when incomplete line`(input: String) {
+        val (char, remainder) = Day10SyntaxScoring.toCorruptedClosingCharAndRemainingChars(input)
+        assertEquals(' ', char)
+        assertTrue(remainder.isNotEmpty())
+    }
+}

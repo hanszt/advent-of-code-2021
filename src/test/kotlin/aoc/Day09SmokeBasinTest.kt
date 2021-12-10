@@ -5,19 +5,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.*
 import utils.GridPoint
 
-internal class Day9SmokeBasinTest {
+internal class Day09SmokeBasinTest {
 
     @Test
-    fun testPart1testInput() = assertEquals(15, Day9SmokeBasin.part1("input/day9test.txt"))
+    fun testPart1testInput() = assertEquals(15, Day09SmokeBasin.part1("input/day9test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(530, Day9SmokeBasin.part1().also(::println))
+    fun testPart1() = assertEquals(530, Day09SmokeBasin.part1().also(::println))
 
     @Test
-    fun testPart2testInput() = assertEquals(1134, Day9SmokeBasin.part2("input/day9test.txt"))
+    fun testPart2testInput() = assertEquals(1134, Day09SmokeBasin.part2("input/day9test.txt"))
 
     @Test
-    fun testPart2() = assertEquals(1019494, Day9SmokeBasin.part2().also(::println))
+    fun testPart2() = assertEquals(1019494, Day09SmokeBasin.part2().also(::println))
 
     @Test
     fun testFindBasinPoints() {
@@ -35,9 +35,9 @@ internal class Day9SmokeBasinTest {
         """.trimIndent()
         val expectedSize = expectedBassin.toList().filter(Char::isLetterOrDigit).size
 
-        val intGrid = Day9SmokeBasin.toIntGrid(inputGrid.lines())
+        val intGrid = Day09SmokeBasin.toIntGrid(inputGrid.lines())
 
-        val (lowestPoint, _) = intGrid.lowestPoints().first()
+        val (lowestPoint) = intGrid.toLowPoints().first()
 
         val basinPoints = LinkedHashSet<GridPoint>()
         basinPoints.add(lowestPoint)

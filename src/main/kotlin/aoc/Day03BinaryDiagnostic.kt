@@ -2,7 +2,7 @@ package aoc
 
 import java.io.File
 
-object Day3BinaryDiagnostic : ChallengeDay {
+object Day03BinaryDiagnostic : ChallengeDay {
 
     fun part1(path: String): Int = File(path).readLines()
         .map(String::toCharArray)

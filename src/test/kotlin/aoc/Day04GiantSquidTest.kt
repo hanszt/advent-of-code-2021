@@ -1,24 +1,24 @@
 package aoc
 
-import aoc.Day4GiantSquid.isWinningBoard
+import aoc.Day04GiantSquid.isWinningBoard
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class Day4GiantSquidTest {
+internal class Day04GiantSquidTest {
 
     @Test
-    fun testPart1testInput() = assertEquals(4512, Day4GiantSquid.part1("input/day4test.txt"))
+    fun testPart1testInput() = assertEquals(4512, Day04GiantSquid.part1("input/day4test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(50008, Day4GiantSquid.part1().also(::println))
+    fun testPart1() = assertEquals(50008, Day04GiantSquid.part1().also(::println))
 
     @Test
-    fun testPart2testInput() = assertEquals(1924, Day4GiantSquid.part2("input/day4test.txt"))
+    fun testPart2testInput() = assertEquals(1924, Day04GiantSquid.part2("input/day4test.txt"))
 
     @Test
-    fun testPart2() = assertEquals(17408, Day4GiantSquid.part2().also(::println))
+    fun testPart2() = assertEquals(17408, Day04GiantSquid.part2().also(::println))
 
     @Test
     fun testWinningBoardTrueIfPresentInRow() {

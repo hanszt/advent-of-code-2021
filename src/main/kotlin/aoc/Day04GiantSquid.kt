@@ -5,7 +5,7 @@ import utils.splitByBlankLine
 import utils.toIntGrid
 import java.io.File
 
-object Day4GiantSquid : ChallengeDay {
+object Day04GiantSquid : ChallengeDay {
 
     fun part1(path: String): Int {
         val (boards, allNrsToDrawList) = File(path).toBoardsAndNrsToDrawList()
