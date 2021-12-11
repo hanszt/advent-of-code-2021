@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import utils.GridPoint
+import utils.toIntGrid
 
 internal class Day09SmokeBasinTest {
 
@@ -35,7 +36,7 @@ internal class Day09SmokeBasinTest {
         """.trimIndent()
         val expectedSize = expectedBassin.toList().filter(Char::isLetterOrDigit).size
 
-        val intGrid = Day09SmokeBasin.toIntGrid(inputGrid.lines())
+        val intGrid = inputGrid.lines().toIntGrid()
 
         val (lowestPoint) = intGrid.toLowPoints().first()
 
