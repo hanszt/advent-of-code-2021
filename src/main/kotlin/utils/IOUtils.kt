@@ -9,7 +9,7 @@ fun File.createFilesIfNotPresent(
     fileExtension: String = "txt"
 ): Array<out File> {
     return if (isDirectory) {
-        (1..amount).map { resolve("$name$it$postFix.$fileExtension") }.forEach(File::createNewFile)
+        (1..amount).map { nr -> resolve("$name$nr$postFix.$fileExtension") }.forEach(File::createNewFile)
         listFiles() ?: emptyArray()
     } else throw IllegalStateException("$this is not a directory")
 }

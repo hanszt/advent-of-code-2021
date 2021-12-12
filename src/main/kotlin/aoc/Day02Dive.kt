@@ -1,6 +1,6 @@
 package aoc
 
-import utils.GridPoint
+import model.GridPoint
 import utils.mapSecond
 import utils.toEnds
 import java.io.File

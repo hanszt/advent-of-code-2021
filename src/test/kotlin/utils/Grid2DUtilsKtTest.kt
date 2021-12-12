@@ -1,7 +1,10 @@
 package utils
 
-import org.junit.jupiter.api.Assertions.*
+import model.GridPoint
+import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Month
 
 internal class Grid2DUtilsKtTest {
 
@@ -81,5 +84,62 @@ internal class Grid2DUtilsKtTest {
         val rotatedClockWise = input.rotated()
         rotatedClockWise.forEach(::println)
         assertEquals(expected, rotatedClockWise)
+    }
+
+    @Test
+    fun `grid mirrored vertically`() {
+        val expected = arrayOf(
+            intArrayOf(4, 5, 6),
+            intArrayOf(1, 2, 3)
+        )
+        val input = arrayOf(
+            intArrayOf(1, 2, 3),
+            intArrayOf(4, 5, 6)
+        )
+        val mirrored = input.mirrored()
+        mirrored.printAsGrid()
+        assertArrayEquals(expected, mirrored)
+    }
+
+    @Test
+    fun `grid mirrored horizontally`() {
+        val expected = arrayOf(
+            intArrayOf(3, 2, 1),
+            intArrayOf(6, 5, 4)
+        )
+        val input = arrayOf(
+            intArrayOf(1, 2, 3),
+            intArrayOf(4, 5, 6)
+        )
+        val mirrored = input.mirrored(horizontally = true)
+        mirrored.printAsGrid()
+        assertArrayEquals(expected, mirrored)
+    }
+
+    @Test
+    fun `a copied grid should be unaffected by changes in original grid`() {
+        val input = """
+            1234
+            4321
+            1234
+        """.trimIndent()
+        val originalGrid = input.toGridOf { it }
+        val copy = originalGrid.copyGrid()
+        originalGrid[0][0] = 'a'
+        assertEquals('1', copy[0][0])
+    }
+
+    @Test
+    fun `test from string grid to month grid using gridOf`() {
+        val input = """
+            12 3
+            5  2
+            11 4
+        """.trimIndent()
+        val monthGrid = input.toGridOf(delimiter = oneOrMoreWhiteSpaces) { Month.of(it.toInt()) }
+
+        monthGrid.printAsGrid(delimiter = " ")
+
+        assertEquals(Month.DECEMBER, monthGrid[0][0])
     }
 }

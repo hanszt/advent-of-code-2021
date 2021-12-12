@@ -1,4 +1,8 @@
-package utils
+package model
+
+import utils.containsAllCharsOf
+import utils.mapBoth
+import utils.mapFirst
 
 data class SignalEntry(val uniqueSignalPatterns: List<String>, val fourDigitPatterns: List<String>) {
 

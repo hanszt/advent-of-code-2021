@@ -1,6 +1,6 @@
 package aoc
 
-import utils.SignalEntry
+import model.SignalEntry
 import utils.endsTo
 import java.io.File
 

@@ -3,7 +3,7 @@ package aoc
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import utils.GridPoint
+import model.GridPoint
 import utils.toIntGrid
 
 internal class Day09SmokeBasinTest {
@@ -36,7 +36,7 @@ internal class Day09SmokeBasinTest {
         """.trimIndent()
         val expectedSize = expectedBassin.toList().filter(Char::isLetterOrDigit).size
 
-        val intGrid = inputGrid.lines().toIntGrid()
+        val intGrid = inputGrid.toIntGrid()
 
         val (lowestPoint) = intGrid.toLowPoints().first()
 
@@ -44,7 +44,7 @@ internal class Day09SmokeBasinTest {
         basinPoints.add(lowestPoint)
         intGrid.findBassinPoints(lowestPoint.x, lowestPoint.y, basinPoints)
 
-        basinPoints.map { Pair(it, intGrid[it.y][it.x]) }.forEach(::println)
+        basinPoints.forEach { (x, y) -> println("x=$x, y=$y, value=${intGrid[y][x]}") }
 
         assertEquals(5, intGrid[lowestPoint.y][lowestPoint.x])
         assertEquals(expectedSize, basinPoints.size)

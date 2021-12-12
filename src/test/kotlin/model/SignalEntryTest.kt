@@ -1,4 +1,4 @@
-package utils
+package model
 
 import aoc.Day08SevenSegmentSearch.toSignalEntry
 import org.junit.jupiter.api.Assertions.assertEquals

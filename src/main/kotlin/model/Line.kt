@@ -1,4 +1,4 @@
-package utils
+package model
 
 import kotlin.math.abs
 

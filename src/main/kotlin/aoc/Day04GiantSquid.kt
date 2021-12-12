@@ -1,5 +1,6 @@
 package aoc
 
+import utils.oneOrMoreWhiteSpaces
 import utils.rotated
 import utils.splitByBlankLine
 import utils.toIntGrid
@@ -41,7 +42,7 @@ object Day04GiantSquid : ChallengeDay {
 
     private fun File.toBoardsAndNrsToDrawList(): Pair<List<Array<IntArray>>, List<Int>> =
         readText().splitByBlankLine()
-            .run { Pair(slice(1 until size).map(String::toIntGrid), nrsToDrawList()) }
+            .run { Pair(slice(1 until size).map { it.toIntGrid(oneOrMoreWhiteSpaces) }, nrsToDrawList()) }
 
     private fun List<String>.nrsToDrawList() = first().split(",").map(String::toInt)
 

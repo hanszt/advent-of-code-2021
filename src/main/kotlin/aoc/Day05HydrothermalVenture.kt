@@ -1,7 +1,7 @@
 package aoc
 
-import utils.GridPoint
-import utils.Line
+import model.GridPoint
+import model.Line
 import java.io.File
 import kotlin.math.max
 
@@ -22,9 +22,9 @@ object Day05HydrothermalVenture : ChallengeDay {
             .toSet()
     }
 
-    private fun toBeginAndEndPoint(line: String) = line.split("->").map(String::trim).map(::toVector)
+    private fun toBeginAndEndPoint(line: String) = line.split("->").map { it.trim().toGridPoint() }
 
-    private fun toVector(it: String) = it.split(',').map(String::toInt).let { (x, y) -> GridPoint(x, y) }
+    private fun String.toGridPoint() = split(',').map(String::toInt).let { (x, y) -> GridPoint(x, y) }
 
     fun part2(path: String): Int = File(path).toVentureLines().asGrid().countIntersections()
 
