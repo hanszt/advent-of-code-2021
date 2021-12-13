@@ -7,15 +7,14 @@ import java.io.File
 import java.util.*
 
 
-object Day12PassagePathing : ChallengeDay {
+internal object Day12PassagePathing : ChallengeDay {
 
     fun part1(path: String): Int = File(path).readLines().toBiDiGraph('-').countDistinctPaths()
 
-    private fun Map<String, Node<String>>.countDistinctPaths(): Int {
-        val start = this["start"] ?: throw IllegalStateException()
-        val end = this["end"] ?: throw IllegalStateException()
-        val paths = allPathsByDfs(start, end) { it.value.all(Char::isLowerCase) }
-        return paths.size
+    private fun Map<String, Node<String>>.countDistinctPaths(): Int = let { graph ->
+        val start = graph["start"] ?: throw IllegalStateException()
+        val end = graph["end"] ?: throw IllegalStateException()
+        return allPathsByDfs(start, end) { it.value.all(Char::isLowerCase) }.count()
     }
 
     fun part2(path: String): Int {
@@ -24,12 +23,12 @@ object Day12PassagePathing : ChallengeDay {
         val end = graph["end"] ?: throw IllegalStateException()
 
         return graph.filter { (label) -> label != "start" && label != "end" && label.all(Char::isLowerCase) }
-            .flatMap { (_, allowedToVisitTwice) -> findPaths(start, end, allowedToVisitTwice) }
+            .flatMap { (_, allowedToVisitTwice) -> findPathsPart2(start, end, allowedToVisitTwice) }
             .distinct()
             .count()
     }
 
-    private fun findPaths(src: Node<Cave>, goal: Node<Cave>, caveAllowedToVisitTwice: Node<Cave>): Set<String> {
+    private fun findPathsPart2(src: Node<Cave>, goal: Node<Cave>, caveAllowedToVisitTwice: Node<Cave>): Set<String> {
         val uniquePaths = mutableSetOf<String>()
 
         val pathsQueue: Queue<MutableList<Node<Cave>>> = LinkedList()
@@ -61,6 +60,6 @@ object Day12PassagePathing : ChallengeDay {
 
     override fun part1() = part1("input/day12.txt")
     override fun part2() = part2("input/day12.txt")
-}
 
-data class Cave(val label: String, var notVisitedTwice: Boolean)
+    internal data class Cave(val label: String, var notVisitedTwice: Boolean)
+}

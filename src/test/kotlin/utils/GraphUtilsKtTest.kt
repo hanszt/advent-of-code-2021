@@ -8,8 +8,8 @@ internal class GraphUtilsKtTest {
 
     @Test
     fun `convert a associations list to a graph`() {
-        val nodeMap = File("input/day12test.txt").readLines().toBiDiGraph("-").onEach(::println)
-        val startNode = nodeMap["start"] ?: throw IllegalStateException()
-        assertEquals(startNode.neighbors, setOf(nodeMap["A"], nodeMap["b"]))
+        val graph = File("input/day12.txt").readLines().toBiDiGraph("-").onEach(::println)
+        val startNode = graph["start"] ?: throw IllegalStateException()
+        assertEquals(startNode.neighbors, setOf(graph["my"], graph["PK"], graph["lj"]))
     }
 }

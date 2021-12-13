@@ -1,40 +1,29 @@
 package aoc
 
-import utils.forEachPoint
-import utils.forEachPointAndValue
-import utils.forEachInGrid
-import utils.toGridOf
+import utils.*
 import java.io.File
 
-object Day11DumboOctopus : ChallengeDay {
+internal object Day11DumboOctopus : ChallengeDay {
 
-    fun part1(path: String): Int = File(path).readLines().toGridOf { Octopus(it.digitToInt()) }
+    fun part1(path: String): Int = File(path).readLines().toGridOf(Char::digitToInt).toGridOf(::Octopus)
         .simulateEnergyLevels(steps = 100).flatMap(Array<Octopus>::asList).sumOf(Octopus::nrFlashes)
 
     fun part2(path: String): Int =
         File(path).readLines().toGridOf { Octopus(it.digitToInt()) }.findSynchronizationStep()
 
-    private fun Array<Array<Octopus>>.findSynchronizationStep(): Int {
-        var counter = 0
-        while (flatMap(Array<Octopus>::asList).any { it.energyLevel != 0 }) {
-            simulateStep()
-            counter++
-        }
-        return counter
-    }
+    private fun Array<Array<Octopus>>.findSynchronizationStep(): Int = generateSequence { simulateStep() }
+        .takeWhile { anyInGrid { octopus -> octopus.energyLevel != 1 } }
+        .count()
 
     override fun part1() = part1("input/day11.txt")
     override fun part2() = part2("input/day11.txt")
 }
 
-private fun Array<Array<Octopus>>.simulateEnergyLevels(steps: Int): Array<Array<Octopus>> {
-    for (step in 1..steps) {
-        simulateStep()
-    }
-    return this
+private fun Array<Array<Octopus>>.simulateEnergyLevels(steps: Int): Array<Array<Octopus>> = apply {
+    (1..steps).forEach { _ -> simulateStep() }
 }
 
-fun Array<Array<Octopus>>.simulateStep() {
+internal fun Array<Array<Octopus>>.simulateStep() {
     forEachInGrid(Octopus::incrementEnergy)
     updateEnergyLevelsNeighbors()
 }
@@ -42,7 +31,7 @@ fun Array<Array<Octopus>>.simulateStep() {
 private fun Array<Array<Octopus>>.updateEnergyLevelsNeighbors() {
     val differences = Array(size) { IntArray(this[0].size) }
     forEachPoint { x, y -> updateDifferencesNeighbors(x, y, differences) }
-    if (differences.flatMap(IntArray::asList).all { it == 0 }) return
+    if (differences.allInGrid { it == 0 }) return
     forEachPointAndValue { x, y, octopus -> octopus.updateEnergyLevel(differences[y][x]) }
     updateEnergyLevelsNeighbors()
 }
@@ -53,16 +42,12 @@ private fun Array<Array<Octopus>>.updateDifferencesNeighbors(x: Int, y: Int, dif
     val octopus = this[y][x]
     if (octopus.isFlashing()) {
         octopus.incrementFlashes()
-        for ((dx, dy) in dirs) {
-            val ny = y + dy
-            val nx = x + dx
-            getOrNull(ny)?.getOrNull(nx) ?: continue
-            differences[ny][nx]++
-        }
+        dirs.map { (dx, dy) -> x + dx to y + dy }
+            .forEach { (nx, ny) -> getOrNull(ny)?.getOrNull(nx)?.also { differences[ny][nx]++ } }
     }
 }
 
-data class Octopus(var energyLevel: Int) {
+internal data class Octopus(var energyLevel: Int) {
 
     var nrFlashes = 0
         private set

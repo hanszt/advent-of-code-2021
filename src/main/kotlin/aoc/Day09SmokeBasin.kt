@@ -6,7 +6,7 @@ import java.io.File
 
 private val directions = listOf(0 to 1, 1 to 0, 0 to -1, -1 to 0)
 
-object Day09SmokeBasin : ChallengeDay {
+internal object Day09SmokeBasin : ChallengeDay {
 
     fun part1(path: String) = File(path).readLines().toIntGrid().toLowPoints().sumOf { (_, height) -> height + 1 }
 
@@ -24,7 +24,7 @@ object Day09SmokeBasin : ChallengeDay {
     override fun part2() = part2("input/day9.txt")
 }
 
-fun Array<IntArray>.toLowPoints() = heightToNeighborHeights()
+internal fun Array<IntArray>.toLowPoints() = heightToNeighborHeights()
     .filter { (_, height, neighborHeights) -> neighborHeights.all { it > height } }
 
 private fun Array<IntArray>.heightToNeighborHeights() =
@@ -35,7 +35,7 @@ private fun Array<IntArray>.heightToNeighborHeights() =
         }
     }
 
-fun Array<IntArray>.findBassinPoints(x: Int, y: Int, bassinPoints: MutableSet<GridPoint>) {
+internal fun Array<IntArray>.findBassinPoints(x: Int, y: Int, bassinPoints: MutableSet<GridPoint>) {
     val basinSize = bassinPoints.size
     for ((dx, dy) in directions) {
         val xNew = x + dx

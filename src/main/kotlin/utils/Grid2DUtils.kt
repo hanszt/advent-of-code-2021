@@ -28,6 +28,10 @@ fun Array<IntArray>.mirrored(horizontally: Boolean = false): Array<IntArray> =
     if (horizontally) map { row -> row.indices.reversed().map { col -> row[col] }.toIntArray() }.toTypedArray()
     else indices.reversed().map { row -> this[row] }.toTypedArray()
 
+inline fun <reified T> Array<Array<T>>.mirrored(horizontally: Boolean = false): Array<Array<T>> =
+    if (horizontally) map { row -> row.indices.reversed().map { col -> row[col] }.toTypedArray() }.toTypedArray()
+    else indices.reversed().map { row -> this[row] }.toTypedArray()
+
 fun CharSequence.toIntGrid(splitter: Regex): Array<IntArray> = lines()
     .map { it.trim().split(splitter).map(String::toInt).toIntArray() }.toTypedArray()
 
@@ -49,32 +53,31 @@ inline fun <reified T> List<String>.toGridOf(mapper: (Char) -> T): Array<Array<T
 inline fun <T, reified R> Array<Array<T>>.toGridOf(mapper: (T) -> R): Array<Array<R>> =
     map { it.map { value -> mapper(value) }.toTypedArray() }.toTypedArray()
 
+inline fun <T, reified R> Array<Array<T>>.mapByPoint(transform: (Int, Int) -> R): Array<Array<R>> =
+    indices.map { y -> this[y].indices.map { x -> transform(x, y) }.toTypedArray() }.toTypedArray()
+
 inline fun <reified R> Array<IntArray>.toGridOf(mapper: (Int) -> R): Array<Array<R>> =
     map { it.map { value -> mapper(value) }.toTypedArray() }.toTypedArray()
 
-fun <T> Array<Array<T>>.forEachInGrid(consume: (T) -> Unit) = forEach { row -> row.forEach { value -> consume(value) } }
+inline fun <T> Array<Array<T>>.anyInGrid(predicate: (T) -> Boolean) = any { it.any(predicate) }
 
-fun <T> Array<Array<T>>.forEachPointAndValue(consumeValue: (Int, Int, T) -> Unit) =
+inline fun Array<IntArray>.allInGrid(predicate: (Int) -> Boolean) = all { it.all(predicate) }
+
+inline fun <T> Array<Array<T>>.forEachInGrid(consume: (T) -> Unit) =
+    forEach { row -> row.forEach { value -> consume(value) } }
+
+inline fun <T> Array<Array<T>>.forEachPointAndValue(consumeValue: (Int, Int, T) -> Unit) =
     withIndex().forEach { (y, row) -> row.withIndex().forEach { (x, value) -> consumeValue(x, y, value) } }
 
-fun <T> Array<Array<T>>.forEachPoint(consumeValue: (Int, Int) -> Unit) =
+inline fun <T> Array<Array<T>>.forEachPoint(consumeValue: (Int, Int) -> Unit) =
     indices.forEach { y -> this[0].indices.forEach { x -> consumeValue(x, y) } }
 
-fun Array<IntArray>.printAsGrid(spacing: Int = 2, delimiter: String = "") = forEach { row ->
-    row.forEach { col -> print("%${spacing}d$delimiter".format(col)) }
-    println()
-}
+fun Array<IntArray>.gridAsString(alignment: Int = 2, separator: String = "") =
+    map { row -> row.joinToString(separator) { col -> "%${alignment}d".format(col) } }.joinToString("\n") { it }
 
-fun <T> Array<Array<T>>.printAsGrid(spacing: Int = 2, delimiter: String = "") = printAsGrid(spacing, delimiter) { it }
+fun <T, R> Array<Array<T>>.gridAsString(alignment: Int = 2, separator: String = "", selector: (T) -> R) =
+    map { row -> row.joinToString(separator) { col -> "%${alignment}s".format(selector(col)) } }
+        .joinToString("\n") { it }
 
-fun <T, R> Array<Array<T>>.printAsGrid(
-    spacing: Int = 2,
-    delimiter: String = "",
-    selector: (T) -> R
-) =
-    forEach { row ->
-        row.forEach { col ->
-            print("%${spacing}s$delimiter".format(selector(col)))
-        }
-        println()
-    }
+fun <T> Array<Array<T>>.gridAsString(alignment: Int = 2, separator: String = "") =
+    gridAsString(alignment, separator) { it }

@@ -1,6 +1,6 @@
 package aoc
 
-object Day15 : ChallengeDay {
+internal object Day15 : ChallengeDay {
 
     fun part1(path: String): Int {
         return 0

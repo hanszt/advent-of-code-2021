@@ -5,7 +5,7 @@ import model.Line
 import java.io.File
 import kotlin.math.max
 
-object Day05HydrothermalVenture : ChallengeDay {
+internal object Day05HydrothermalVenture : ChallengeDay {
 
     fun part1(path: String): Int = File(path).toVentureLines()
             .filter { it.isHorizontal() or it.isVertical() }.asGrid()

@@ -2,7 +2,7 @@ package model
 
 import kotlin.math.abs
 
-data class Line(val begin: GridPoint, val end: GridPoint) {
+internal data class Line(val begin: GridPoint, val end: GridPoint) {
 
     val coordinates: Set<GridPoint> = toLineCoordinates(begin, end)
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.Month
+import java.time.Year
 
 internal class Grid2DUtilsKtTest {
 
@@ -20,7 +21,7 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(6, 3)
         )
         val rotatedClockWise = input.rotated()
-        rotatedClockWise.printAsGrid()
+        println(rotatedClockWise.gridAsString())
         assertArrayEquals(expected, rotatedClockWise)
     }
 
@@ -36,7 +37,7 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(1, 4)
         )
         val rotatedCounterClockWise = input.rotated(true)
-        rotatedCounterClockWise.printAsGrid()
+        println(rotatedCounterClockWise.gridAsString())
         assertArrayEquals(expected, rotatedCounterClockWise)
     }
 
@@ -65,7 +66,7 @@ internal class Grid2DUtilsKtTest {
             arrayOf(GridPoint(4, 4), GridPoint(2, 2))
         )
         val rotatedClockWise = input.rotated()
-        rotatedClockWise.printAsGrid()
+        println(rotatedClockWise.gridAsString(1))
         assertArrayEquals(expected, rotatedClockWise)
     }
 
@@ -87,7 +88,7 @@ internal class Grid2DUtilsKtTest {
     }
 
     @Test
-    fun `grid mirrored vertically`() {
+    fun `int grid mirrored vertically`() {
         val expected = arrayOf(
             intArrayOf(4, 5, 6),
             intArrayOf(1, 2, 3)
@@ -97,12 +98,12 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(4, 5, 6)
         )
         val mirrored = input.mirrored()
-        mirrored.printAsGrid()
+        println(mirrored.gridAsString())
         assertArrayEquals(expected, mirrored)
     }
 
     @Test
-    fun `grid mirrored horizontally`() {
+    fun `int grid mirrored horizontally`() {
         val expected = arrayOf(
             intArrayOf(3, 2, 1),
             intArrayOf(6, 5, 4)
@@ -112,7 +113,37 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(4, 5, 6)
         )
         val mirrored = input.mirrored(horizontally = true)
-        mirrored.printAsGrid()
+        println(mirrored.gridAsString())
+        assertArrayEquals(expected, mirrored)
+    }
+
+    @Test
+    fun `grid mirrored vertically`() {
+        val expected = arrayOf(
+            arrayOf(Year.of(4), Year.of(5), Year.of(6)),
+            arrayOf(Year.of(1), Year.of(2), Year.of(3))
+        )
+        val input = arrayOf(
+            arrayOf(Year.of(1), Year.of(2), Year.of(3)),
+            arrayOf(Year.of(4), Year.of(5), Year.of(6))
+        )
+        val mirrored = input.mirrored()
+        println(mirrored.gridAsString())
+        assertArrayEquals(expected, mirrored)
+    }
+
+    @Test
+    fun `grid mirrored horizontally`() {
+        val expected = arrayOf(
+            arrayOf("3", "2", "1"),
+            arrayOf("6", "5", "4")
+        )
+        val input = arrayOf(
+            arrayOf("1", "2", "3"),
+            arrayOf("4", "5", "6")
+        )
+        val mirrored = input.mirrored(horizontally = true)
+        println(mirrored.gridAsString())
         assertArrayEquals(expected, mirrored)
     }
 
@@ -138,7 +169,7 @@ internal class Grid2DUtilsKtTest {
         """.trimIndent()
         val monthGrid = input.toGridOf(delimiter = oneOrMoreWhiteSpaces) { Month.of(it.toInt()) }
 
-        monthGrid.printAsGrid(delimiter = " ")
+        monthGrid.gridAsString(separator = " ")
 
         assertEquals(Month.DECEMBER, monthGrid[0][0])
     }

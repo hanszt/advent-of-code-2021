@@ -2,7 +2,7 @@ package aoc
 
 import utils.camelCaseToSentence
 
-interface ChallengeDay {
+internal interface ChallengeDay {
 
     fun runParts(): List<AocResult> {
         val name = javaClass.simpleName.camelCaseToSentence()
@@ -11,12 +11,12 @@ interface ChallengeDay {
         return listOf(result1, result2)
     }
 
-    private fun runChallengeTimed(solve: () -> Number, name: String): AocResult {
+    private fun runChallengeTimed(solve: () -> Any, name: String): AocResult {
         val start = System.nanoTime()
-        val result = solve.runCatching { solve() }
+        val result = solve.runCatching { solve().toString() }
         return AocResult(name, result, System.nanoTime() - start)
     }
 
-    fun part1(): Number
-    fun part2(): Number
+    fun part1(): Any
+    fun part2(): Any
 }

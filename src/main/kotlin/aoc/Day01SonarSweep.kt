@@ -2,7 +2,7 @@ package aoc
 
 import java.io.File
 
-object Day01SonarSweep : ChallengeDay {
+internal object Day01SonarSweep : ChallengeDay {
 
     fun part1(filePath: String) = File(filePath).readLines().map(String::toInt).toDepthIncreaseCount()
 

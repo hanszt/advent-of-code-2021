@@ -3,7 +3,7 @@ package aoc
 import java.io.File
 import kotlin.math.abs
 
-object Day07TheTreacheryOfWales : ChallengeDay {
+internal object Day07TheTreacheryOfWales : ChallengeDay {
 
     fun part1(path: String) = File(path).toMinimumConsumption { start, alignmentPos -> abs(start - alignmentPos) }
 

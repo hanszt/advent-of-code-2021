@@ -5,7 +5,7 @@ import aoc.Day05HydrothermalVenture.countIntersections
 import aoc.Day05HydrothermalVenture.toVentureLines
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import utils.printAsGrid
+import utils.gridAsString
 import java.io.File
 
 internal class Day05HydrothermalVentureTest {
@@ -20,7 +20,7 @@ internal class Day05HydrothermalVentureTest {
     fun testPart2testInput() {
         val lines = File("input/day5test.txt").toVentureLines()
         val grid = lines.asGrid()
-        grid.printAsGrid(spacing = 2)
+        println(grid.gridAsString(alignment = 2))
         val nrOfIntersections = grid.countIntersections()
         assertEquals(12, nrOfIntersections)
     }

@@ -18,7 +18,7 @@ fun main() {
         Day10SyntaxScoring,
         Day11DumboOctopus,
         Day12PassagePathing,
-        Day13,
+        Day13TransparentOrigami,
         Day14,
         Day15,
         Day16,
@@ -45,12 +45,12 @@ private const val BRIGHT_BLUE = "\u001B[94m"
 
 private val colors = listOf(YELLOW, RESET, GREEN, RESET, CYAN, RESET, BRIGHT_BLUE, RESET)
 
-data class AocResult(val name: String, val result: Result<Number>, val solveTimeNanos: Long) {
+internal data class AocResult(val name: String, val result: Result<String>, val solveTimeNanos: Long) {
 
     private val color = name.slice(3..4).toInt().toColor(colors)
 
     private fun Int.toColor(colors: List<String>) = if (result.isSuccess) colors[this % colors.size] else RED
 
-    override fun toString(): String = "$color%-40s Result: %-30s Elapsed time: %-7s"
-        .format(name, result.getOrElse { it }, solveTimeNanos.nanoTimeToFormattedDuration())
+    override fun toString(): String = "$color%-40s Result: %-40s Elapsed time: %-7s"
+        .format(name, result.getOrElse { "Failure: ${it.message}" }, solveTimeNanos.nanoTimeToFormattedDuration())
 }

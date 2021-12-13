@@ -3,7 +3,6 @@ package utils
 import model.Node
 import java.util.*
 
-
 fun List<String>.toBiDiGraph(delimiter: String): Map<String, Node<String>> = toBiDiGraph(delimiter) { it }
 
 fun List<String>.toBiDiGraph(delimiter: Char): Map<String, Node<String>> = toBiDiGraph(delimiter.toString())

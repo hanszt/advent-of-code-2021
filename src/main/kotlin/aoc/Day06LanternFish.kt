@@ -3,7 +3,7 @@ package aoc
 import java.io.File
 import java.math.BigInteger
 
-object Day06LanternFish : ChallengeDay {
+internal object Day06LanternFish : ChallengeDay {
 
     private const val INIT_TIMER_VAL_NEW_BORN = 8
     private const val TIMER_VAL_AFTER_SPAWN = 6

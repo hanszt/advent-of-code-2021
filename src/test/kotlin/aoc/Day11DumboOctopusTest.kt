@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
 import utils.toGridOf
-import utils.printAsGrid
+import utils.gridAsString
 import utils.toIntGrid
 
 internal class Day11DumboOctopusTest {
@@ -41,7 +41,7 @@ internal class Day11DumboOctopusTest {
         grid.simulateStep()
 
         println("Result:")
-        grid.printAsGrid(1, selector = Octopus::energyLevel)
+        println(grid.gridAsString(1, selector = Octopus::energyLevel))
 
         assertArrayEquals(expected, grid)
     }

@@ -2,7 +2,7 @@ package aoc
 
 import java.io.File
 
-object Day10SyntaxScoring : ChallengeDay {
+internal object Day10SyntaxScoring : ChallengeDay {
 
     private val closingToScoresPart1 = mapOf(')' to 3, ']' to 57, '}' to 1197, '>' to 25137)
 

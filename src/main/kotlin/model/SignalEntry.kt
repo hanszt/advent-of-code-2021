@@ -4,7 +4,7 @@ import utils.containsAllCharsOf
 import utils.mapBoth
 import utils.mapFirst
 
-data class SignalEntry(val uniqueSignalPatterns: List<String>, val fourDigitPatterns: List<String>) {
+internal data class SignalEntry(val uniqueSignalPatterns: List<String>, val fourDigitPatterns: List<String>) {
 
     fun decodeNumber(): Int = patternNrsRepresentedByIndex()
         .let { patterns -> fourDigitPatterns.joinToString("") { it.decodeToDigit(patterns).toString() }.toInt() }
