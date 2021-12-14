@@ -5,15 +5,10 @@ import java.io.File
 
 internal object Day14ExtendedPolymerization : ChallengeDay {
 
-    fun part1(path: String): Int {
-        val (instructions, polymer) = parseInput(path)
-        var list = polymer
-        for (step in 1..10) {
-            list = applyStep(list.toMutableList(), instructions)
+    fun part1(path: String) = parseInput(path)
+        .let { (instructions, initPolymer) ->
+            instructions.countMostAndLeastCommon(initPolymer, 10).let { (most, least) -> most - least }
         }
-        val groupBy = list.groupBy { it }
-        return groupBy.values.maxOf(List<Char>::size) - groupBy.values.minOf(List<Char>::size)
-    }
 
     private fun parseInput(path: String): Pair<List<Pair<String, Char>>, List<Char>> {
         val (polymerTemplate, insertions) = File(path).readText().splitByBlankLine()
@@ -22,36 +17,20 @@ internal object Day14ExtendedPolymerization : ChallengeDay {
         return Pair(instructions, polymerTemplate.toList())
     }
 
-    private fun applyStep(polymer: MutableList<Char>, instructions: List<Pair<String, Char>>): MutableList<Char> {
-        val newPolymer = polymer.toMutableList()
-        while (newPolymer.size < polymer.size * 2 - 1) {
-            for (index in 0 until polymer.size - 1) {
-                val toCheck = polymer[index].toString() + polymer[index + 1]
-                for ((toMatch, toInsert) in instructions) {
-                    if (toCheck == toMatch) {
-                        newPolymer.add(index + (newPolymer.size - polymer.size) + 1, toInsert)
-                        break
-                    }
-                }
-            }
-        }
-        return newPolymer
-    }
-
     fun part2(path: String): Long = parseInput(path)
         .let { (instructions, initPolymer) ->
-            countMostAndLeastCommon(initPolymer, instructions).let { (most, least) -> most - least }
+            instructions.countMostAndLeastCommon(initPolymer, 40).let { (most, least) -> most - least }
         }
 
-    private fun countMostAndLeastCommon(polymer: List<Char>, instructions: List<Pair<String, Char>>): Pair<Long, Long> {
+    private fun List<Pair<String, Char>>.countMostAndLeastCommon(polymer: List<Char>, steps: Int): Pair<Long, Long> {
         var pairToCount = mutableMapOf<String, Long>()
         for (index in 0 until polymer.size - 1) {
             val pair = polymer[index].toString() + polymer[index + 1].toString()
             pairToCount.putIfAbsent(pair, 0)
             pairToCount.computeIfPresent(pair) { _, count -> count + 1 }
         }
-        for (step in 1..40) {
-            pairToCount = applyStepPart2(instructions, pairToCount)
+        for (step in 1..steps) {
+            pairToCount = applyStepPart2(this, pairToCount)
         }
         val charToCount = toCharCountMap(pairToCount, polymer.first())
         return charToCount.values.maxOf { it } to charToCount.values.minOf { it }
