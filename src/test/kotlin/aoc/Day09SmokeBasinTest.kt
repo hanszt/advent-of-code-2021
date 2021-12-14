@@ -36,7 +36,7 @@ internal class Day09SmokeBasinTest {
         """.trimIndent()
         val expectedSize = expectedBassin.toList().filter(Char::isLetterOrDigit).size
 
-        val intGrid = inputGrid.toIntGrid()
+        val intGrid = inputGrid.lines().toIntGrid()
 
         val (lowestPoint) = intGrid.toLowPoints().first()
 

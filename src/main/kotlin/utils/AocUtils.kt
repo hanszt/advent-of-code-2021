@@ -3,15 +3,15 @@ package utils
 val oneOrMoreWhiteSpaces = "\\s+".toRegex()
 val camelRegex = "(?<=[a-zA-Z0-9])[A-Z]".toRegex()
 
-fun <A, B, R> Pair<A, B>.mapFirst(mapToR: (A) -> R): Pair<R, B> = Pair(mapToR(first), second)
+inline fun <A, B, R> Pair<A, B>.mapFirst(transform: (A) -> R): Pair<R, B> = Pair(transform(first), second)
 
-fun <A, B, R> Pair<A, B>.mapSecond(mapToR: (B) -> R): Pair<A, R> = Pair(first, mapToR(second))
+inline fun <A, B, R> Pair<A, B>.mapSecond(transform: (B) -> R): Pair<A, R> = Pair(first, transform(second))
 
-fun <A, R> Pair<A, A>.mapBoth(mapToR: (A) -> R): Pair<R, R> = Pair(mapToR(first), mapToR(second))
+inline fun <A, R> Pair<A, A>.mapBoth(transform: (A) -> R): Pair<R, R> = Pair(transform(first), transform(second))
 
 fun <T> Iterable<T>.toEnds() = first() to last()
 
-fun <T, R> Iterable<T>.endsTo(mapToR: (T, T) -> R) = mapToR(first(), last())
+inline fun <T, R> Iterable<T>.endsTo(transform: (T, T) -> R) = transform(first(), last())
 
 fun CharSequence.containsAllCharsOf(other: CharSequence) = toSet().containsAll(other.toSet())
 
@@ -34,10 +34,10 @@ fun Long.nanoTimeToFormattedDuration(spacer: Int = 7, decimalPlaces: Int = 3): S
     }
 }
 
-fun <T, R> Iterable<T>.printAsList(delimiter: String = "", selector: (T) -> R) =
+inline fun <T, R> Iterable<T>.printAsList(delimiter: String = "", selector: (T) -> R) =
     forEach { print("${selector(it)}$delimiter") }
 
-fun <T, R> Iterable<Iterable<T>>.printAsListOfLists(delimiter: String = "", selector: (T) -> R) =
+inline fun <T, R> Iterable<Iterable<T>>.printAsListOfLists(delimiter: String = "", selector: (T) -> R) =
     forEach { row ->
         row.printAsList(delimiter, selector)
         println()

@@ -17,7 +17,7 @@ internal class SignalEntryTest {
     @ParameterizedTest
     @ValueSource(strings = [enc5353, enc8394, enc9781, enc1197])
     fun `matching the patterns yields all unique Nrs`(line: String) {
-        val signalEntry = line.toSignalEntry()
+        val signalEntry = toSignalEntry(line)
         val patterns = signalEntry.patternNrsRepresentedByIndex()
 
         val decodedNrs = patterns.indices.toList()
@@ -29,7 +29,7 @@ internal class SignalEntryTest {
     @ValueSource(strings = ["$enc5353 -> 5353", "$enc8394 -> 8394", "$enc9781 -> 9781", "$enc1197 -> 1197"])
     fun `test decoding nr yields expected result`(lineToExpectedNr: String) {
         val (line, expected) = lineToExpectedNr.split(" -> ")
-        val signalEntry = line.toSignalEntry()
+        val signalEntry = toSignalEntry(line)
         val output = signalEntry.decodeNumber()
         assertEquals(expected.toInt(), output)
     }

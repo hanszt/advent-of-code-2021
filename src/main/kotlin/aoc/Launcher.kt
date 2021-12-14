@@ -19,7 +19,7 @@ fun main() {
         Day11DumboOctopus,
         Day12PassagePathing,
         Day13TransparentOrigami,
-        Day14,
+        Day14ExtendedPolymerization,
         Day15,
         Day16,
         Day17,

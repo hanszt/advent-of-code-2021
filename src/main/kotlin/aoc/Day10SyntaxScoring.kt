@@ -48,11 +48,10 @@ internal object Day10SyntaxScoring : ChallengeDay {
             .filter { (closing) -> isIncomplete(closing) }
             .map { (_, chars) -> chars.reversed().mapNotNull(openingToClosingChars::get) }
             .map(::toScoreCompletionList)
-            .sorted()
             .toMiddleScore()
     }
 
-    private fun Sequence<Long>.toMiddleScore() = toList().run { this[size / 2] }
+    private fun Sequence<Long>.toMiddleScore() = sorted().toList().run { this[size / 2] }
 
     private fun isIncomplete(closing: Char) = closing.isWhitespace()
 

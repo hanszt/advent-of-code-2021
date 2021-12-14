@@ -29,14 +29,14 @@ internal class Day11DumboOctopusTest {
             50005
             40004
             34543
-        """.trimIndent().toIntGrid().toGridOf(::Octopus)
+        """.trimIndent().lines().toIntGrid().toGridOf(::Octopus)
         val grid = """
             11111
             19991
             19191
             19991
             11111
-        """.trimIndent().toIntGrid().toGridOf(::Octopus)
+        """.trimIndent().lines().toIntGrid().toGridOf(::Octopus)
 
         grid.simulateStep()
 

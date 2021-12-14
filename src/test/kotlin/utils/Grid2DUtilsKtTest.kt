@@ -154,9 +154,11 @@ internal class Grid2DUtilsKtTest {
             4321
             1234
         """.trimIndent()
-        val originalGrid = input.toGridOf { it }
+        val originalGrid = input.lines().toGridOf { it }
         val copy = originalGrid.copyGrid()
         originalGrid[0][0] = 'a'
+
+        assertEquals('a', originalGrid[0][0])
         assertEquals('1', copy[0][0])
     }
 
@@ -167,7 +169,7 @@ internal class Grid2DUtilsKtTest {
             5  2
             11 4
         """.trimIndent()
-        val monthGrid = input.toGridOf(delimiter = oneOrMoreWhiteSpaces) { Month.of(it.toInt()) }
+        val monthGrid = input.lines().toGridOf(regex = oneOrMoreWhiteSpaces) { Month.of(it.toInt()) }
 
         monthGrid.gridAsString(separator = " ")
 
