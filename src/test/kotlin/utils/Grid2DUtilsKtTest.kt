@@ -36,7 +36,7 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(2, 5),
             intArrayOf(1, 4)
         )
-        val rotatedCounterClockWise = input.rotated(true)
+        val rotatedCounterClockWise = input.rotatedCc()
         println(rotatedCounterClockWise.gridAsString())
         assertArrayEquals(expected, rotatedCounterClockWise)
     }
@@ -88,7 +88,7 @@ internal class Grid2DUtilsKtTest {
     }
 
     @Test
-    fun `int grid mirrored vertically`() {
+    fun `int grid mirrored horizontally`() {
         val expected = arrayOf(
             intArrayOf(4, 5, 6),
             intArrayOf(1, 2, 3)
@@ -97,13 +97,13 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(1, 2, 3),
             intArrayOf(4, 5, 6)
         )
-        val mirrored = input.mirrored()
+        val mirrored = input.mirroredHorizontally()
         println(mirrored.gridAsString())
         assertArrayEquals(expected, mirrored)
     }
 
     @Test
-    fun `int grid mirrored horizontally`() {
+    fun `int grid mirrored vertically`() {
         val expected = arrayOf(
             intArrayOf(3, 2, 1),
             intArrayOf(6, 5, 4)
@@ -112,13 +112,13 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(1, 2, 3),
             intArrayOf(4, 5, 6)
         )
-        val mirrored = input.mirrored(horizontally = true)
+        val mirrored = input.mirroredVertically()
         println(mirrored.gridAsString())
         assertArrayEquals(expected, mirrored)
     }
 
     @Test
-    fun `grid mirrored vertically`() {
+    fun `generic grid mirrored vertically`() {
         val expected = arrayOf(
             arrayOf(Year.of(4), Year.of(5), Year.of(6)),
             arrayOf(Year.of(1), Year.of(2), Year.of(3))
@@ -127,7 +127,7 @@ internal class Grid2DUtilsKtTest {
             arrayOf(Year.of(1), Year.of(2), Year.of(3)),
             arrayOf(Year.of(4), Year.of(5), Year.of(6))
         )
-        val mirrored = input.mirrored()
+        val mirrored = input.mirroredVertically()
         println(mirrored.gridAsString())
         assertArrayEquals(expected, mirrored)
     }
@@ -142,7 +142,7 @@ internal class Grid2DUtilsKtTest {
             arrayOf("1", "2", "3"),
             arrayOf("4", "5", "6")
         )
-        val mirrored = input.mirrored(horizontally = true)
+        val mirrored = input.mirroredHorizontally()
         println(mirrored.gridAsString())
         assertArrayEquals(expected, mirrored)
     }

@@ -42,8 +42,10 @@ internal object Day04GiantSquid : ChallengeDay {
 
     private fun File.toBoardsAndNrsToDrawList(): Pair<List<Array<IntArray>>, List<Int>> =
         readText().splitByBlankLine()
-            .run { Pair(slice(1 until size)
-                .map { it.lines().toIntGrid(oneOrMoreWhiteSpaces) }, nrsToDrawList()) }
+            .run {
+                slice(1 until size)
+                    .map { it.lines().toIntGrid(oneOrMoreWhiteSpaces) } to nrsToDrawList()
+            }
 
     private fun List<String>.nrsToDrawList() = first().split(",").map(String::toInt)
 

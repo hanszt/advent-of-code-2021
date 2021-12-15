@@ -33,15 +33,15 @@ internal object Day13TransparentOrigami : ChallengeDay {
 
     private fun Array<Array<Char>>.foldAlongY(value: Int) = let { grid ->
         val top = grid.sliceArray(0 until value)
-        val mirroredBottom = grid.sliceArray(value + 1 until grid.size).mirrored()
+        val mirroredBottom = grid.sliceArray(value + 1 until grid.size).mirroredVertically()
         return@let top.mapByPoint { x, y -> if (top[y][x] == '.') mirroredBottom[y][x] else '█' }
     }
 
-    private fun Array<Array<Char>>.foldAlongX(value: Int) = rotated().foldAlongY(value).rotated(true)
+    private fun Array<Array<Char>>.foldAlongX(value: Int) = rotated().foldAlongY(value).rotatedCc()
 
     private fun toGrid(coordinates: String, foldInstrList: List<Pair<Char, Int>>): Array<Array<Char>> {
-        val (_, firstXFold) = foldInstrList.first { (dir) -> dir == 'x' }
-        val (_, firstYFold) = foldInstrList.first { (dir) -> dir == 'y' }
+        val firstXFold = foldInstrList.first { (dir) -> dir == 'x' }.second
+        val firstYFold = foldInstrList.first { (dir) -> dir == 'y' }.second
         val points = coordinates.trim().lines()
             .map { it.split(',').map(String::toInt) }
             .map { (x, y) -> x to y }

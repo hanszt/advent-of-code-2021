@@ -9,4 +9,5 @@ internal data class GridPoint(val x: Int, val y: Int) {
     operator fun times(factor: Int) = GridPoint(x * factor, y * factor)
     fun toSignVector() = GridPoint(x.sign, y.sign)
     fun gridDistance(other: GridPoint) = abs(x - other.x).coerceAtLeast(abs(y - other.y))
+    fun toPair() = x to y
 }

@@ -9,16 +9,16 @@ import kotlin.test.assertTrue
 internal class Day04GiantSquidTest {
 
     @Test
-    fun testPart1testInput() = assertEquals(4512, Day04GiantSquid.part1("input/day4test.txt"))
+    fun `part 1 test input`() = assertEquals(4512, Day04GiantSquid.part1("input/day4test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(50008, Day04GiantSquid.part1().also(::println))
+    fun `part 1 result`() = assertEquals(50008, Day04GiantSquid.part1().also(::println))
 
     @Test
-    fun testPart2testInput() = assertEquals(1924, Day04GiantSquid.part2("input/day4test.txt"))
+    fun `part 2 test input`() = assertEquals(1924, Day04GiantSquid.part2("input/day4test.txt"))
 
     @Test
-    fun testPart2() = assertEquals(17408, Day04GiantSquid.part2().also(::println))
+    fun `part 2 result`() = assertEquals(17408, Day04GiantSquid.part2().also(::println))
 
     @Test
     fun testWinningBoardTrueIfPresentInRow() {

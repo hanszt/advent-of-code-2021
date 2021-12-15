@@ -20,10 +20,13 @@ inline fun <T, reified R> Array<Array<T>>.toGridOf(transform: (T) -> R): Array<A
 inline fun <reified R> Array<IntArray>.toGridOf(transform: (Int) -> R): Array<Array<R>> =
     map { it.map { value -> transform(value) }.toTypedArray() }.toTypedArray()
 
+inline fun Array<IntArray>.toIntGridOf(transform: (Int) -> Int): Array<IntArray> =
+    map { it.map { value -> transform(value) }.toIntArray() }.toTypedArray()
+
 inline fun <reified T> Array<Array<T>>.copyGrid() = map(Array<T>::copyOf).toTypedArray()
 
 /**
- * mapping, filtering and matching
+ * mapping, filtering, actions and matching
  */
 inline fun <T, reified R> Array<Array<T>>.mapByPoint(transform: (Int, Int) -> R): Array<Array<R>> =
     indices.map { y -> this[y].indices.map { x -> transform(x, y) }.toTypedArray() }.toTypedArray()
@@ -41,39 +44,51 @@ inline fun <T> Array<Array<T>>.forEachPointAndValue(action: (Int, Int, T) -> Uni
 inline fun <T> Array<Array<T>>.forEachPoint(action: (Int, Int) -> Unit) =
     indices.forEach { y -> this[0].indices.forEach { x -> action(x, y) } }
 
+inline fun Array<IntArray>.forEachPoint(action: (Int, Int) -> Unit) =
+    indices.forEach { y -> this[0].indices.forEach { x -> action(x, y) } }
+
+inline fun Array<IntArray>.forEachPointAndValue(action: (Int, Int, Int) -> Unit) =
+    withIndex().forEach { (y, row) -> row.withIndex().forEach { (x, value) -> action(x, y, value) } }
+
 /**
  * Rotation and mirroring
  *
  */
-fun <T> List<List<T>>.rotate(counterClockWise: Boolean = false): List<List<T>> =
-    if (counterClockWise)
-        this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] } }
-    else this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] } }
+fun <T> List<List<T>>.rotate(): List<List<T>> =
+    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] } }
 
-fun List<String>.rotated(counterClockWise: Boolean = false): List<String> =
-    if (counterClockWise)
-        this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.joinToString("") }
-    else this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.joinToString("") }
+fun <T> List<List<T>>.rotateCc(): List<List<T>> =
+    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] } }
 
-inline fun <reified T> Array<Array<T>>.rotated(counterClockWise: Boolean = false): Array<Array<T>> =
-    (if (counterClockWise)
-        this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.toTypedArray() }
-    else this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.toTypedArray() })
-        .toTypedArray()
+fun List<String>.rotated(): List<String> =
+    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.joinToString("") }
 
-fun Array<IntArray>.rotated(counterClockWise: Boolean = false): Array<IntArray> =
-    (if (counterClockWise)
-        this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.toIntArray() }
-    else this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.toIntArray() })
-        .toTypedArray()
+fun List<String>.rotatedCc(): List<String> =
+    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.joinToString("") }
 
-fun Array<IntArray>.mirrored(horizontally: Boolean = false): Array<IntArray> =
-    if (horizontally) map { row -> row.indices.reversed().map { col -> row[col] }.toIntArray() }.toTypedArray()
-    else indices.reversed().map { row -> this[row] }.toTypedArray()
+inline fun <reified T> Array<Array<T>>.rotated(): Array<Array<T>> =
+    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.toTypedArray() }.toTypedArray()
 
-inline fun <reified T> Array<Array<T>>.mirrored(horizontally: Boolean = false): Array<Array<T>> =
-    if (horizontally) map { row -> row.indices.reversed().map { col -> row[col] }.toTypedArray() }.toTypedArray()
-    else indices.reversed().map { row -> this[row] }.toTypedArray()
+inline fun <reified T> Array<Array<T>>.rotatedCc(): Array<Array<T>> =
+    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.toTypedArray() }.toTypedArray()
+
+fun Array<IntArray>.rotated(): Array<IntArray> =
+    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.toIntArray() }.toTypedArray()
+
+fun Array<IntArray>.rotatedCc(): Array<IntArray> =
+    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.toIntArray() }.toTypedArray()
+
+fun Array<IntArray>.mirroredHorizontally(): Array<IntArray> =
+    indices.reversed().map { row -> this[row] }.toTypedArray()
+
+fun Array<IntArray>.mirroredVertically(): Array<IntArray> =
+    map { row -> row.indices.reversed().map { col -> row[col] }.toIntArray() }.toTypedArray()
+
+inline fun <reified T> Array<Array<T>>.mirroredHorizontally(): Array<Array<T>> =
+    map { row -> row.indices.reversed().map { col -> row[col] }.toTypedArray() }.toTypedArray()
+
+inline fun <reified T> Array<Array<T>>.mirroredVertically(): Array<Array<T>> =
+    indices.reversed().map { row -> this[row] }.toTypedArray()
 
 /**
  * Grid as string
@@ -83,7 +98,11 @@ inline fun <reified T> Array<Array<T>>.mirrored(horizontally: Boolean = false): 
 fun Array<IntArray>.gridAsString(alignment: Int = 2, separator: String = "") =
     map { row -> row.joinToString(separator) { col -> "%${alignment}d".format(col) } }.joinToString("\n") { it }
 
-fun <T, R> Array<Array<T>>.gridAsString(alignment: Int = 2, separator: String = "", selector: (T) -> R) =
+inline fun <T, R> Array<Array<T>>.gridAsString(
+    alignment: Int = 2,
+    separator: String = "",
+    crossinline selector: (T) -> R
+) =
     map { row -> row.joinToString(separator) { col -> "%${alignment}s".format(selector(col)) } }
         .joinToString("\n") { it }
 

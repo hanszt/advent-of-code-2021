@@ -3,11 +3,18 @@ package utils
 val oneOrMoreWhiteSpaces = "\\s+".toRegex()
 val camelRegex = "(?<=[a-zA-Z0-9])[A-Z]".toRegex()
 
-inline fun <A, B, R> Pair<A, B>.mapFirst(transform: (A) -> R): Pair<R, B> = Pair(transform(first), second)
+inline fun <A, B, R> Pair<A, B>.mapFirst(transform: (A) -> R): Pair<R, B> = transform(first) to second
 
-inline fun <A, B, R> Pair<A, B>.mapSecond(transform: (B) -> R): Pair<A, R> = Pair(first, transform(second))
+inline fun <A, B, R> Pair<A, B>.mapSecond(transform: (B) -> R): Pair<A, R> = first to transform(second)
 
-inline fun <A, R> Pair<A, A>.mapBoth(transform: (A) -> R): Pair<R, R> = Pair(transform(first), transform(second))
+inline fun <A, R> Pair<A, A>.mapBoth(transform: (A) -> R): Pair<R, R> = transform(first) to transform(second)
+
+inline fun <A, B, R> Pair<A, B>.reduce(transform: (A, B) -> R): R = transform(first, second)
+
+infix fun <A, B, C> Pair<A, B>.to(third: C): Triple<A, B, C> = Triple(first, second, third)
+
+inline fun <S, T : S> Triple<T, T, T>.reduce(operation: (acc: S, T) -> S): S =
+    operation(operation(first, second), third)
 
 fun <T> Iterable<T>.toEnds() = first() to last()
 

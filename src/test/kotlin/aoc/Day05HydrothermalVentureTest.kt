@@ -11,13 +11,13 @@ import java.io.File
 internal class Day05HydrothermalVentureTest {
 
     @Test
-    fun testPart1testInput() = assertEquals(5, Day05HydrothermalVenture.part1("input/day5test.txt"))
+    fun `part 1 test input`() = assertEquals(5, Day05HydrothermalVenture.part1("input/day5test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(7085, Day05HydrothermalVenture.part1().also(::println))
+    fun `part 1 result`() = assertEquals(7085, Day05HydrothermalVenture.part1().also(::println))
 
     @Test
-    fun testPart2testInput() {
+    fun `part 2 test input`() {
         val lines = File("input/day5test.txt").toVentureLines()
         val grid = lines.asGrid()
         println(grid.gridAsString(alignment = 2))
@@ -26,5 +26,5 @@ internal class Day05HydrothermalVentureTest {
     }
 
     @Test
-    fun testPart2() = assertEquals(20271, Day05HydrothermalVenture.part2().also(::println))
+    fun `part 2 result`() = assertEquals(20271, Day05HydrothermalVenture.part2().also(::println))
 }

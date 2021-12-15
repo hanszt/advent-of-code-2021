@@ -9,16 +9,16 @@ import utils.toIntGrid
 internal class Day09SmokeBasinTest {
 
     @Test
-    fun testPart1testInput() = assertEquals(15, Day09SmokeBasin.part1("input/day9test.txt"))
+    fun `part 1 test input`() = assertEquals(15, Day09SmokeBasin.part1("input/day9test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(530, Day09SmokeBasin.part1().also(::println))
+    fun `part 1 result`() = assertEquals(530, Day09SmokeBasin.part1().also(::println))
 
     @Test
-    fun testPart2testInput() = assertEquals(1134, Day09SmokeBasin.part2("input/day9test.txt"))
+    fun `part 2 test input`() = assertEquals(1134, Day09SmokeBasin.part2("input/day9test.txt"))
 
     @Test
-    fun testPart2() = assertEquals(1019494, Day09SmokeBasin.part2().also(::println))
+    fun `part 2 result`() = assertEquals(1019494, Day09SmokeBasin.part2().also(::println))
 
     @Test
     fun testFindBasinPoints() {

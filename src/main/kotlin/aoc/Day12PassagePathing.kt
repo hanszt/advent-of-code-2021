@@ -11,10 +11,10 @@ internal object Day12PassagePathing : ChallengeDay {
 
     fun part1(path: String): Int = File(path).readLines().toBiDiGraph('-').countDistinctPaths()
 
-    private fun Map<String, Node<String>>.countDistinctPaths(): Int = let { graph ->
+    private fun Map<String, Node<String?>>.countDistinctPaths(): Int = let { graph ->
         val start = graph["start"] ?: throw IllegalStateException()
         val end = graph["end"] ?: throw IllegalStateException()
-        return allPathsByDfs(start, end) { it.value.all(Char::isLowerCase) }.count()
+        return allPathsByDfs(start, end) { it.value?.all(Char::isLowerCase) ?: false }.count()
     }
 
     fun part2(path: String): Int {
@@ -28,32 +28,32 @@ internal object Day12PassagePathing : ChallengeDay {
             .count()
     }
 
-    private fun findPathsPart2(src: Node<Cave>, goal: Node<Cave>, caveAllowedToVisitTwice: Node<Cave>): Set<String> {
+    private fun findPathsPart2(src: Node<Cave?>, goal: Node<Cave?>, caveAllowedToVisitTwice: Node<Cave?>): Set<String> {
         val uniquePaths = mutableSetOf<String>()
 
-        val pathsQueue: Queue<MutableList<Node<Cave>>> = LinkedList()
+        val pathsQueue: Queue<MutableList<Node<Cave?>>> = LinkedList()
         pathsQueue.offer(mutableListOf(src))
         while (pathsQueue.isNotEmpty()) {
             val currentPath = pathsQueue.poll()
             val currentCave = currentPath.last()
 
             if (currentCave == goal) {
-                uniquePaths.add(currentPath.joinToString { it.value.label })
+                uniquePaths.add(currentPath.joinToString { it.value?.label ?: "" })
             }
             if (currentPath.count { it == caveAllowedToVisitTwice } < 2) {
-                caveAllowedToVisitTwice.value.notVisitedTwice = true
+                caveAllowedToVisitTwice.value?.notVisitedTwice = true
             }
             for (neighbor in currentCave.neighbors) {
-                val isBigCave = neighbor.value.label.all(Char::isUpperCase)
-                val allowedToVisitTwice = neighbor.value.notVisitedTwice &&
+                val isBigCave = neighbor.value?.label?.all(Char::isUpperCase)
+                val allowedToVisitTwice = neighbor.value?.notVisitedTwice ?: false &&
                         currentPath.count { it == caveAllowedToVisitTwice } < 2
-                if (neighbor !in currentPath || isBigCave || allowedToVisitTwice) {
+                if (neighbor !in currentPath || isBigCave == true || allowedToVisitTwice) {
                     val newPath = ArrayList(currentPath)
                     newPath.add(neighbor)
                     pathsQueue.offer(newPath)
                 }
             }
-            currentCave.value.notVisitedTwice = false
+            currentCave.value?.notVisitedTwice = false
         }
         return uniquePaths
     }

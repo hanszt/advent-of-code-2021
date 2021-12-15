@@ -19,7 +19,7 @@ internal object Day10SyntaxScoring : ChallengeDay {
             prevSize = chars.size
             val closingChar = chars.removeValidUnitChunk()
             if (chars.size == prevSize) {
-                return Pair(closingChar, chars)
+                return closingChar to chars
             }
         }
     }

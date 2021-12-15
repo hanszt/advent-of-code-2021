@@ -26,7 +26,7 @@ internal object Day03BinaryDiagnostic : ChallengeDay {
 
     private fun List<CharArray>.toCo2ScrubbingRating() = toMutableList().calculate { ones, zeros -> ones < zeros }
 
-    private fun MutableList<CharArray>.calculate(biPredicate: (Int, Int) -> Boolean): Int {
+    private inline fun MutableList<CharArray>.calculate(biPredicate: (Int, Int) -> Boolean): Int {
         var index = 0
         while (size > 1) {
             val sumAtIndex = sumOnesBinaryDigits()[index]

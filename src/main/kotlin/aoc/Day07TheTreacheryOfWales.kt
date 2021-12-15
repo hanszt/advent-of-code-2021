@@ -9,7 +9,7 @@ internal object Day07TheTreacheryOfWales : ChallengeDay {
 
     fun part2(path: String) = File(path).toMinimumConsumption(::toFuelConsumptionPart2)
 
-    private fun File.toMinimumConsumption(calculateConsumption: (Int, Int) -> Int): Int =
+    private inline fun File.toMinimumConsumption(calculateConsumption: (Int, Int) -> Int): Int =
         readText().trim().split(',').map(String::toInt).run {
             (minOf { it }..maxOf { it })
                 .map { alignmentPos -> sumOf { start -> calculateConsumption(start, alignmentPos) } }

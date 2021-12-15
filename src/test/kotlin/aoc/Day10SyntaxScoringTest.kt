@@ -9,16 +9,16 @@ import kotlin.test.assertTrue
 internal class Day10SyntaxScoringTest {
 
     @Test
-    fun testPart1testInput() = assertEquals(26397, Day10SyntaxScoring.part1("input/day10test.txt"))
+    fun `part 1 test input`() = assertEquals(26397, Day10SyntaxScoring.part1("input/day10test.txt"))
 
     @Test
-    fun testPart1() = assertEquals(290691, Day10SyntaxScoring.part1().also(::println))
+    fun `part 1 result`() = assertEquals(290691, Day10SyntaxScoring.part1().also(::println))
 
     @Test
-    fun testPart2testInput() = assertEquals(288957, Day10SyntaxScoring.part2("input/day10test.txt"))
+    fun `part 2 test input`() = assertEquals(288957, Day10SyntaxScoring.part2("input/day10test.txt"))
 
     @Test
-    fun testPart2() = assertEquals(2768166558, Day10SyntaxScoring.part2().also(::println))
+    fun `part 2 result`() = assertEquals(2768166558, Day10SyntaxScoring.part2().also(::println))
 
     @ParameterizedTest
     @ValueSource( strings = ["[]", "([])", "<([{}])>", "{()()()}"])

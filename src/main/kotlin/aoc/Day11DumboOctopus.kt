@@ -43,7 +43,7 @@ private fun Array<Array<Octopus>>.updateDifferencesNeighbors(x: Int, y: Int, dif
     if (octopus.isFlashing()) {
         octopus.incrementFlashes()
         dirs.map { (dx, dy) -> x + dx to y + dy }
-            .forEach { (nx, ny) -> getOrNull(ny)?.getOrNull(nx)?.also { differences[ny][nx]++ } }
+            .forEach { (nx, ny) -> getOrNull(ny)?.getOrNull(nx)?.run { differences[ny][nx]++ } }
     }
 }
 
