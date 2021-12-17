@@ -1,11 +1,10 @@
 package aoc
 
-import utils.nanoTimeToFormattedDuration
-import utils.readTextFromResource
+import utils.*
 
 fun main() {
-    println(RED + readTextFromResource("/title.txt") + RESET)
-    sequenceOf(
+    println(readTextFromResource("/title.txt").ofColor(RED))
+    val totalSolveTime = sequenceOf(
         Day01SonarSweep,
         Day02Dive,
         Day03BinaryDiagnostic,
@@ -21,8 +20,8 @@ fun main() {
         Day13TransparentOrigami,
         Day14ExtendedPolymerization,
         Day15Chiton,
-        Day16,
-        Day17,
+        Day16PacketDecoder,
+        Day17TrickShot,
         Day18,
         Day19,
         Day20,
@@ -32,25 +31,18 @@ fun main() {
         Day24,
         Day25,
     ).flatMap(ChallengeDay::runParts)
-        .forEach(::println)
-    println(GREEN + readTextFromResource("/banner.txt") + RESET)
+        .onEach(::println)
+        .sumOf(AocResult::solveTimeNanos)
+    println("%nTotal solve time: %2.3f seconds%n".format(totalSolveTime / 1e9))
+    println(readTextFromResource("/banner.txt").ofColor(GREEN))
 }
-
-private const val RESET = "\u001B[0m"
-private const val RED = "\u001B[31m"
-private const val GREEN = "\u001B[32m"
-private const val YELLOW = "\u001B[33m"
-private const val CYAN = "\u001B[36m"
-private const val BRIGHT_BLUE = "\u001B[94m"
-
-private val colors = listOf(YELLOW, RESET, GREEN, RESET, CYAN, RESET, BRIGHT_BLUE, RESET)
 
 internal data class AocResult(val name: String, val result: Result<String>, val solveTimeNanos: Long) {
 
-    private val color = name.slice(3..4).toInt().toColor(colors)
+    private val color = name.slice(3..4).toInt().toColor(primaryColorList)
 
     private fun Int.toColor(colors: List<String>) = if (result.isSuccess) colors[this % colors.size] else RED
 
-    override fun toString(): String = "$color%-40s Result: %-40s Elapsed time: %-7s"
+    override fun toString(): String = "%-40s Result: %-42s Solve time: %-7s".ofColor(color)
         .format(name, result.getOrElse { "Failure: ${it.message}" }, solveTimeNanos.nanoTimeToFormattedDuration())
 }

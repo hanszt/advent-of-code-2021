@@ -1,9 +1,13 @@
 package aoc
 
+import aoc.Day09SmokeBasin.findBassinPoints
+import aoc.Day09SmokeBasin.toLowPoints
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import model.GridPoint
+import utils.CYAN
+import utils.ofColor
 import utils.toIntGrid
 
 internal class Day09SmokeBasinTest {
@@ -34,17 +38,16 @@ internal class Day09SmokeBasinTest {
                     87678 
                      8
         """.trimIndent()
-        val expectedSize = expectedBassin.toList().filter(Char::isLetterOrDigit).size
+        val expectedSize = expectedBassin.filter(Char::isLetterOrDigit).length
 
         val intGrid = inputGrid.lines().toIntGrid()
 
         val (lowestPoint) = intGrid.toLowPoints().first()
 
-        val basinPoints = LinkedHashSet<GridPoint>()
-        basinPoints.add(lowestPoint)
+        val basinPoints = LinkedHashSet<GridPoint>().apply { add(lowestPoint) }
         intGrid.findBassinPoints(lowestPoint.x, lowestPoint.y, basinPoints)
 
-        basinPoints.forEach { (x, y) -> println("x=$x, y=$y, value=${intGrid[y][x]}") }
+        basinPoints.forEach { (x, y) -> println("x=$x, y=$y, value=${intGrid[y][x]}".ofColor(CYAN)) }
 
         assertEquals(5, intGrid[lowestPoint.y][lowestPoint.x])
         assertEquals(expectedSize, basinPoints.size)

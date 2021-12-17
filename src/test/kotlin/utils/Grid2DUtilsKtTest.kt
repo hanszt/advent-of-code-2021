@@ -98,7 +98,7 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(4, 5, 6)
         )
         val mirrored = input.mirroredHorizontally()
-        println(mirrored.gridAsString())
+        println(mirrored.gridAsString().ofColor(BRIGHT_GREEN))
         assertArrayEquals(expected, mirrored)
     }
 
@@ -113,7 +113,7 @@ internal class Grid2DUtilsKtTest {
             intArrayOf(4, 5, 6)
         )
         val mirrored = input.mirroredVertically()
-        println(mirrored.gridAsString())
+        println(mirrored.gridAsString().ofColor(YELLOW))
         assertArrayEquals(expected, mirrored)
     }
 

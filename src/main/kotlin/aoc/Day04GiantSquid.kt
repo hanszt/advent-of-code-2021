@@ -10,7 +10,7 @@ internal object Day04GiantSquid : ChallengeDay {
 
     fun part1(path: String): Int {
         val (boards, allNrsToDrawList) = File(path).toBoardsAndNrsToDrawList()
-        val drawnNrs = ArrayList(allNrsToDrawList.slice(0..3))
+        val drawnNrs = allNrsToDrawList.slice(0..3).toMutableList()
         var firstWinning: Array<IntArray> = emptyArray()
         while (firstWinning.isEmpty()) {
             drawnNrs.add(allNrsToDrawList[drawnNrs.size])
@@ -25,8 +25,8 @@ internal object Day04GiantSquid : ChallengeDay {
 
     fun part2(path: String): Int {
         val (boards, allNrToBeDrawn) = File(path).toBoardsAndNrsToDrawList()
-        val drawnNrs = ArrayList(allNrToBeDrawn.slice(0..3))
-        val boardsInGame = ArrayList(boards)
+        val drawnNrs = allNrToBeDrawn.slice(0..3).toMutableList()
+        val boardsInGame = boards.toMutableList()
         val boardsWon = LinkedHashSet<Array<IntArray>>()
         while (boardsWon.size != boards.size) {
             drawnNrs.add(allNrToBeDrawn[drawnNrs.size])
@@ -36,9 +36,9 @@ internal object Day04GiantSquid : ChallengeDay {
         return boardsWon.last().sumUnmarkedNrs(drawnNrs) * drawnNrs.last()
     }
 
-    private fun Array<IntArray>.sumUnmarkedNrs(drawnNrs: ArrayList<Int>) = asSequence()
+    private fun Array<IntArray>.sumUnmarkedNrs(drawnNrs: List<Int>) = asSequence()
         .flatMap(IntArray::toList)
-        .filter { drawnNrs.contains(it).not() }.sum()
+        .filterNot { it in drawnNrs }.sum()
 
     private fun File.toBoardsAndNrsToDrawList(): Pair<List<Array<IntArray>>, List<Int>> =
         readText().splitByBlankLine()

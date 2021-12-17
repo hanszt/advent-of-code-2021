@@ -38,7 +38,7 @@ internal object Day14ExtendedPolymerization : ChallengeDay {
 
     private fun toInitPairToCountMap(polymer: String): MutableMap<String, Long> {
         val pairToCountMap = mutableMapOf<String, Long>()
-        for (index in 0 until polymer.length - 1) {
+        for (index in 0 until polymer.lastIndex) {
             val pair = polymer[index].toString() + polymer[index + 1].toString()
             pairToCountMap.merge(pair, 1, Long::plus)
         }

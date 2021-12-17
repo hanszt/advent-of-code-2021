@@ -27,7 +27,7 @@ internal object Day10SyntaxScoring : ChallengeDay {
     private val openingToClosingChars = mapOf('(' to ')', '[' to ']', '{' to '}', '<' to '>')
 
     private fun MutableList<Char>.removeValidUnitChunk(): Char {
-        for (index in 0 until size - 1) {
+        for (index in 0 until lastIndex) {
             val current = this[index]
             val next = this[index + 1]
             if (current in openingToClosingChars.keys && next in openingToClosingChars.values) {
@@ -51,7 +51,7 @@ internal object Day10SyntaxScoring : ChallengeDay {
             .toMiddleScore()
     }
 
-    private fun Sequence<Long>.toMiddleScore() = sorted().toList().run { this[size / 2] }
+    private fun Sequence<Long>.toMiddleScore() = sorted().toList().let { it[it.size / 2] }
 
     private fun isIncomplete(closing: Char) = closing.isWhitespace()
 

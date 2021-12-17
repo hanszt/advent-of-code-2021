@@ -3,12 +3,13 @@ package aoc
 import model.GridPoint
 import utils.mapSecond
 import utils.toEnds
+import utils.toListOf
 import java.io.File
 
 internal object Day02Dive : ChallengeDay {
 
     fun part1(filePath: String) = File(filePath).useLines { lines ->
-        lines.toDirAndStepSize()
+        lines.toDirAndStepSizes()
             .map { (dir, size) -> toVector(dir, size) }
             .reduce(GridPoint::plus)
             .run { x * y }
@@ -22,7 +23,7 @@ internal object Day02Dive : ChallengeDay {
     }
 
     fun part2(filePath: String): Int {
-        val pairs = File(filePath).useLines { it.toDirAndStepSize().toList() }
+        val pairs = File(filePath).useLines { it.toDirAndStepSizes() }
         var result = GridPoint(0, 0)
         var aim = 0
         for ((dir, stepSize) in pairs) {
@@ -35,7 +36,7 @@ internal object Day02Dive : ChallengeDay {
         return result.x * result.y
     }
 
-    private fun Sequence<String>.toDirAndStepSize() = map { it.split(" ").toEnds().mapSecond(String::toInt) }
+    private fun Sequence<String>.toDirAndStepSizes() = toListOf { it.split(" ").toEnds().mapSecond(String::toInt) }
 
     override fun part1() = part1("input/day2.txt")
     override fun part2() = part2("input/day2.txt")

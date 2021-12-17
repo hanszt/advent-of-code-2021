@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package utils
 
 /**
@@ -42,10 +44,10 @@ inline fun <T> Array<Array<T>>.forEachPointAndValue(action: (Int, Int, T) -> Uni
     withIndex().forEach { (y, row) -> row.withIndex().forEach { (x, value) -> action(x, y, value) } }
 
 inline fun <T> Array<Array<T>>.forEachPoint(action: (Int, Int) -> Unit) =
-    indices.forEach { y -> this[0].indices.forEach { x -> action(x, y) } }
+    indices.forEach { y -> first().indices.forEach { x -> action(x, y) } }
 
 inline fun Array<IntArray>.forEachPoint(action: (Int, Int) -> Unit) =
-    indices.forEach { y -> this[0].indices.forEach { x -> action(x, y) } }
+    indices.forEach { y -> first().indices.forEach { x -> action(x, y) } }
 
 inline fun Array<IntArray>.forEachPointAndValue(action: (Int, Int, Int) -> Unit) =
     withIndex().forEach { (y, row) -> row.withIndex().forEach { (x, value) -> action(x, y, value) } }
@@ -55,28 +57,28 @@ inline fun Array<IntArray>.forEachPointAndValue(action: (Int, Int, Int) -> Unit)
  *
  */
 fun <T> List<List<T>>.rotate(): List<List<T>> =
-    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] } }
+    first().indices.map { col -> indices.reversed().map { row -> this[row][col] } }
 
 fun <T> List<List<T>>.rotateCc(): List<List<T>> =
-    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] } }
+    first().indices.reversed().map { col -> indices.map { row -> this[row][col] } }
 
 fun List<String>.rotated(): List<String> =
-    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.joinToString("") }
+    first().indices.map { col -> indices.reversed().map { row -> this[row][col] }.joinToString("") }
 
 fun List<String>.rotatedCc(): List<String> =
-    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.joinToString("") }
+    first().indices.reversed().map { col -> indices.map { row -> this[row][col] }.joinToString("") }
 
 inline fun <reified T> Array<Array<T>>.rotated(): Array<Array<T>> =
-    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.toTypedArray() }.toTypedArray()
+    first().indices.map { col -> indices.reversed().map { row -> this[row][col] }.toTypedArray() }.toTypedArray()
 
 inline fun <reified T> Array<Array<T>>.rotatedCc(): Array<Array<T>> =
-    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.toTypedArray() }.toTypedArray()
+    first().indices.reversed().map { col -> indices.map { row -> this[row][col] }.toTypedArray() }.toTypedArray()
 
 fun Array<IntArray>.rotated(): Array<IntArray> =
-    this[0].indices.map { col -> indices.reversed().map { row -> this[row][col] }.toIntArray() }.toTypedArray()
+    first().indices.map { col -> indices.reversed().map { row -> this[row][col] }.toIntArray() }.toTypedArray()
 
 fun Array<IntArray>.rotatedCc(): Array<IntArray> =
-    this[0].indices.reversed().map { col -> indices.map { row -> this[row][col] }.toIntArray() }.toTypedArray()
+    first().indices.reversed().map { col -> indices.map { row -> this[row][col] }.toIntArray() }.toTypedArray()
 
 fun Array<IntArray>.mirroredHorizontally(): Array<IntArray> =
     indices.reversed().map { row -> this[row] }.toTypedArray()
@@ -96,15 +98,18 @@ inline fun <reified T> Array<Array<T>>.mirroredVertically(): Array<Array<T>> =
  * Functions to convert a grid to a string representation
  */
 fun Array<IntArray>.gridAsString(alignment: Int = 2, separator: String = "") =
-    map { row -> row.joinToString(separator) { col -> "%${alignment}d".format(col) } }.joinToString("\n") { it }
+    map { row -> row.joinToString(separator) { "%${alignment}d".format(it) } }.joinToString("\n") { it }
+
+fun Array<IntArray>.gridAsStringOf(alignment: Int = 2, separator: String = "", transform: (Int) -> String) =
+    map { row -> row.joinToString(separator) { "%${alignment}s".format(transform(it)) } }
+        .joinToString("\n") { it }
 
 inline fun <T, R> Array<Array<T>>.gridAsString(
     alignment: Int = 2,
     separator: String = "",
     crossinline selector: (T) -> R
 ) =
-    map { row -> row.joinToString(separator) { col -> "%${alignment}s".format(selector(col)) } }
-        .joinToString("\n") { it }
+    map { row -> row.joinToString(separator) { "%${alignment}s".format(selector(it)) } }.joinToString("\n") { it }
 
 fun <T> Array<Array<T>>.gridAsString(alignment: Int = 2, separator: String = "") =
     gridAsString(alignment, separator) { it }

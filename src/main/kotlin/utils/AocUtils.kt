@@ -20,8 +20,6 @@ fun <T> Iterable<T>.toEnds() = first() to last()
 
 inline fun <T, R> Iterable<T>.endsTo(transform: (T, T) -> R) = transform(first(), last())
 
-fun CharSequence.containsAllCharsOf(other: CharSequence) = toSet().containsAll(other.toSet())
-
 fun CharSequence.isNaturalNumber() = "\\d+".toRegex().matches(this)
 
 fun CharSequence.containsNoDigits() = "\\D+".toRegex().matches(this)
@@ -41,11 +39,11 @@ fun Long.nanoTimeToFormattedDuration(spacer: Int = 7, decimalPlaces: Int = 3): S
     }
 }
 
+fun <K, V> Map<K, V>.inverseMap() = map { it.value to it.key }.toMap()
+
+fun <T> Iterable<T>.toMutableList(action: MutableList<T>.() -> Unit) = toMutableList().apply(action)
+
+fun <T, R> Sequence<T>.toListOf(transform: (T) -> R) = map(transform).toList()
+
 inline fun <T, R> Iterable<T>.printAsList(delimiter: String = "", selector: (T) -> R) =
     forEach { print("${selector(it)}$delimiter") }
-
-inline fun <T, R> Iterable<Iterable<T>>.printAsListOfLists(delimiter: String = "", selector: (T) -> R) =
-    forEach { row ->
-        row.printAsList(delimiter, selector)
-        println()
-    }

@@ -5,7 +5,7 @@ import model.WeightedNode
 
 fun <T> WeightedNode<T>.dijkstra(goal: WeightedNode<T>): WeightedNode<T> {
     val settled = mutableSetOf<WeightedNode<T>>()
-    val unsettled = mutableSetOf(this.apply { distance = 0 })
+    val unsettled = mutableSetOf(apply { distance = 0 })
     while (unsettled.isNotEmpty()) {
         val current = unsettled.minByOrNull(WeightedNode<T>::distance) ?: break
         for (neighbor in current.neighbors) {
@@ -21,35 +21,31 @@ fun <T> WeightedNode<T>.dijkstra(goal: WeightedNode<T>): WeightedNode<T> {
     throw IllegalStateException("no path to $goal found")
 }
 
-fun <T> allPathsByDfs(
-    start: Node<T?>,
-    goal: Node<T?>,
-    visitedCondition: (Node<T?>) -> Boolean
-): List<List<Node<T?>>> =
-    ArrayList<List<Node<T?>>>().apply { dfsRecursive(start, goal, visitedCondition = visitedCondition) }
+fun <T> allPathsByDfs(start: Node<T>, goal: Node<T>, predicate: (Node<T>) -> Boolean): List<List<Node<T>>> =
+    mutableListOf<List<Node<T>>>().apply { dfsRecursive(start, goal, predicate = predicate) }
 
-private fun <T> MutableList<List<Node<T?>>>.dfsRecursive(
-    current: Node<T?>,
-    goal: Node<T?>,
-    visited: MutableSet<Node<T?>> = mutableSetOf(),
-    localPathList: MutableList<Node<T?>> = mutableListOf(current),
-    visitedCondition: (Node<T?>) -> Boolean
+private fun <T> MutableList<List<Node<T>>>.dfsRecursive(
+    current: Node<T>,
+    goal: Node<T>,
+    visited: MutableSet<Node<T>> = mutableSetOf(),
+    localPathList: MutableList<Node<T>> = mutableListOf(current),
+    predicate: (Node<T>) -> Boolean
 ) {
     if (current == goal) {
-        this.add(ArrayList(localPathList))
+        this.add(localPathList.toList())
         return
     }
-    if (visitedCondition(current)) {
+    if (predicate(current)) {
         visited.add(current)
     }
     for (neighbor in current.neighbors) {
         if (neighbor !in visited) {
             localPathList.add(neighbor)
-            dfsRecursive(neighbor, goal, visited, localPathList, visitedCondition)
+            dfsRecursive(neighbor, goal, visited, localPathList, predicate)
             localPathList.remove(neighbor)
         }
     }
-    if (visitedCondition(current)) {
+    if (predicate(current)) {
         visited.remove(current)
     }
 }

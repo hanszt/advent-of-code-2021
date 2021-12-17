@@ -21,8 +21,8 @@ fun <T> Array<IntArray>.toWeightedGraph(directions: List<Pair<Int, Int>>): Map<P
     return graph
 }
 
-inline fun <T> List<String>.toBiDiGraph(delimiter: String, mapper: (String) -> T): Map<String, Node<T?>> {
-    val nodes = HashMap<String, Node<T?>>()
+inline fun <T> List<String>.toBiDiGraph(delimiter: String, mapper: (String) -> T): Map<String, Node<T>> {
+    val nodes = HashMap<String, Node<T>>()
     for (line in this) {
         val (value, other) = line.split(delimiter)
         val node = nodes.getOrDefault(value, Node(mapper(value)))

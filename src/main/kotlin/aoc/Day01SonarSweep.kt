@@ -7,7 +7,7 @@ internal object Day01SonarSweep : ChallengeDay {
     fun part1(filePath: String) = File(filePath).readLines().map(String::toInt).toDepthIncreaseCount()
 
     private fun List<Int>.toDepthIncreaseCount(): Int =
-        (0 until size - 1).count { this[it] < this[it + 1] }
+        (0 until lastIndex).count { this[it] < this[it + 1] }
 
     fun part2(filePath: String) = File(filePath).readLines().map(String::toInt).toWindowIncreaseCount()
 

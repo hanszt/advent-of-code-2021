@@ -3,6 +3,7 @@ package aoc
 import model.Node
 import utils.allPathsByDfs
 import utils.toBiDiGraph
+import utils.toMutableList
 import java.io.File
 import java.util.*
 
@@ -23,15 +24,15 @@ internal object Day12PassagePathing : ChallengeDay {
         val end = graph["end"] ?: throw IllegalStateException()
 
         return graph.filter { (label) -> label != "start" && label != "end" && label.all(Char::isLowerCase) }
-            .flatMap { (_, allowedToVisitTwice) -> findPathsPart2(start, end, allowedToVisitTwice) }
+            .flatMap { (_, allowedToVisitTwice) -> findPathsByBfs(start, end, allowedToVisitTwice) }
             .distinct()
             .count()
     }
 
-    private fun findPathsPart2(src: Node<Cave?>, goal: Node<Cave?>, caveAllowedToVisitTwice: Node<Cave?>): Set<String> {
+    private fun findPathsByBfs(src: Node<Cave>, goal: Node<Cave>, caveAllowedToVisitTwice: Node<Cave>): Set<String> {
         val uniquePaths = mutableSetOf<String>()
 
-        val pathsQueue: Queue<MutableList<Node<Cave?>>> = LinkedList()
+        val pathsQueue: Queue<MutableList<Node<Cave>>> = LinkedList()
         pathsQueue.offer(mutableListOf(src))
         while (pathsQueue.isNotEmpty()) {
             val currentPath = pathsQueue.poll()
@@ -41,19 +42,18 @@ internal object Day12PassagePathing : ChallengeDay {
                 uniquePaths.add(currentPath.joinToString { it.value?.label ?: "" })
             }
             if (currentPath.count { it == caveAllowedToVisitTwice } < 2) {
-                caveAllowedToVisitTwice.value?.notVisitedTwice = true
+                caveAllowedToVisitTwice.value?.allowedToVisitTwice = true
             }
             for (neighbor in currentCave.neighbors) {
-                val isBigCave = neighbor.value?.label?.all(Char::isUpperCase)
-                val allowedToVisitTwice = neighbor.value?.notVisitedTwice ?: false &&
+                val isBigCave = neighbor.value?.label?.all(Char::isUpperCase) ?: false
+                val allowedToVisitTwice = neighbor.value?.allowedToVisitTwice ?: false &&
                         currentPath.count { it == caveAllowedToVisitTwice } < 2
-                if (neighbor !in currentPath || isBigCave == true || allowedToVisitTwice) {
-                    val newPath = ArrayList(currentPath)
-                    newPath.add(neighbor)
+                if (neighbor !in currentPath || isBigCave || allowedToVisitTwice) {
+                    val newPath = currentPath.toMutableList { add(neighbor) }
                     pathsQueue.offer(newPath)
                 }
             }
-            currentCave.value?.notVisitedTwice = false
+            currentCave.value?.allowedToVisitTwice = false
         }
         return uniquePaths
     }
@@ -61,5 +61,5 @@ internal object Day12PassagePathing : ChallengeDay {
     override fun part1() = part1("input/day12.txt")
     override fun part2() = part2("input/day12.txt")
 
-    internal data class Cave(val label: String, var notVisitedTwice: Boolean)
+    internal data class Cave(val label: String, var allowedToVisitTwice: Boolean)
 }

@@ -1,11 +1,11 @@
 package aoc
 
+import aoc.Day11DumboOctopus.Octopus
+import aoc.Day11DumboOctopus.simulateStep
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test
-import utils.toGridOf
-import utils.gridAsString
-import utils.toIntGrid
+import utils.*
 
 internal class Day11DumboOctopusTest {
 
@@ -41,7 +41,7 @@ internal class Day11DumboOctopusTest {
         grid.simulateStep()
 
         println("Result:")
-        println(grid.gridAsString(1, selector = Octopus::energyLevel))
+        println(grid.gridAsString(1, selector = Octopus::energyLevel).ofColor(BRIGHT_YELLOW))
 
         assertArrayEquals(expected, grid)
     }

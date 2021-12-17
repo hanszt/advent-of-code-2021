@@ -3,11 +3,11 @@ package aoc
 internal object Day21 : ChallengeDay {
 
     fun part1(path: String): Int {
-        return 0
+        TODO()
     }
 
     fun part2(path: String): Int {
-        return 0
+        TODO()
     }
 
     override fun part1() = part1("input/day21.txt")

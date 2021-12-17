@@ -4,7 +4,7 @@ import java.util.*
 
 open class Node<T>(val value: T? = null) {
 
-    val neighbors = LinkedHashSet<Node<T>>()
+    internal val neighbors =  mutableSetOf<Node<T>>()
 
     fun addNeighbor(neighbor: Node<T>) = neighbors.add(neighbor)
 

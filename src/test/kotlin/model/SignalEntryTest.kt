@@ -20,9 +20,9 @@ internal class SignalEntryTest {
         val signalEntry = toSignalEntry(line)
         val patterns = signalEntry.patternNrsRepresentedByIndex()
 
-        val decodedNrs = patterns.indices.toList()
+        val decodedNrs = patterns.indices.toSet()
         assertEquals(10, decodedNrs.size)
-        assertEquals(setOf(0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9), decodedNrs.toSet())
+        assertEquals(setOf(0, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9), decodedNrs)
     }
 
     @ParameterizedTest

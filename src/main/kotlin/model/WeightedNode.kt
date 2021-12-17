@@ -1,5 +1,6 @@
 package model
 
+import utils.toMutableList
 import java.util.*
 
 class WeightedNode<T>(value: T? = null, val weight: Int) : Node<T>(value) {
@@ -11,7 +12,7 @@ class WeightedNode<T>(value: T? = null, val weight: Int) : Node<T>(value) {
         val neighborDistance = neighbor.distance + weight
         if (neighborDistance < distance) {
             distance = neighborDistance
-            shortestPath = neighbor.shortestPath.toMutableList().apply { add(neighbor) }
+            shortestPath = neighbor.shortestPath.toMutableList { add(neighbor) }
         }
     }
 }

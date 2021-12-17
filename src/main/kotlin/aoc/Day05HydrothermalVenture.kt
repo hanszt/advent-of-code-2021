@@ -8,23 +8,20 @@ import kotlin.math.max
 internal object Day05HydrothermalVenture : ChallengeDay {
 
     fun part1(path: String): Int = File(path).toVentureLines()
-            .filter { it.isHorizontal() or it.isVertical() }.asGrid()
-            .countIntersections()
+        .filter { it.isHorizontal() or it.isVertical() }.asGrid()
+        .countIntersections()
 
     fun Array<IntArray>.countIntersections(): Int = asSequence()
         .flatMap(IntArray::asSequence)
         .filter { it > 1 }
         .count()
 
-    fun File.toVentureLines(): Set<Line> = useLines { lines ->
-        lines.map(::toBeginAndEndPoint)
-            .map { (begin, end) -> Line(begin, end) }
-            .toSet()
-    }
+    fun File.toVentureLines(): Set<Line> =
+        useLines { it.map(::toBeginAndEndPoint).map { (begin, end) -> Line(begin, end) }.toSet() }
 
-    private fun toBeginAndEndPoint(line: String) = line.split("->").map { it.trim().toGridPoint() }
+    private fun toBeginAndEndPoint(line: String) = line.split("->").map(String::trim).map(::toGridPoint)
 
-    private fun String.toGridPoint() = split(',').map(String::toInt).let { (x, y) -> GridPoint(x, y) }
+    private fun toGridPoint(s: String) = s.split(',').map(String::toInt).let { (x, y) -> GridPoint(x, y) }
 
     fun part2(path: String): Int = File(path).toVentureLines().asGrid().countIntersections()
 

@@ -6,6 +6,8 @@ import aoc.Day05HydrothermalVenture.toVentureLines
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import utils.gridAsString
+import utils.random16BitColor
+import utils.ofColor
 import java.io.File
 
 internal class Day05HydrothermalVentureTest {
@@ -20,7 +22,7 @@ internal class Day05HydrothermalVentureTest {
     fun `part 2 test input`() {
         val lines = File("input/day5test.txt").toVentureLines()
         val grid = lines.asGrid()
-        println(grid.gridAsString(alignment = 2))
+        println(grid.gridAsString(alignment = 2).ofColor(random16BitColor()))
         val nrOfIntersections = grid.countIntersections()
         assertEquals(12, nrOfIntersections)
     }

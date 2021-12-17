@@ -16,7 +16,7 @@ internal class IoUtilsKtTest {
 
     @Test
     fun testUseLines() {
-        val actual = File("input/iotest.txt").useLines { it.map { s -> s.trim().length }.toList() }
+        val actual = File("input/iotest.txt").readLines().map { it.trim().length }
         assertEquals(listOf(5, 3, 2, 3, 4), actual)
     }
 

@@ -3,6 +3,7 @@ package aoc
 import aoc.Day13TransparentOrigami.toExpectedTextOrElseThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import utils.*
 
 internal class Day13TransparentOrigamiTest {
 
@@ -27,7 +28,7 @@ internal class Day13TransparentOrigamiTest {
             .....
         """.trimIndent()
         val result = Day13TransparentOrigami.part2GridAsString("input/day13test.txt")
-        println(result)
+        println(result.ofColor(GREEN))
         assertEquals(expected, result)
     }
 
@@ -42,16 +43,16 @@ internal class Day13TransparentOrigamiTest {
           .██...██..████.████.█..█.█..█.████..██..
         """.trimIndent()
         val result = Day13TransparentOrigami.part2GridAsString("input/day13-2.txt")
-        println(result)
+        println(result.ofColor(BRIGHT_BLUE))
         assertEquals(expected, result)
     }
 
     @Test
     fun `part 2 result as grid and as string`() {
         val grid = Day13TransparentOrigami.part2GridAsString("input/day13.txt")
-        println(grid)
+        println(grid.ofColor(RED))
         val text = grid.toExpectedTextOrElseThrow()
-        println(text)
+        println(text.withColors(RED, ICY_BG))
         assertEquals("CPZLPFZL", text)
     }
 }

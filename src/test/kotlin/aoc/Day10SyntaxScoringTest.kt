@@ -33,7 +33,7 @@ internal class Day10SyntaxScoringTest {
     fun `Test find first wrong closing character when corrupted`(inputToExpectedWrongTag: String) {
         val (input, expectedWrongTag) = inputToExpectedWrongTag.split(" : ")
         val (closingTag, remainder) = Day10SyntaxScoring.toCorruptedClosingCharAndRemainingChars(input)
-        assertEquals(expectedWrongTag.first(), closingTag)
+        assertEquals(expectedWrongTag.single(), closingTag)
         assertTrue(remainder.isNotEmpty())
     }
 

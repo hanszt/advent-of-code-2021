@@ -6,7 +6,9 @@ This is a project to participate in [AdventOfCode 2021](https://adventofcode.com
 Advent of Code is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language you like. People use them as a speed contest, interview prep, company training, university coursework, practice problems, or to challenge each other.
 
 This year I'm participating using Kotlin:
+
 ![prepare](src/main/resources/img.png)
+
 Project by Hans Zuidervaart, december 2021
 
 ## Sources
@@ -14,3 +16,5 @@ Project by Hans Zuidervaart, december 2021
 - [Advent of Code 2021 in Kotlin](https://blog.jetbrains.com/kotlin/2021/11/advent-of-code-2021-in-kotlin/)
 - [Kotlin](https://kotlinlang.org/)
 - [Ascii art Advent of code 2021!](http://patorjk.com/software/taag/#p=display&f=Cursive&t=Advent%20of%20code%202021!)
+- [Baeldung Dijkstra in Java](https://www.baeldung.com/java-dijkstra)
+- [Colors with ansi escape codes](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html)

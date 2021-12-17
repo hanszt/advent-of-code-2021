@@ -1,6 +1,5 @@
 package model
 
-import utils.containsAllCharsOf
 import utils.mapBoth
 import utils.mapFirst
 
@@ -10,7 +9,7 @@ internal data class SignalEntry(val uniqueSignalPatterns: List<String>, val four
         .let { patterns -> fourDigitPatterns.joinToString("") { it.decodeToDigit(patterns).toString() }.toInt() }
 
     private fun String.decodeToDigit(patterns: List<String>): Int =
-        patterns.find { (length == it.length) and ( containsAllCharsOf(it)) }.let(patterns::indexOf)
+        patterns.find { (length == it.length) and it.all(this::contains) }.let(patterns::indexOf)
 
     // A representation of all the segments labeled with nr 0 to 6.
     //      0  xxxx
@@ -29,15 +28,15 @@ internal data class SignalEntry(val uniqueSignalPatterns: List<String>, val four
         val twoThreeFive = uniqueSignalPatterns.filter { it.length == 5 }
         val zeroSixNine = uniqueSignalPatterns.filter { it.length == 6 }
 
-        val (three, twoFive) = twoThreeFive.partition { it.containsAllCharsOf(one) }.mapFirst(List<String>::first)
-        val (nine, zeroSix) = zeroSixNine.partition { it.containsAllCharsOf(three) }.mapFirst(List<String>::first)
+        val (three, twoFive) = twoThreeFive.partition { one.all(it::contains) }.mapFirst(List<String>::single)
+        val (nine, zeroSix) = zeroSixNine.partition { three.all(it::contains) }.mapFirst(List<String>::single)
 
-        val segmentOneAndThree = four.filter { it !in one }
+        val segmentOneAndThree = four.filterNot { it in one }
         val segment1Char = nine.first { it !in three }
         val segment3Char = segmentOneAndThree.first { it != segment1Char }
 
-        val (five, two) = twoFive.partition { segment1Char in it }.mapBoth(List<String>::first)
-        val (six, zero) = zeroSix.partition { segment3Char in it }.mapBoth(List<String>::first)
+        val (five, two) = twoFive.partition { segment1Char in it }.mapBoth(List<String>::single)
+        val (six, zero) = zeroSix.partition { segment3Char in it }.mapBoth(List<String>::single)
 
         return listOf(zero, one, two, three, four, five, six, seven, eight, nine)
     }
