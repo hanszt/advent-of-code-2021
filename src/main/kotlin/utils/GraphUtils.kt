@@ -2,14 +2,13 @@ package utils
 
 import model.Node
 import model.WeightedNode
-import java.util.*
 
 fun List<String>.toBiDiGraph(delimiter: String): Map<String, Node<String?>> = toBiDiGraph(delimiter) { it }
 
 fun List<String>.toBiDiGraph(delimiter: Char): Map<String, Node<String?>> = toBiDiGraph(delimiter.toString())
 
 fun <T> Array<IntArray>.toWeightedGraph(directions: List<Pair<Int, Int>>): Map<Pair<Int, Int>, WeightedNode<T>> {
-    val graph = LinkedHashMap<Pair<Int, Int>, WeightedNode<T>>()
+    val graph = mutableMapOf<Pair<Int, Int>, WeightedNode<T>>()
     forEachPoint { x, y ->
         val curNode = graph.computeIfAbsent(x to y) { WeightedNode(weight = this[y][x]) }
         directions.map { (dx, dy) -> x + dx to y + dy }
@@ -22,7 +21,7 @@ fun <T> Array<IntArray>.toWeightedGraph(directions: List<Pair<Int, Int>>): Map<P
 }
 
 inline fun <T> List<String>.toBiDiGraph(delimiter: String, mapper: (String) -> T): Map<String, Node<T>> {
-    val nodes = HashMap<String, Node<T>>()
+    val nodes = mutableMapOf<String, Node<T>>()
     for (line in this) {
         val (value, other) = line.split(delimiter)
         val node = nodes.getOrDefault(value, Node(mapper(value)))

@@ -17,12 +17,12 @@ internal object Day17TrickShot : ChallengeDay {
                     .filter { it.endsUpInTargetArea(targetAreaX, targetAreaY) }
             }
 
-    fun part2(targetAreaX: IntRange, targetAreaY: IntRange): Int {
+    fun part2(targetRangeX: IntRange, targetRangeY: IntRange): Int {
         val successfulInitVelocityVals = mutableSetOf<GridPoint>()
-        for (initVelX in 1..targetAreaX.last) {
-            for (initVelY in targetAreaY.first until upperSearchBoundY) {
+        for (initVelX in 1..targetRangeX.last) {
+            for (initVelY in targetRangeY.first until upperSearchBoundY) {
                 val probe = Probe(GridPoint(initVelX, initVelY))
-                val endsUpInTargetArea = probe.endsUpInTargetArea(targetAreaX, targetAreaY)
+                val endsUpInTargetArea = probe.endsUpInTargetArea(targetRangeX, targetRangeY)
                 if (endsUpInTargetArea) {
                     successfulInitVelocityVals.add(GridPoint(initVelX, initVelY))
                 }
@@ -43,14 +43,14 @@ internal object Day17TrickShot : ChallengeDay {
             position = position.plus(velocity)
             velocity = velocity.plusX(0.compareTo(velocity.x))
             velocity = velocity.plusY(-1)
+            highestPosition = if (position.y < (highestPosition?.y ?: 0)) highestPosition else position
             return position
         }
 
-        fun endsUpInTargetArea(targetAreaX: IntRange, targetAreaY: IntRange): Boolean {
-            while (position.x < targetAreaX.last && position.y > targetAreaY.first) {
-                val pos = updatePosition()
-                highestPosition = if (position.y < (highestPosition?.y ?: 0)) highestPosition else position
-                if (pos.x in targetAreaX && pos.y in targetAreaY) {
+        fun endsUpInTargetArea(targetRangeX: IntRange, targetRangeY: IntRange): Boolean {
+            while (position.x < targetRangeX.last && position.y > targetRangeY.first) {
+                val nextPosition = updatePosition()
+                if (nextPosition.x in targetRangeX && nextPosition.y in targetRangeY) {
                     return true
                 }
             }

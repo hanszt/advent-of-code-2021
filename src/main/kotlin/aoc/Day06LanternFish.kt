@@ -16,7 +16,7 @@ internal object Day06LanternFish : ChallengeDay {
         val daysLeftTillNewSpawnCounts = toCountsArray()
         for (day in 1..days) {
             val curDaysLeftTillNewSpawnCounts = daysLeftTillNewSpawnCounts.copyOf()
-            val nrOfNewBorns = curDaysLeftTillNewSpawnCounts[0]
+            val nrOfNewBorns = curDaysLeftTillNewSpawnCounts.first()
             daysLeftTillNewSpawnCounts[INIT_TIMER_VAL_NEW_BORN] = nrOfNewBorns
 
             for (daysLeft in 1 until curDaysLeftTillNewSpawnCounts.size) {
@@ -28,10 +28,10 @@ internal object Day06LanternFish : ChallengeDay {
     }
 
     private fun File.toCountsArray(): Array<BigInteger> {
-        val daysLeftTillNewSpawnCounts = Array(INIT_TIMER_VAL_NEW_BORN + 1) { 0.toBigInteger() }
-        readText().split(',').map { it.trim().toInt() }
-            .forEach { daysLeft -> daysLeftTillNewSpawnCounts[daysLeft]++ }
-        return daysLeftTillNewSpawnCounts
+        val daysLeftTillNewSpawn = Array(INIT_TIMER_VAL_NEW_BORN + 1) { BigInteger.ZERO }
+        readText().split(',').map(String::trim).map(String::toInt)
+            .forEach { daysLeft -> daysLeftTillNewSpawn[daysLeft]++ }
+        return daysLeftTillNewSpawn
     }
 
     override fun part1() = part1("input/day6.txt")
