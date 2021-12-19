@@ -39,11 +39,11 @@ fun Long.nanoTimeToFormattedDuration(spacer: Int = 7, decimalPlaces: Int = 3): S
     }
 }
 
+fun <T> it(value: T) = value
+
 fun <K, V> Map<K, V>.inverseMap() = map { it.value to it.key }.toMap()
 
 fun <T> Iterable<T>.toMutableList(action: MutableList<T>.() -> Unit) = toMutableList().apply(action)
 
 fun <T, R> Sequence<T>.toListOf(transform: (T) -> R) = map(transform).toList()
 
-inline fun <T, R> Iterable<T>.printAsList(delimiter: String = "", selector: (T) -> R) =
-    forEach { print("${selector(it)}$delimiter") }

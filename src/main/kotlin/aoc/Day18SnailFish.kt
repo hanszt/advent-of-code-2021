@@ -2,88 +2,119 @@ package aoc
 
 import java.io.File
 
+//
+// I've not been able to solve this day myself. This solution is from the repo Elizarov
+//
+// I did a little refactoring to understand what is going on.
+//
+// It is very educational to see such a clean and need solution. Many thanks to Elizarov for sharing his code on GitHub
+//
+// source: https://github.com/elizarov/AdventOfCode2021
 internal object Day18SnailFish : ChallengeDay {
 
-    fun part1(path: String): Int = File(path).readLines().reduce(::addSnailNrs).calculateMagnitude()
+    sealed class SnailNr {
 
-    fun addSnailNrs(current: String, other: String): String = "[$current,$other]".reduceSnailNr()
-
-    fun String.reduceSnailNr(): String {
-        var counter = 0
-        var prevSnailNr = this
-        var newSnailNr = explodeMostLeftPairNestedIn5Brackets().splitIfNrGreaterThan10()
-        while (counter < 100 && newSnailNr != prevSnailNr) {
-            println("newSnailNr = ${newSnailNr}")
-            prevSnailNr = newSnailNr
-            newSnailNr = prevSnailNr.explodeMostLeftPairNestedIn5Brackets().splitIfNrGreaterThan10()
-            counter++
+        private fun findPair(nesting: Int): Pair? {
+            if (nesting == 0) return this as? Pair?
+            if (this is Pair) {
+                left.findPair(nesting - 1)?.let { return it }
+                right.findPair(nesting - 1)?.let { return it }
+            }
+            return null
         }
-        return newSnailNr
+
+        private fun findRegular(limit: Int): Regular? = when (this) {
+            is Regular -> if (value >= limit) this else null
+            is Pair -> {
+                left.findRegular(limit)?.let { return it }
+                right.findRegular(limit)?.let { return it }
+                null
+            }
+        }
+
+        private fun traverse(keep: Pair): List<SnailNr> = when (this) {
+            is Regular -> listOf(this)
+            is Pair -> if (this == keep) listOf(this) else left.traverse(keep) + right.traverse(keep)
+        }
+
+        private fun replace(fromSnailNrToSnailNrMap: Map<SnailNr, SnailNr>): SnailNr {
+            fromSnailNrToSnailNrMap[this]?.let { return it }
+            return when (this) {
+                is Regular -> this
+                is Pair -> Pair(left.replace(fromSnailNrToSnailNrMap), right.replace(fromSnailNrToSnailNrMap))
+            }
+        }
+
+        private fun buildReplaceMap(): Map<SnailNr, SnailNr>? {
+            val pair = findPair(4)
+            if (pair != null) {
+                check(pair.left is Regular)
+                check(pair.right is Regular)
+                val pairToRegularMap = mutableMapOf<SnailNr, SnailNr>(pair to Regular(0))
+                val snailNrs = traverse(pair)
+                val i = snailNrs.indexOf(pair)
+                (snailNrs.getOrNull(i - 1) as? Regular)
+                    ?.let { pairToRegularMap[it] = Regular(it.value + pair.left.value) }
+                (snailNrs.getOrNull(i + 1) as? Regular)
+                    ?.let { pairToRegularMap[it] = Regular(it.value + pair.right.value) }
+                return pairToRegularMap
+            }
+            val regular = findRegular(10)
+            if (regular != null) {
+                val splitPair = Pair(Regular(regular.value / 2), Regular((regular.value + 1) / 2))
+                return mapOf(regular to splitPair)
+            }
+            return null
+        }
+
+        fun add(other: SnailNr): SnailNr = Pair(this, other).reduce()
+
+        fun reduce() = generateSequence(seed = this, ::reductionStep).last()
+
+        private fun reductionStep(snailNr: SnailNr): SnailNr? = snailNr.buildReplaceMap()?.let { snailNr.replace(it) }
+
+        fun magnitude(): Int = when (this) {
+            is Regular -> value
+            is Pair -> 3 * left.magnitude() + 2 * right.magnitude()
+        }
     }
 
-    fun String.explodeMostLeftPairNestedIn5Brackets(): String {
-        var nesting = 0
+    private class Regular(val value: Int) : SnailNr() {
+        override fun toString(): String = value.toString()
+    }
+
+    private class Pair(val left: SnailNr, val right: SnailNr) : SnailNr() {
+        override fun toString(): String = "[$left,$right]"
+    }
+
+    fun toSnailNr(snailNrAsString: String): SnailNr {
         var cursor = 0
-        var digitToLeft: Pair<Int, Int>? = null
-        for ((index, c) in toList().withIndex()) {
-            if (c == '[') {
-                nesting++
-                if (nesting > 4) {
-                    break
-                }
+        fun parse(): SnailNr {
+            if (snailNrAsString[cursor] == '[') {
+                cursor++
+                val left = parse()
+                check(snailNrAsString[cursor++] == ',')
+                val right = parse()
+                check(snailNrAsString[cursor++] == ']')
+                return Pair(left, right)
             }
-            if (c == ']') nesting--
-
-            if (c.isDigit()) digitToLeft = index to c.digitToInt()
-            cursor++
+            val start = cursor
+            while (snailNrAsString[cursor] in '0'..'9') cursor++
+            return Regular(snailNrAsString.substring(start, cursor).toInt())
         }
-        if (nesting <= 4) return this
-        val sb = StringBuilder()
-        while (this[cursor] != ']') {
-            val char = this[cursor]
-            if (char != '[') sb.append(char)
-            cursor++
-        }
-        val oldPair = "[$sb]"
-        val (left, right) = sb.split(',')
-        val newLeft = digitToLeft?.let { it.second + left.toInt() } ?: 0
-
-        val digitToRight: Int? = (cursor until length).asSequence()
-            .map { this[it] }
-            .firstOrNull { it.isDigit() }
-            ?.digitToInt()
-        val newRight = digitToRight?.let { it + right.toInt() } ?: 0
-        val index = digitToLeft?.first ?: 0
-        return slice(0 until index) + substring(index)
-            .replaceFirst("${digitToLeft?.second}", "$newLeft")
-            .replaceFirst("$digitToRight", "$newRight")
-            .replaceFirst(oldPair, "0")
+        return parse().also { check(cursor == snailNrAsString.length) }
     }
 
-    fun String.splitIfNrGreaterThan10(): String {
-        var doubleDigit: Int? = null
-        for (c in 0 until lastIndex) {
-            val cur = this[c]
-            val next = this[c + 1]
-            if (cur.isDigit() && next.isDigit()) {
-                doubleDigit = "$cur$next".toInt()
-                break
-            }
-        }
-        if (doubleDigit == null) return this
-        val newLeft = doubleDigit.div(2)
-        val newRight = doubleDigit.div(2) + 1
-        return replaceFirst("$doubleDigit", "[$newLeft,$newRight]")
+    private fun List<SnailNr>.findLargestSum() = let { snailNrs ->
+        snailNrs.indices.flatMap { index ->
+            snailNrs.indices.asSequence()
+                .filter { index != it }
+                .map { snailNrs[index].add(snailNrs[it]).magnitude() }
+        }.maxOf { it }
     }
 
-    fun part2(path: String): Int {
-        return 0
-    }
-
-    fun String.calculateMagnitude(): Int {
-        println(this)
-        TODO("Not yet implemented")
-    }
+    fun part1(path: String): Int = File(path).readLines().map(::toSnailNr).reduce(SnailNr::add).magnitude()
+    fun part2(path: String): Int = File(path).readLines().map(::toSnailNr).findLargestSum()
 
     override fun part1() = part1("input/day18.txt")
     override fun part2() = part2("input/day18.txt")

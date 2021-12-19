@@ -1,6 +1,6 @@
 package aoc
 
-import model.GridPoint
+import model.GridPoint2D
 
 internal object Day17TrickShot : ChallengeDay {
 
@@ -13,18 +13,18 @@ internal object Day17TrickShot : ChallengeDay {
         (0..targetAreaX.last).asSequence()
             .flatMap { initVelocityX ->
                 (0 until upperSearchBoundY)
-                    .map { initVelocityY -> Probe(GridPoint(initVelocityX, initVelocityY)) }
+                    .map { initVelocityY -> Probe(GridPoint2D(initVelocityX, initVelocityY)) }
                     .filter { it.endsUpInTargetArea(targetAreaX, targetAreaY) }
             }
 
     fun part2(targetRangeX: IntRange, targetRangeY: IntRange): Int {
-        val successfulInitVelocityVals = mutableSetOf<GridPoint>()
+        val successfulInitVelocityVals = mutableSetOf<GridPoint2D>()
         for (initVelX in 1..targetRangeX.last) {
             for (initVelY in targetRangeY.first until upperSearchBoundY) {
-                val probe = Probe(GridPoint(initVelX, initVelY))
+                val probe = Probe(GridPoint2D(initVelX, initVelY))
                 val endsUpInTargetArea = probe.endsUpInTargetArea(targetRangeX, targetRangeY)
                 if (endsUpInTargetArea) {
-                    successfulInitVelocityVals.add(GridPoint(initVelX, initVelY))
+                    successfulInitVelocityVals.add(GridPoint2D(initVelX, initVelY))
                 }
             }
         }
@@ -34,12 +34,12 @@ internal object Day17TrickShot : ChallengeDay {
     override fun part1() = part1(185..221, -122..-74)
     override fun part2() = part2(185..221, -122..-74)
 
-    private class Probe(var velocity: GridPoint = GridPoint(0, 0)) {
+    private class Probe(var velocity: GridPoint2D = GridPoint2D(0, 0)) {
 
-        var highestPosition: GridPoint? = null
-        var position = GridPoint(0, 0)
+        var highestPosition: GridPoint2D? = null
+        var position = GridPoint2D(0, 0)
 
-        private fun updatePosition(): GridPoint {
+        private fun updatePosition(): GridPoint2D {
             position = position.plus(velocity)
             velocity = velocity.plusX(0.compareTo(velocity.x))
             velocity = velocity.plusY(-1)

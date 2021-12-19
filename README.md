@@ -11,6 +11,13 @@ This year I'm participating using Kotlin:
 
 Project by Hans Zuidervaart, december 2021
 
+## I was not able to solve the following days myself
+- [Day 16 packet decoder](https://github.com/TheTurkeyDev/Advent-of-Code-2021/blob/main/src/dev/theturkey/aoc2021/Day16.java)
+- [Day 18 snail fish](https://github.com/elizarov/AdventOfCode2021/blob/main/src/Day18.kt)
+- [Day 19 beacon scanner](https://github.com/elizarov/AdventOfCode2021/blob/main/src/Day19_fast.kt)
+
+Full credits for Elizarov and the turkey dev for these days
+
 ## Sources
 - [Get Ready for Advent of Code 2021](https://www.youtube.com/watch?v=6-XSehwRgSY)
 - [Advent of Code 2021 in Kotlin](https://blog.jetbrains.com/kotlin/2021/11/advent-of-code-2021-in-kotlin/)
@@ -18,3 +25,5 @@ Project by Hans Zuidervaart, december 2021
 - [Ascii art Advent of code 2021!](http://patorjk.com/software/taag/#p=display&f=Cursive&t=Advent%20of%20code%202021!)
 - [Baeldung Dijkstra in Java](https://www.baeldung.com/java-dijkstra)
 - [Colors with ansi escape codes](https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html)
+- [Repo of Elizarov](https://github.com/elizarov/AdventOfCode2021)
+- [Repo of The TurkeyDev](https://github.com/TheTurkeyDev/Advent-of-Code-2021)

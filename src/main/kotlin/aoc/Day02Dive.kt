@@ -1,6 +1,6 @@
 package aoc
 
-import model.GridPoint
+import model.GridPoint2D
 import utils.mapSecond
 import utils.toEnds
 import utils.toListOf
@@ -11,24 +11,24 @@ internal object Day02Dive : ChallengeDay {
     fun part1(filePath: String) = File(filePath).useLines { lines ->
         lines.toDirAndStepSizes()
             .map { (dir, size) -> toVector(dir, size) }
-            .reduce(GridPoint::plus)
+            .reduce(GridPoint2D::plus)
             .run { x * y }
     }
 
     private fun toVector(dir: String, size: Int) = when (dir) {
-        "up" -> GridPoint(0, -size)
-        "down" -> GridPoint(0, size)
-        "forward" -> GridPoint(size, 0)
-        else -> GridPoint(0, 0)
+        "up" -> GridPoint2D(0, -size)
+        "down" -> GridPoint2D(0, size)
+        "forward" -> GridPoint2D(size, 0)
+        else -> GridPoint2D(0, 0)
     }
 
     fun part2(filePath: String): Int {
         val pairs = File(filePath).useLines { it.toDirAndStepSizes() }
-        var result = GridPoint(0, 0)
+        var result = GridPoint2D(0, 0)
         var aim = 0
         for ((dir, stepSize) in pairs) {
             when (dir) {
-                "forward" -> result += GridPoint(stepSize, stepSize * aim)
+                "forward" -> result += GridPoint2D(stepSize, stepSize * aim)
                 "up" -> aim -= stepSize
                 "down" -> aim += stepSize
             }

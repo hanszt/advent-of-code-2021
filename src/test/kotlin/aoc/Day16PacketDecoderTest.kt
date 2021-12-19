@@ -24,5 +24,4 @@ internal class Day16PacketDecoderTest {
     @Test
     fun `test from hexadecimal to binary`() =
         assertEquals("110100101111111000101000", "D2FE28".hexToBinaryPacket().binary)
-
 }

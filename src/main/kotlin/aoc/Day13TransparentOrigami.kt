@@ -59,7 +59,7 @@ internal object Day13TransparentOrigami : ChallengeDay {
 
     fun part2(path: String) = part2GridAsString(path).toExpectedTextOrElseThrow()
 
-    //later added to display result as text when launched from main
+    //later added to display result as text when launched from aoc.main
     internal fun String.toExpectedTextOrElseThrow(): String {
         val expected = """
             .██..███..████.█....███..████.████.█....

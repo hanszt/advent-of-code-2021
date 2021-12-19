@@ -1,6 +1,6 @@
 package aoc
 
-import model.GridPoint
+import model.GridPoint2D
 import utils.toIntGrid
 import java.io.File
 
@@ -27,18 +27,18 @@ internal object Day09SmokeBasin : ChallengeDay {
         indices.flatMap { y ->
             first().indices.map { x ->
                 val neighborHeights = directions.mapNotNull { (dx, dy) -> getOrNull(y + dy)?.getOrNull(x + dx) }
-                return@map Triple(GridPoint(x, y), this[y][x], neighborHeights)
+                return@map Triple(GridPoint2D(x, y), this[y][x], neighborHeights)
             }
         }
 
-    fun Array<IntArray>.findBassinPoints(x: Int, y: Int, bassinPoints: MutableSet<GridPoint>) {
+    fun Array<IntArray>.findBassinPoints(x: Int, y: Int, bassinPoints: MutableSet<GridPoint2D>) {
         val basinSize = bassinPoints.size
         for ((dx, dy) in directions) {
             val xNew = x + dx
             val yNew = y + dy
             val neighborHeight = getOrNull(yNew)?.getOrNull(xNew) ?: continue
             if (neighborHeight != 9 && neighborHeight > this[y][x]) {
-                bassinPoints.add(GridPoint(xNew, yNew))
+                bassinPoints.add(GridPoint2D(xNew, yNew))
                 findBassinPoints(xNew, yNew, bassinPoints)
             }
         }

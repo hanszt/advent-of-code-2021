@@ -76,7 +76,7 @@ The 11 bits labeled B contain the second sub-packet, a literal value representin
 The 11 bits labeled C contain the third sub-packet, a literal value representing the number 3.
 After reading 3 complete sub-packets, the number of sub-packets indicated in L (3) is reached, and so parsing of this packet stops.
 
-For now, parse the hierarchy of the packets throughout the transmission and add up all of the version numbers.
+For now, parse the hierarchy of the packets throughout the transmission and aoc.add up all of the version numbers.
 
 Here are a few more examples of hexadecimal-encoded transmissions:
 
@@ -84,7 +84,7 @@ Here are a few more examples of hexadecimal-encoded transmissions:
 620080001611562C8802118E34 represents an operator packet (version 3) which contains two sub-packets; each sub-packet is an operator packet that contains two literal values. This packet has a version sum of 12.
 C0015000016115A2E0802F182340 has the same structure as the previous example, but the outermost packet uses a different length type ID. This packet has a version sum of 23.
 A0016C880162017C3686B18A3D4780 is an operator packet that contains an operator packet that contains an operator packet that contains five literal values; it has a version sum of 31.
-Decode the structure of your hexadecimal-encoded BITS transmission; what do you get if you add up the version numbers in all packets?
+Decode the structure of your hexadecimal-encoded BITS transmission; what do you get if you aoc.add up the version numbers in all packets?
 
 Your puzzle answer was 866.
 

@@ -23,7 +23,7 @@ fun main() {
         Day16PacketDecoder,
         Day17TrickShot,
         Day18SnailFish,
-        Day19,
+        Day19BeaconScanner,
         Day20,
         Day21,
         Day22,

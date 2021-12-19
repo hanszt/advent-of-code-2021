@@ -2,17 +2,16 @@ package aoc
 
 import utils.toListOf
 import java.io.File
-import java.math.BigInteger
 
+// Credits to Turkey dev
 internal object Day16PacketDecoder : ChallengeDay {
-
-    private const val HEX_NR_RADIX = 16
 
     fun part1(path: String) = File(path).readText().hexToBinaryPacket().toVersionNrSum()
     fun part2(path: String) = File(path).readText().hexToBinaryPacket().parseBinary()
 
-    fun String.hexToBinaryPacket() = trim().map { BigInteger(it.toString(), HEX_NR_RADIX).toString(2) }
-        .joinToString("") { it.padStart(4, '0') }.let(::Packet)
+    fun String.hexToBinaryPacket() = trim()
+        .map { it.digitToInt(radix = 16).toString(radix = 2).padStart(4, '0') }
+        .joinToString("").let(::Packet)
 
     override fun part1() = part1("input/day16.txt")
     override fun part2() = part2("input/day16.txt")

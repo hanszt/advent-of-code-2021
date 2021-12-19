@@ -60,7 +60,7 @@ Now, discard the corrupted lines. The remaining lines are incomplete.
 
 Incomplete lines don't have any incorrect characters - instead, they're missing some closing characters at the end of the line. To repair the navigation subsystem, you just need to figure out the sequence of closing characters that complete all open chunks in the line.
 
-You can only use closing characters (), ], }, or >), and you must add them in the correct order so that only legal pairs are formed and all chunks end up closed.
+You can only use closing characters (), ], }, or >), and you must aoc.add them in the correct order so that only legal pairs are formed and all chunks end up closed.
 
 In the example above, there are five incomplete lines:
 ````
@@ -80,10 +80,10 @@ Did you know that autocomplete tools also have contests? It's true! The score is
 So, the last completion string above - ])}> - would be scored as follows:
 
 Start with a total score of 0.
-Multiply the total score by 5 to get 0, then add the value of ] (2) to get a new total score of 2.
-Multiply the total score by 5 to get 10, then add the value of ) (1) to get a new total score of 11.
-Multiply the total score by 5 to get 55, then add the value of } (3) to get a new total score of 58.
-Multiply the total score by 5 to get 290, then add the value of > (4) to get a new total score of 294.
+Multiply the total score by 5 to get 0, then aoc.add the value of ] (2) to get a new total score of 2.
+Multiply the total score by 5 to get 10, then aoc.add the value of ) (1) to get a new total score of 11.
+Multiply the total score by 5 to get 55, then aoc.add the value of } (3) to get a new total score of 58.
+Multiply the total score by 5 to get 290, then aoc.add the value of > (4) to get a new total score of 294.
 The five lines' completion strings have total scores as follows:
 ````
 }}]])})] - 288957 total points.

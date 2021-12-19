@@ -5,7 +5,7 @@ import aoc.Day09SmokeBasin.toLowPoints
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import model.GridPoint
+import model.GridPoint2D
 import utils.CYAN
 import utils.ofColor
 import utils.toIntGrid
@@ -44,7 +44,7 @@ internal class Day09SmokeBasinTest {
 
         val (lowestPoint) = intGrid.toLowPoints().first()
 
-        val basinPoints = LinkedHashSet<GridPoint>().apply { add(lowestPoint) }
+        val basinPoints = LinkedHashSet<GridPoint2D>().apply { add(lowestPoint) }
         intGrid.findBassinPoints(lowestPoint.x, lowestPoint.y, basinPoints)
 
         basinPoints.forEach { (x, y) -> println("x=$x, y=$y, value=${intGrid[y][x]}".ofColor(CYAN)) }
