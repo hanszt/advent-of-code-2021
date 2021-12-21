@@ -26,7 +26,7 @@ fun CharSequence.containsNoDigits() = "\\D+".toRegex().matches(this)
 
 fun CharSequence.splitByBlankLine(): List<String> = split(Regex("(?m)^\\s*$")).map(String::trim)
 
-fun Int.wrapBack(limit: Int, goal: Int): Int = (this - goal) % limit + goal
+fun Int.wrapBack(to: Int, after: Int): Int = (this - to) % (after - to + 1) + to
 
 fun String.camelCaseToSentence(): String = camelRegex.replace(this) { " ${it.value}" }
     .lowercase().replaceFirstChar(Char::uppercase)

@@ -29,7 +29,7 @@ internal class Day17TrickShotTest {
         val positions = path.stream().mapToInt(GridPoint2D::y).summaryStatistics()
         val grid = Array(positions.max - positions.min + 1) { IntArray(maxX + 1) }
         path.forEach { (x, y) -> grid[y - positions.min][x] = 1 }
-        println(grid.mirroredHorizontally().gridAsStringOf(1,"") {
+        println(grid.mirroredHorizontally().gridAsString(1,"") {
             if (it == 0) ".".withColors(BRIGHT_BLUE, ICY_BG) else "#".withColors(RED, ICY_BG) })
         assertTrue(path.isNotEmpty())
     }

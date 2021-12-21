@@ -101,8 +101,8 @@ inline fun <reified T> Array<Array<T>>.mirroredVertically(): Array<Array<T>> =
 fun Array<IntArray>.gridAsString(alignment: Int = 2, separator: String = "") =
     map { row -> row.joinToString(separator) { "%${alignment}d".format(it) } }.joinToString("\n") { it }
 
-fun <T> Array<IntArray>.gridAsStringOf(alignment: Int = 2, separator: String = "", transform: (Int) -> T) =
-    map { row -> row.joinToString(separator) { "%${alignment}s".format(transform(it)) } }
+fun <T> Array<IntArray>.gridAsString(alignment: Int = 2, separator: String = "", selector: (Int) -> T) =
+    map { row -> row.joinToString(separator) { "%${alignment}s".format(selector(it)) } }
         .joinToString("\n") { it }
 
 inline fun <T, R> Array<Array<T>>.gridAsString(

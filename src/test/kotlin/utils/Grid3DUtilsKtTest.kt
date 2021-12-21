@@ -2,18 +2,18 @@ package utils
 
 import model.GridPoint3D
 import org.junit.jupiter.api.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 internal class Grid3DUtilsKtTest {
 
     @Test
     fun `test reorient`() {
         val point = GridPoint3D(1, 2, 3)
-        val newOrientations = orientations.map { reorient -> reorient(point) }.toSet()
-        for (index in orientations.indices) {
-            val newOrientation = point.rotateEli(index)
+        val newOrientations = orientations.map { reorient -> reorient(point) }.toList()
+        for (orientation in orientations.indices) {
+            val newOrientation = point.rotate(orientation)
             println("newOrientation = $newOrientation")
-            assertTrue { newOrientation in newOrientations }
+            assertEquals(newOrientations[orientation], newOrientation)
         }
     }
 
@@ -25,7 +25,7 @@ internal class Grid3DUtilsKtTest {
     }
 
     // from Elizarov
-    private fun GridPoint3D.rotateEli(index: Int): GridPoint3D {
+    private fun GridPoint3D.rotate(index: Int): GridPoint3D {
         val c0 = index % 3
         val c0s = 1 - ((index / 3) % 2) * 2
         val c1 = (c0 + 1 + (index / 6) % 2) % 3

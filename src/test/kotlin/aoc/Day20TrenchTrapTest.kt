@@ -33,7 +33,7 @@ internal class Day20TrenchTrapTest {
 
     @Test
     fun `part 2 print resulting image`() {
-        val result = resultImage.gridAsStringOf {
+        val result = resultImage.gridAsString {
             if (it == 1) "#".withColors(GREEN, BROWN_BG)
             else ".".withColor(random16BitColor()) }
         println(result)

@@ -33,14 +33,13 @@ internal class Day15ChitonTest {
         val endPoint = first().lastIndex to lastIndex
         val start = graph[startPoint] ?: throw IllegalStateException()
         val goal = graph[endPoint] ?: throw IllegalStateException()
-        val shortestPath = start.dijkstra(goal).shortestPath.toMutableList { add(goal) }
         val nodesToCoordinates = graph.inverseMap()
         val grid = toGridOf(Int::toString)
-        shortestPath.mapNotNull(nodesToCoordinates::get)
+
+        start.dijkstra(goal).shortestPath.toMutableList { add(goal) }.mapNotNull(nodesToCoordinates::get)
             .forEach { (x, y) -> grid[y][x] = grid[y][x].withColors(BRIGHT_YELLOW, YELLOW_BG, 2) }
-        return grid.gridAsString(-1) {
-            if (it.length == 1) it.withColors(BROWN_BG, random16BitColor(), 2) else it
-        }
+
+        return grid.gridAsString { if (it.length == 1) it.withColors(BROWN_BG, random16BitColor(), 2) else it }
     }
 
 }
