@@ -6,9 +6,9 @@ import java.io.File
 
 internal object Day09SmokeBasin : ChallengeDay {
 
-    fun part1(path: String) = File(path).readLines().toIntGrid().toLowPoints().sumOf { (_, height) -> height + 1 }
+    fun part1(path: String) = File(path).readLines().toIntGrid(Char::digitToInt).toLowPoints().sumOf { (_, height) -> height + 1 }
 
-    fun part2(path: String) = File(path).readLines().toIntGrid().findBassinSizes().sortedDescending()
+    fun part2(path: String) = File(path).readLines().toIntGrid(Char::digitToInt).findBassinSizes().sortedDescending()
         .slice(0 until 3).reduce { thisSize, otherSize -> thisSize * otherSize }
 
     private fun Array<IntArray>.findBassinSizes() =

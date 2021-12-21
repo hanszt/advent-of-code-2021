@@ -3,7 +3,7 @@ package aoc
 import utils.*
 
 fun main() {
-    println(readTextFromResource("/title.txt").ofColor(RED))
+    println(readTextFromResource("/title.txt").withColor(RED))
     val totalSolveTime = sequenceOf(
         Day01SonarSweep,
         Day02Dive,
@@ -24,8 +24,8 @@ fun main() {
         Day17TrickShot,
         Day18SnailFish,
         Day19BeaconScanner,
-        Day20,
-        Day21,
+        Day20TrenchTrap,
+        Day21DiracDice,
         Day22,
         Day23,
         Day24,
@@ -34,7 +34,7 @@ fun main() {
         .onEach(::println)
         .sumOf(AocResult::solveTimeNanos)
     println("%nTotal solve time: %2.3f seconds%n".format(totalSolveTime / 1e9))
-    println(readTextFromResource("/banner.txt").ofColor(GREEN))
+    println(readTextFromResource("/banner.txt").withColor(GREEN))
 }
 
 internal data class AocResult(val name: String, val result: Result<String>, val solveTimeNanos: Long) {
@@ -43,6 +43,6 @@ internal data class AocResult(val name: String, val result: Result<String>, val 
 
     private fun Int.toColor(colors: List<String>) = if (result.isSuccess) colors[this % colors.size] else RED
 
-    override fun toString(): String = "%-40s Result: %-42s Solve time: %-7s".ofColor(color)
+    override fun toString(): String = "%-40s Result: %-42s Solve time: %-7s".withColor(color)
         .format(name, result.getOrElse { "Failure: ${it.message}" }, solveTimeNanos.nanoTimeToFormattedDuration())
 }

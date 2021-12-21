@@ -28,7 +28,7 @@ internal class Day13TransparentOrigamiTest {
             .....
         """.trimIndent()
         val result = Day13TransparentOrigami.part2GridAsString("input/day13test.txt")
-        println(result.ofColor(GREEN))
+        println(result.withColor(GREEN))
         assertEquals(expected, result)
     }
 
@@ -43,14 +43,14 @@ internal class Day13TransparentOrigamiTest {
           .██...██..████.████.█..█.█..█.████..██..
         """.trimIndent()
         val result = Day13TransparentOrigami.part2GridAsString("input/day13-2.txt")
-        println(result.ofColor(BRIGHT_BLUE))
+        println(result.withColor(BRIGHT_BLUE))
         assertEquals(expected, result)
     }
 
     @Test
     fun `part 2 result as grid and as string`() {
         val grid = Day13TransparentOrigami.part2GridAsString("input/day13.txt")
-        println(grid.ofColor(RED))
+        println(grid.withColor(RED))
         val text = grid.toExpectedTextOrElseThrow()
         println(text.withColors(RED, ICY_BG))
         assertEquals("CPZLPFZL", text)

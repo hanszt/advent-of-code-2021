@@ -22,7 +22,7 @@ internal class Day15ChitonTest {
 
     @Test
     fun `part 2 result as grid`() {
-        val pathInGridAsString = File("input/day15-2.txt").readLines().toIntGrid().pathInGridAsString()
+        val pathInGridAsString = File("input/day15-2.txt").readLines().toIntGrid(Char::digitToInt).pathInGridAsString()
         println(pathInGridAsString)
         assertTrue(pathInGridAsString.isNotBlank())
     }

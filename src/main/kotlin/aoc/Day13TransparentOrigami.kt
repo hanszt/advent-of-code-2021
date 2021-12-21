@@ -21,14 +21,12 @@ internal object Day13TransparentOrigami : ChallengeDay {
     }
 
     private fun Array<Array<Char>>.foldGrid(foldInstr: Pair<Char, Int>): Array<Array<Char>> {
-        var foldedGrid = this
         val (dir, value) = foldInstr
-        foldedGrid = when (dir) {
-            'x' -> foldedGrid.foldAlongX(value)
-            'y' -> foldedGrid.foldAlongY(value)
+        return when (dir) {
+            'x' -> foldAlongX(value)
+            'y' -> foldAlongY(value)
             else -> throw IllegalStateException()
         }
-        return foldedGrid
     }
 
     private fun Array<Array<Char>>.foldAlongY(value: Int) = let { grid ->
@@ -76,13 +74,8 @@ internal object Day13TransparentOrigami : ChallengeDay {
         }
     }
 
-    private fun Array<Array<Char>>.foldByInstructions(instructions: List<Pair<Char, Int>>): Array<Array<Char>> {
-        var foldedGrid = this
-        for (instr in instructions) {
-            foldedGrid = foldedGrid.foldGrid(instr)
-        }
-        return foldedGrid
-    }
+    private fun Array<Array<Char>>.foldByInstructions(instructions: List<Pair<Char, Int>>): Array<Array<Char>> =
+        instructions.fold(this) { grid, instruction -> grid.foldGrid(instruction)}
 
     override fun part1() = part1("input/day13.txt")
     override fun part2() = part2("input/day13.txt")

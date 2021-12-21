@@ -1,5 +1,6 @@
 package aoc
 
+import utils.self
 import utils.reduce
 import utils.splitByBlankLine
 import java.io.File
@@ -19,24 +20,15 @@ internal object Day14ExtendedPolymerization : ChallengeDay {
 
     private fun solve(path: String, steps: Int) = parseInput(path)
         .let { (instructions, initPolymer) ->
-            toPairToCountMap(instructions, initPolymer, steps)
+            toPairCounts(instructions, initPolymer, steps)
                 .toMaxAndMinCount(initPolymer.first())
                 .reduce(Long::minus)
         }
 
-    private fun toPairToCountMap(
-        instructions: List<Pair<String, Char>>,
-        polymer: String,
-        steps: Int
-    ): Map<String, Long> {
-        var pairToCountMap = toInitPairToCountMap(polymer)
-        for (step in 1..steps) {
-            pairToCountMap = applyStep(instructions, pairToCountMap)
-        }
-        return pairToCountMap
-    }
+    private fun toPairCounts(instructions: List<Pair<String, Char>>, polymer: String, steps: Int): Map<String, Long> =
+        (1..steps).fold(initPairCounts(polymer)) { pairCounts, _ -> applyStep(instructions, pairCounts) }
 
-    private fun toInitPairToCountMap(polymer: String): MutableMap<String, Long> {
+    private fun initPairCounts(polymer: String): MutableMap<String, Long> {
         val pairToCountMap = mutableMapOf<String, Long>()
         for (index in 0 until polymer.lastIndex) {
             val pair = polymer[index].toString() + polymer[index + 1].toString()
@@ -66,7 +58,7 @@ internal object Day14ExtendedPolymerization : ChallengeDay {
         for ((pair, pairCount) in this) {
             charToCountMap.merge(pair.last(), pairCount, Long::plus)
         }
-        return charToCountMap.values.run { maxOf { it } to minOf { it } }
+        return charToCountMap.values.run { maxOf(::self) to minOf(::self) }
     }
 
     override fun part1() = part1("input/day14.txt")

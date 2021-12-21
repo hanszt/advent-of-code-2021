@@ -64,4 +64,9 @@ internal class Day18SnailFishTest {
         val result = snailNr.add(other)
         assertEquals(expected, result.toString())
     }
+
+    @Test
+    fun `snail nrs as string`() {
+
+    }
 }

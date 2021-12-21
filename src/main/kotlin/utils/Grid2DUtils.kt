@@ -8,7 +8,8 @@ package utils
 fun List<String>.toIntGrid(regex: Regex): Array<IntArray> =
     map { it.trim().split(regex).map(String::toInt).toIntArray() }.toTypedArray()
 
-fun List<String>.toIntGrid(): Array<IntArray> = map { it.map(Char::digitToInt).toIntArray() }.toTypedArray()
+fun List<String>.toIntGrid(transform: (Char) -> Int): Array<IntArray> =
+    map { it.map { c -> transform(c) }.toIntArray() }.toTypedArray()
 
 inline fun <reified T> List<String>.toGridOf(regex: Regex, mapper: (String) -> T): Array<Array<T>> =
     map { it.split(regex).map { char -> mapper(char) }.toTypedArray() }.toTypedArray()
@@ -100,7 +101,7 @@ inline fun <reified T> Array<Array<T>>.mirroredVertically(): Array<Array<T>> =
 fun Array<IntArray>.gridAsString(alignment: Int = 2, separator: String = "") =
     map { row -> row.joinToString(separator) { "%${alignment}d".format(it) } }.joinToString("\n") { it }
 
-fun Array<IntArray>.gridAsStringOf(alignment: Int = 2, separator: String = "", transform: (Int) -> String) =
+fun <T> Array<IntArray>.gridAsStringOf(alignment: Int = 2, separator: String = "", transform: (Int) -> T) =
     map { row -> row.joinToString(separator) { "%${alignment}s".format(transform(it)) } }
         .joinToString("\n") { it }
 
@@ -108,8 +109,7 @@ inline fun <T, R> Array<Array<T>>.gridAsString(
     alignment: Int = 2,
     separator: String = "",
     crossinline selector: (T) -> R
-) =
-    map { row -> row.joinToString(separator) { "%${alignment}s".format(selector(it)) } }.joinToString("\n") { it }
+) = map { row -> row.joinToString(separator) { "%${alignment}s".format(selector(it)) } }.joinToString("\n") { it }
 
 fun <T> Array<Array<T>>.gridAsString(alignment: Int = 2, separator: String = "") =
     gridAsString(alignment, separator) { it }

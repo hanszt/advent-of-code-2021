@@ -7,7 +7,7 @@ internal object Day17TrickShot : ChallengeDay {
     private const val upperSearchBoundY = 1000
 
     fun part1(targetAreaX: IntRange, targetAreaY: IntRange): Int =
-        probesInTargetArea(targetAreaX, targetAreaY).maxOf { it.highestPosition?.y ?: 0 }
+        probesInTargetArea(targetAreaX, targetAreaY).maxOf { it.highestPosition.y }
 
     private fun probesInTargetArea(targetAreaX: IntRange, targetAreaY: IntRange) =
         (0..targetAreaX.last).asSequence()
@@ -34,17 +34,26 @@ internal object Day17TrickShot : ChallengeDay {
     override fun part1() = part1(185..221, -122..-74)
     override fun part2() = part2(185..221, -122..-74)
 
-    private class Probe(var velocity: GridPoint2D = GridPoint2D(0, 0)) {
+    internal class Probe(var velocity: GridPoint2D = GridPoint2D(0, 0)) {
 
-        var highestPosition: GridPoint2D? = null
+        var highestPosition: GridPoint2D = GridPoint2D(0,Int.MIN_VALUE)
         var position = GridPoint2D(0, 0)
 
         private fun updatePosition(): GridPoint2D {
             position = position.plus(velocity)
             velocity = velocity.plusX(0.compareTo(velocity.x))
             velocity = velocity.plusY(-1)
-            highestPosition = if (position.y < (highestPosition?.y ?: 0)) highestPosition else position
+            highestPosition = if (position.y < highestPosition.y) highestPosition else position
             return position
+        }
+
+        fun getPath(minY: Int = 0): Set<GridPoint2D> {
+            val path = mutableSetOf(position)
+            while (position.y >= minY) {
+                val nextPosition = updatePosition()
+                path.add(nextPosition)
+            }
+            return path
         }
 
         fun endsUpInTargetArea(targetRangeX: IntRange, targetRangeY: IntRange): Boolean {

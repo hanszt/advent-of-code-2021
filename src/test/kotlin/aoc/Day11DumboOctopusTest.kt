@@ -29,19 +29,19 @@ internal class Day11DumboOctopusTest {
             50005
             40004
             34543
-        """.trimIndent().lines().toIntGrid().toGridOf(::Octopus)
+        """.trimIndent().lines().toIntGrid(Char::digitToInt).toGridOf(::Octopus)
         val grid = """
             11111
             19991
             19191
             19991
             11111
-        """.trimIndent().lines().toIntGrid().toGridOf(::Octopus)
+        """.trimIndent().lines().toIntGrid(Char::digitToInt).toGridOf(::Octopus)
 
         grid.simulateStep()
 
         println("Result:")
-        println(grid.gridAsString(1, selector = Octopus::energyLevel).ofColor(BRIGHT_YELLOW))
+        println(grid.gridAsString(1, selector = Octopus::energyLevel).withColor(BRIGHT_YELLOW))
 
         assertArrayEquals(expected, grid)
     }

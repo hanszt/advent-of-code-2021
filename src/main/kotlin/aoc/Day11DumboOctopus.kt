@@ -12,12 +12,11 @@ internal object Day11DumboOctopus : ChallengeDay {
         File(path).readLines().toGridOf { Octopus(it.digitToInt()) }.findSynchronizationStep()
 
     private fun Array<Array<Octopus>>.findSynchronizationStep(): Int = generateSequence { simulateStep() }
-        .takeWhile { anyInGrid { octopus -> octopus.energyLevel != 1 } }
+        .takeWhile { anyInGrid { it.energyLevel != 1 } }
         .count()
 
-    private fun Array<Array<Octopus>>.simulateEnergyLevels(steps: Int): Array<Array<Octopus>> = apply {
-        (1..steps).map { _ -> simulateStep() }
-    }
+    private fun Array<Array<Octopus>>.simulateEnergyLevels(steps: Int): Array<Array<Octopus>> =
+        apply { (1..steps).map { simulateStep() } }
 
     internal fun Array<Array<Octopus>>.simulateStep() {
         forEachInGrid(Octopus::incrementEnergy)

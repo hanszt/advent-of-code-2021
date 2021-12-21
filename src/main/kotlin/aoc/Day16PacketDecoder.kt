@@ -47,13 +47,10 @@ internal object Day16PacketDecoder : ChallengeDay {
                 generateSequence { }.takeWhile { (cursor < start + binaryLength) }.toListOf { parseBinary() }
             } else (0 until bitsAsDecimal(length = 11)).map { parseBinary() }
 
-        private fun parseLiteral(): Long {
-            var firstBit = currentBit()
-            return (generateSequence { }.takeWhile { firstBit == "1" }
-                .joinToString(separator = "") { readBits(length = 4).also { firstBit = currentBit() } }
-                .plus(readBits(length = 4)))
-                .toLong(radix = 2)
-        }
+        private fun parseLiteral(): Long = (generateSequence { currentBit() }.takeWhile { it == "1" }
+            .joinToString(separator = "") { readBits(length = 4) }
+            .plus(readBits(length = 4)))
+            .toLong(radix = 2)
 
         private fun bitsAsDecimal(length: Int) = readBits(length).toInt(radix = 2)
         private fun currentBit() = readBits(length = 1)
