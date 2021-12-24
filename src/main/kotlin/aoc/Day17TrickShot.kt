@@ -6,8 +6,8 @@ internal object Day17TrickShot : ChallengeDay {
 
     private const val upperSearchBoundY = 1000
 
-    fun part1(targetAreaX: IntRange, targetAreaY: IntRange): Int =
-        probesInTargetArea(targetAreaX, targetAreaY).maxOf { it.highestPosition.y }
+    fun part1(targetRangeX: IntRange, targetRangeY: IntRange): Int =
+        probesInTargetArea(targetRangeX, targetRangeY).maxOf { it.highestPosition.y }
 
     private fun probesInTargetArea(targetAreaX: IntRange, targetAreaY: IntRange) =
         (0..targetAreaX.last).asSequence()

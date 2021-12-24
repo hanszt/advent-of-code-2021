@@ -29,8 +29,7 @@ internal class Day18SnailFishTest {
     )
     fun `test reduce nr`(snailNrToExpected: String) {
         val (snailNrAsString, expected) = snailNrToExpected.split(" -> ")
-        val snailNr = Day18SnailFish.toSnailNr(snailNrAsString)
-        val reducedNr = snailNr.reduce()
+        val reducedNr = Day18SnailFish.toSnailNr(snailNrAsString).reduce()
         assertEquals(expected, reducedNr.toString())
     }
 
@@ -58,15 +57,7 @@ internal class Day18SnailFishTest {
     )
     fun `add two snail nrs`(equation: String) {
         val (nrsToAdd, expected) = equation.split(" = ")
-        val (first, second) = nrsToAdd.split(" + ")
-        val snailNr = Day18SnailFish.toSnailNr(first)
-        val other = Day18SnailFish.toSnailNr(second)
-        val result = snailNr.add(other)
+        val result = nrsToAdd.split(" + ").map(Day18SnailFish::toSnailNr).reduce(Day18SnailFish.SnailNr::plus)
         assertEquals(expected, result.toString())
-    }
-
-    @Test
-    fun `snail nrs as string`() {
-
     }
 }

@@ -15,7 +15,7 @@ internal object Day03BinaryDiagnostic : ChallengeDay {
         return gammaRate * epsilonRate
     }
 
-    private fun List<CharArray>.sumOnesBinaryDigits(): List<Int> = map { binary -> binary.map { it.digitToInt() } }
+    private fun List<CharArray>.sumOnesBinaryDigits(): List<Int> = map { binary -> binary.map(Char::digitToInt) }
         .reduce { result, curBinary -> result.indices.map { result[it] + curBinary[it]} }
 
     fun part2(path: String): Int = File(path).readLines()

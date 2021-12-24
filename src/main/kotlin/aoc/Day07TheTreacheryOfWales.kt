@@ -1,5 +1,6 @@
 package aoc
 
+import utils.sumNaturalNrs
 import java.io.File
 import kotlin.math.abs
 
@@ -16,7 +17,7 @@ internal object Day07TheTreacheryOfWales : ChallengeDay {
                 .minOf { it }
         }
 
-    private fun toFuelConsumptionPart2(start: Int, alignmentPos: Int) = (1..abs(start - alignmentPos)).sum()
+    private fun toFuelConsumptionPart2(start: Int, alignmentPos: Int) = sumNaturalNrs(bound = abs(start - alignmentPos))
 
     override fun part1() = part1("input/day7.txt")
     override fun part2() = part2("input/day7.txt")

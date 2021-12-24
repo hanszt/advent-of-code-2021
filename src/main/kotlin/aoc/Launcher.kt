@@ -26,8 +26,8 @@ fun main() {
         Day19BeaconScanner,
         Day20TrenchTrap,
         Day21DiracDice,
-        Day22,
-        Day23,
+        Day22ReactorReboot,
+        Day23Amphipod(),
         Day24,
         Day25,
     ).flatMap(ChallengeDay::runParts)

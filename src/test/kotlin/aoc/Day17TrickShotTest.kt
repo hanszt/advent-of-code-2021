@@ -22,6 +22,16 @@ internal class Day17TrickShotTest {
     fun `part 2 result`() = assertEquals(3019, Day17TrickShot.part2().also(::println))
 
     @Test
+    fun `part 1 answer analytical`() {
+        val highestPosYTest = calculateHighestPosition(-10)
+        val highestPosY = calculateHighestPosition(-122)
+        assertEquals(45, highestPosYTest)
+        assertEquals(7381, highestPosY)
+    }
+
+    private fun calculateHighestPosition(bottomYTargetArea: Int): Int = sumNaturalNrs(bound = -(bottomYTargetArea + 1))
+
+    @Test
     fun `display traveled path`() {
         val probe = Probe(velocity = GridPoint2D(10, 3))
         val path = probe.getPath()

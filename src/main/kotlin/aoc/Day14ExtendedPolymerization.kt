@@ -44,7 +44,7 @@ internal object Day14ExtendedPolymerization : ChallengeDay {
         val newPairToCountMap = mutableMapOf<String, Long>()
         for ((instruction, toInsert) in instructions) {
             val newPair1 = instruction.first().plus(toInsert.toString())
-            val newPair2 = toInsert.toString().plus(instruction.last())
+            val newPair2 = toInsert.toString() + instruction.last()
             pairToCountMap[instruction]?.let { count ->
                 newPairToCountMap.merge(newPair1, count, Long::plus)
                 newPairToCountMap.merge(newPair2, count, Long::plus)

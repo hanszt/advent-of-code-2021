@@ -67,7 +67,7 @@ internal object Day18SnailFish : ChallengeDay {
             return null
         }
 
-        fun add(other: SnailNr): SnailNr = Pair(this, other).reduce()
+        operator fun plus(other: SnailNr): SnailNr = Pair(this, other).reduce()
 
         fun reduce() = generateSequence(seed = this, ::reductionStep).last()
 
@@ -109,11 +109,11 @@ internal object Day18SnailFish : ChallengeDay {
         snailNrs.indices.flatMap { index ->
             snailNrs.indices.asSequence()
                 .filter { index != it }
-                .map { snailNrs[index].add(snailNrs[it]).magnitude() }
+                .map { (snailNrs[index] + snailNrs[it]).magnitude() }
         }.maxOf { it }
     }
 
-    fun part1(path: String): Int = File(path).readLines().map(::toSnailNr).reduce(SnailNr::add).magnitude()
+    fun part1(path: String): Int = File(path).readLines().map(::toSnailNr).reduce(SnailNr::plus).magnitude()
     fun part2(path: String): Int = File(path).readLines().map(::toSnailNr).findLargestSum()
 
     override fun part1() = part1("input/day18.txt")
