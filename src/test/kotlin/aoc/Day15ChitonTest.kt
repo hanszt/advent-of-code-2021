@@ -28,7 +28,7 @@ internal class Day15ChitonTest {
     }
 
     private fun Array<IntArray>.pathInGridAsString(): String {
-        val graph = toWeightedGraph<Any>(listOf(-1 to 1, 0 to 1, 1 to 0))
+        val graph = toWeightedGraph<Any>(listOf(-1 to 0, -1 to 0, 0 to 1, 1 to 0))
         val startPoint = 0 to 0
         val endPoint = first().lastIndex to lastIndex
         val start = graph[startPoint] ?: throw IllegalStateException()
