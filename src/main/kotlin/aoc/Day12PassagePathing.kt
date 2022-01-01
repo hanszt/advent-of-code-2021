@@ -3,7 +3,6 @@ package aoc
 import model.Node
 import utils.allPathsByDfs
 import utils.toBiDiGraph
-import utils.toMutableList
 import java.io.File
 import java.util.*
 
@@ -32,7 +31,7 @@ internal object Day12PassagePathing : ChallengeDay {
     private fun findPathsByBfs(src: Node<Cave>, goal: Node<Cave>, caveAllowedToVisitTwice: Node<Cave>): Set<String> {
         val uniquePaths = mutableSetOf<String>()
 
-        val pathsQueue: Queue<MutableList<Node<Cave>>> = LinkedList()
+        val pathsQueue: Queue<List<Node<Cave>>> = LinkedList()
         pathsQueue.offer(mutableListOf(src))
         while (pathsQueue.isNotEmpty()) {
             val currentPath = pathsQueue.poll()
@@ -49,7 +48,7 @@ internal object Day12PassagePathing : ChallengeDay {
                 val allowedToVisitTwice = neighbor.value?.allowedToVisitTwice ?: false &&
                         currentPath.count { it == caveAllowedToVisitTwice } < 2
                 if (neighbor !in currentPath || isBigCave || allowedToVisitTwice) {
-                    val newPath = currentPath.toMutableList { add(neighbor) }
+                    val newPath = currentPath.plus(neighbor)
                     pathsQueue.offer(newPath)
                 }
             }

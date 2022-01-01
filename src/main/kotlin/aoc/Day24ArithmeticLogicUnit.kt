@@ -29,16 +29,14 @@ internal object Day24ArithmeticLogicUnit : ChallengeDay {
         null to 16
     )
 
-    private fun createInputSpace(intProgression: IntProgression): List<IntArray> {
-        return buildList {
-            intProgression.forEach { i1 ->
-                intProgression.forEach { i2 ->
-                    intProgression.forEach { i3 ->
-                        intProgression.forEach { i4 ->
-                            intProgression.forEach { i5 ->
-                                intProgression.forEach { i6 ->
-                                    intProgression.forEach { i7 -> add(intArrayOf(i1, i2, i3, i4, i5, i6, i7)) }
-                                }
+    private fun createInputSpace(intProgression: IntProgression) = buildList {
+        intProgression.forEach { i1 ->
+            intProgression.forEach { i2 ->
+                intProgression.forEach { i3 ->
+                    intProgression.forEach { i4 ->
+                        intProgression.forEach { i5 ->
+                            intProgression.forEach { i6 ->
+                                intProgression.forEach { i7 -> add(intArrayOf(i1, i2, i3, i4, i5, i6, i7)) }
                             }
                         }
                     }

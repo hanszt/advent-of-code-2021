@@ -3,7 +3,6 @@ package aoc
 import model.GridPoint2D
 import utils.mapSecond
 import utils.toEnds
-import utils.toListOf
 import java.io.File
 
 internal object Day02Dive : ChallengeDay {
@@ -36,7 +35,7 @@ internal object Day02Dive : ChallengeDay {
         return result.x * result.y
     }
 
-    private fun Sequence<String>.toDirAndStepSizes() = toListOf { it.split(" ").toEnds().mapSecond(String::toInt) }
+    private fun Sequence<String>.toDirAndStepSizes() = map { it.split(" ").toEnds().mapSecond(String::toInt) }.toList()
 
     override fun part1() = part1("input/day2.txt")
     override fun part2() = part2("input/day2.txt")

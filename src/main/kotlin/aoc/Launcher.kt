@@ -40,7 +40,7 @@ fun main() {
 internal data class AocResult(val name: String, val result: Result<String>, val solveTimeNanos: Long) {
 
     private val dayNr = name.slice(3..4).toInt()
-    private val color = dayNr.toColor(primaryColorList)
+    private val color = dayNr.toColor(listOf(BRIGHT_BLUE, RESET, GREEN, RESET, YELLOW, RESET, CYAN, RESET))
 
     private fun Int.toColor(colors: List<String>) = if (result.isSuccess) colors[this % colors.size] else RED
 

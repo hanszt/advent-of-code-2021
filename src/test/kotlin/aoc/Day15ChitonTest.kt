@@ -36,7 +36,7 @@ internal class Day15ChitonTest {
         val nodesToCoordinates = graph.inverseMap()
         val grid = toGridOf(Int::toString)
 
-        start.dijkstra(goal).shortestPath.toMutableList { add(goal) }.mapNotNull(nodesToCoordinates::get)
+        start.dijkstra(goal).shortestPath.plus(goal).mapNotNull(nodesToCoordinates::get)
             .forEach { (x, y) -> grid[y][x] = grid[y][x].withColors(BRIGHT_YELLOW, YELLOW_BG, 2) }
 
         return grid.gridAsString { if (it.length == 1) it.withColors(BROWN_BG, random16BitColor(), 2) else it }

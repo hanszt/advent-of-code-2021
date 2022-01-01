@@ -47,10 +47,4 @@ fun sumOfArithmeticSeries(first: Int, last: Int, termCount: Int) = (first + last
 
 fun <T> self(value: T) = value
 
-fun <T> T.conclude(action: (T) -> Unit) = action(this)
-
 fun <K, V> Map<K, V>.inverseMap() = map { it.value to it.key }.toMap()
-
-fun <T> Iterable<T>.toMutableList(action: MutableList<T>.() -> Unit) = toMutableList().apply(action)
-
-fun <T, R> Sequence<T>.toListOf(transform: (T) -> R) = map(transform).toList()

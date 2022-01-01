@@ -1,6 +1,5 @@
 package aoc
 
-import utils.toListOf
 import java.io.File
 
 // Credits to Turkey dev
@@ -44,7 +43,7 @@ internal object Day16PacketDecoder : ChallengeDay {
             if (currentBit() == "0") {
                 val binaryLength = bitsAsDecimal(length = 15)
                 val start = cursor
-                generateSequence { }.takeWhile { (cursor < start + binaryLength) }.toListOf { parseBinary() }
+                generateSequence { }.takeWhile { (cursor < start + binaryLength) }.map { parseBinary() }.toList()
             } else (0 until bitsAsDecimal(length = 11)).map { parseBinary() }
 
         private fun parseLiteral(): Long = (generateSequence { currentBit() }.takeWhile { it == "1" }

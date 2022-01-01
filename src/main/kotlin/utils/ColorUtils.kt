@@ -15,15 +15,18 @@ const val BROWN_BG = "\u001B[48;5;88m"
 const val ICY_BG = "\u001B[48;5;87m"
 const val SIXTEEN_BIT = 16
 
+//https://en.wikipedia.org/wiki/ANSI_escape_code
 val colorTable16Bit = to16bitAnsiColorTabel()
 
 val bgColorTable16Bit = to16bitAnsiColorTabel(true)
 
-val primaryColorList = listOf(GREEN, RESET, BRIGHT_BLUE, RESET, YELLOW, RESET, CYAN, RESET)
+val standardColors = colorTable16Bit.values.toList().slice(0..7)
 
-fun String.withColor(ansiCode: String, size: Int = 1) = "${ansiCode}%${size}s${RESET}".format(this)
+val highIntensityColors = colorTable16Bit.values.toList().slice(8..15)
 
-fun String.withColors(textColor: String, backgroundColor: String, size: Int = 1) =
+fun <T> T.withColor(ansiCode: String, size: Int = 1) = "${ansiCode}%${size}s${RESET}".format(this)
+
+fun <T> T.withColors(textColor: String, backgroundColor: String, size: Int = 1) =
     "${backgroundColor}${textColor}%${size}s${RESET}".format(this)
 
 fun to16bitAnsiColorTabel(bgColors: Boolean = false): Map<Int, String> {
@@ -34,7 +37,9 @@ fun to16bitAnsiColorTabel(bgColors: Boolean = false): Map<Int, String> {
 
 fun random16BitColor() = colorTable16Bit.values.random()
 
-fun randomPrimaryColor() = primaryColorList.random()
+fun randomStandardColor() = standardColors.random()
+
+fun randomHighIntensityColor() = highIntensityColors.random()
 
 fun randomBgColor() = to16bitAnsiColorTabel().values.random()
 

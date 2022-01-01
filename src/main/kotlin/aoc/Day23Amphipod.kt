@@ -1,5 +1,6 @@
 package aoc
 
+import utils.*
 import java.io.File
 import java.util.*
 import kotlin.math.abs
@@ -162,8 +163,15 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
         fun copy(usedEnergy: Int) = Burrow(grid.map(CharArray::copyOf).toTypedArray(), usedEnergy)
 
         override fun toString(): String = buildList {
-            add("#".repeat(13))
-            addAll(grid.map(CharArray::concatToString))
+            add(" ".repeat(13).withColor(BROWN_BG))
+            addAll(grid.map(CharArray::concatToString).map { it.map { char -> when(char) {
+                'A' -> char.withColor(RED)
+                'B' -> char.withColor(GREEN)
+                'C' -> char.withColor(BRIGHT_BLUE)
+                'D' -> char.withColor(YELLOW)
+                '#' -> ' '.withColor(BROWN_BG)
+                else -> char
+            } }.joinToString("") })
         }.joinToString("\n")
 
         companion object {
