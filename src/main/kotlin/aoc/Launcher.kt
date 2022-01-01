@@ -4,7 +4,7 @@ import utils.*
 
 fun main() {
     println(readTextFromResource("/title.txt").withColor(RED))
-    val totalSolveTime = sequenceOf(
+    val results = sequenceOf(
         Day01SonarSweep,
         Day02Dive,
         Day03BinaryDiagnostic,
@@ -28,21 +28,22 @@ fun main() {
         Day21DiracDice,
         Day22ReactorReboot,
         Day23Amphipod(),
-        Day24,
-        Day25,
+        Day24ArithmeticLogicUnit,
+        Day25SeaCucumber
     ).flatMap(ChallengeDay::runParts)
         .onEach(::println)
-        .sumOf(AocResult::solveTimeNanos)
-    println("%nTotal solve time: %2.3f seconds%n".format(totalSolveTime / 1e9))
+        .toList()
+    println("%nTotal solve time: %2.3f seconds%n".format(results.sumOf(AocResult::solveTimeNanos) / 1e9))
     println(readTextFromResource("/banner.txt").withColor(GREEN))
 }
 
 internal data class AocResult(val name: String, val result: Result<String>, val solveTimeNanos: Long) {
 
-    private val color = name.slice(3..4).toInt().toColor(primaryColorList)
+    private val dayNr = name.slice(3..4).toInt()
+    private val color = dayNr.toColor(primaryColorList)
 
     private fun Int.toColor(colors: List<String>) = if (result.isSuccess) colors[this % colors.size] else RED
 
-    override fun toString(): String = "%-40s Result: %-42s Solve time: %-7s".withColor(color)
+    override fun toString(): String = "%-40s Result: %-50s Solve time: %-7s".withColor(color)
         .format(name, result.getOrElse { "Failure: ${it.message}" }, solveTimeNanos.nanoTimeToFormattedDuration())
 }

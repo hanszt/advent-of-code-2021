@@ -17,6 +17,14 @@ internal object Day01SonarSweep : ChallengeDay {
         window1 < window2
     }
 
+    fun part2V2(filePath: String) = File(filePath).useLines { lines ->
+        lines.map(String::toInt)
+            .windowed(3)
+            .map(List<Int>::sum)
+            .zipWithNext()
+            .count { (x, y) -> y > x }
+    }
+
     override fun part1() = part1("input/day1.txt")
     override fun part2() = part2( "input/day1.txt")
 }

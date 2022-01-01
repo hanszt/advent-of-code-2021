@@ -11,6 +11,9 @@ internal class Day23AmphipodTest {
     fun `part 1 test input`() = assertEquals(12521, day23Amphipod.part1("input/day23test.txt"))
 
     @Test
+    fun `least energy rooms three deep`() = assertEquals(26284, day23Amphipod.part1("input/day23deep.txt"))
+
+    @Test
     fun `part 1 result`() = assertEquals(14348, day23Amphipod.part1().also(::println))
 
     @Test

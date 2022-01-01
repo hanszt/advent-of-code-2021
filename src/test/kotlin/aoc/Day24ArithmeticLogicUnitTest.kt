@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Test
 internal class Day24ArithmeticLogicUnitTest {
 
     @Test
-    fun `part 1 test input`() = assertEquals(0, Day24ArithmeticLogicUnit.part1("input/day24test.txt"))
+    fun `part 1 result`() = assertEquals(99598963999971, Day24ArithmeticLogicUnit.part1().also(::println))
 
     @Test
-    fun `part 1 result`() = assertEquals(0, Day24ArithmeticLogicUnit.part1().also(::println))
+    fun `part 2 result`() = assertEquals(93151411711211, Day24ArithmeticLogicUnit.part2().also(::println))
 
     @Test
-    fun `part 2 test input`() = assertEquals(0, Day24ArithmeticLogicUnit.part2("input/day24test.txt"))
-
-    @Test
-    fun `part 2 result`() = assertEquals(0, Day24ArithmeticLogicUnit.part2().also(::println))
+    fun `test floor division`() {
+        var x = 5
+        x /= 3
+        println(x)
+        assertEquals(1, x)
+    }
 }

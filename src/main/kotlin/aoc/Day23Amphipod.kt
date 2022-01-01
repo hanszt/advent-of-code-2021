@@ -14,40 +14,44 @@ import kotlin.math.abs
 //
 internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeDay {
 
-    fun part1(path: String): Int = File(path).readLines().subList(1, 4)
+    fun part1(path: String): Int = File(path).readLines().let {  it.slice(1 until it.lastIndex) }
         .let { input -> Burrow(input.map(String::toCharArray).toTypedArray()) }.also { if (testMode) println(it) }
         .let(::calculateMinimumUsedEnergy)
 
+    fun part2(path: String): Int = File(path).readLines().subList(1, 4)
+        .let { (first, second, bottom) -> listOf(first, second, "  #D#C#B#A#  ", "  #D#B#A#C#  ", bottom) }
+        .let { input -> Burrow(input.map(String::toCharArray).toTypedArray()) }.also { if (testMode) println(it) }
+        .let(::calculateMinimumUsedEnergy)
+
+    override fun part1() = part1("input/day23.txt")
+    override fun part2() = part2("input/day23.txt")
+
     // adapted form of Dijkstra
     private fun calculateMinimumUsedEnergy(start: Burrow): Int {
-        val priorityQueue = PriorityQueue(compareBy(Burrow::usedEnergy))
+        val queue = PriorityQueue(compareBy(Burrow::usedEnergy)).apply { enqueue(start) }
         val checkedBurrows = mutableSetOf<Burrow>()
 
-        priorityQueue.enqueue(start)
-        val minimumUsedEnergy: Int
-        while (true) {
-            val burrow = priorityQueue.remove()
+        while (queue.isNotEmpty()) {
+            val burrow = queue.remove()
+            if (burrow.inWantedConfiguration()) {
+                if (testMode) println(burrow)
+                return burrow.usedEnergy
+            }
             if (burrow !in checkedBurrows) {
+                burrow.printIfInTestMode(queue.size, checkedBurrows.size)
+                burrow.ifPossibleMoveInHallWay(queue)
+                burrow.ifPossibleMoveToTargetRoom(queue)
                 checkedBurrows.add(burrow)
-                val usedEnergy = Burrow.burrowToUsedEnergyMap[burrow] ?: Int.MAX_VALUE
-                checkedBurrows.printIfInTestMode(usedEnergy, priorityQueue)
-                if (burrow.inWantedConfiguration()) {
-                    if (testMode) println(burrow)
-                    minimumUsedEnergy = burrow.usedEnergy
-                    break
-                }
-                burrow.ifPossibleMoveInHallWay(usedEnergy, priorityQueue)
-                burrow.ifPossibleMoveToTargetRoom(usedEnergy, priorityQueue)
             }
         }
-        return minimumUsedEnergy
+        throw IllegalStateException("No minimum energy found")
     }
 
-    private fun Burrow.ifPossibleMoveToTargetRoom(usedEnergy: Int, priorityQueue: PriorityQueue<Burrow>) {
+    private fun Burrow.ifPossibleMoveToTargetRoom(queue: Queue<Burrow>) {
         for (x in 1..hallWayLength) {
             val amphipod = grid[0][x]
             if (amphipod.isAmphipod()) {
-                val targetRoomNr = (amphipod - 'A')
+                val targetRoomNr = amphipod - 'A'
                 val targetX = roomX(targetRoomNr)
                 if (noOtherAmphipodInWay(x, targetX) && allWantedAmphipodTypeOrEmpty(targetX, amphipod)) {
                     val firstEmptyY = (roomDepth downTo 1).first { roomY -> grid[roomY][targetX] == '.' }
@@ -55,22 +59,22 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
                     val copy = copy(usedEnergy + amphipod.energyToMove() * distanceMoved)
                     copy.grid[0][x] = '.'
                     copy.grid[firstEmptyY][targetX] = amphipod
-                    priorityQueue.enqueue(copy)
+                    queue.enqueue(copy)
                 }
             }
         }
     }
 
-    private fun Burrow.ifPossibleMoveInHallWay(usedEnergy: Int, priorityQueue: Queue<Burrow>) {
+    private fun Burrow.ifPossibleMoveInHallWay(queue: Queue<Burrow>) {
         for (room in 0..lastRoomNr) {
             for (curY in 1..roomDepth) {
                 val roomX = roomX(room)
-                ifPossibleMoveInHallWay(roomX, curY, usedEnergy, priorityQueue)
+                ifPossibleMoveInHallWay(roomX, curY, queue)
             }
         }
     }
 
-    private fun Burrow.ifPossibleMoveInHallWay(roomX: Int, curY: Int, usedEnergy: Int, priorityQueue: Queue<Burrow>) {
+    private fun Burrow.ifPossibleMoveInHallWay(roomX: Int, curY: Int, queue: Queue<Burrow>) {
         val amphipod = grid[curY][roomX]
         if (amphipod.isAmphipod() && freePassageInRoomToTarget(curY, roomX)) {
             for (hallWayX in 1..hallWayLength) {
@@ -79,23 +83,24 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
                     val copy = copy(usedEnergy + amphipod.energyToMove() * distanceMoved)
                     copy.grid[curY][roomX] = '.'
                     copy.grid[0][hallWayX] = amphipod
-                    priorityQueue.enqueue(copy)
+                    queue.enqueue(copy)
                 }
             }
         }
     }
 
     private fun Queue<Burrow>.enqueue(burrow: Burrow) {
-        val usedEnergy = Burrow.burrowToUsedEnergyMap[burrow] ?: Int.MAX_VALUE
+        val usedEnergy = Burrow.burrowToMinimumUsedEnergyMap[burrow] ?: Int.MAX_VALUE
         if (burrow.usedEnergy < usedEnergy) {
-            Burrow.burrowToUsedEnergyMap[burrow] = burrow.usedEnergy
+            Burrow.burrowToMinimumUsedEnergyMap[burrow] = burrow.usedEnergy
             add(burrow)
         }
     }
 
-    private fun Set<Burrow>.printIfInTestMode(leastUsedEnergy: Int, priorityQueue: Queue<Burrow>) {
-        if (testMode && size % 10_000 == 0) {
-            println("least used energy=$leastUsedEnergy, queue size=${priorityQueue.size}, set size=$size")
+    private fun Burrow.printIfInTestMode(queueSize: Int, setSize: Int) {
+        if (testMode && setSize % 10_000 == 0) {
+            println("least used energy=$usedEnergy, queue size=$queueSize, set size=$setSize")
+            println(this)
         }
     }
 
@@ -108,22 +113,6 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
         'D' -> 1000
         else -> error("$this")
     }
-
-    fun part2(path: String): Int = File(path).readLines().subList(1, 4)
-        .let { (firstRow, secondRow, bottomRow) -> createInputPart2(firstRow, secondRow, bottomRow) }
-        .let { input -> Burrow(input.map(String::toCharArray).toTypedArray()) }.also { if (testMode) println(it) }
-        .let(::calculateMinimumUsedEnergy)
-
-    private fun createInputPart2(firstRow: String, secondRow: String, bottomRow: String): List<String> = listOf(
-        firstRow,
-        secondRow,
-        "  #D#C#B#A#  ",
-        "  #D#B#A#C#  ",
-        bottomRow
-    )
-
-    override fun part1() = part1("input/day23.txt")
-    override fun part2() = part2("input/day23.txt")
 
     //
     //    The Burrow
@@ -168,7 +157,7 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
             other is Burrow && (0..roomDepth).all { y -> grid[y].contentEquals(other.grid[y]) }
 
         override fun hashCode(): Int = (0..roomDepth)
-            .fold(0) { result, depth -> result + grid[depth].contentHashCode() }
+            .fold(0) { hashCode, depth -> hashCode + grid[depth].contentHashCode() }
 
         fun copy(usedEnergy: Int) = Burrow(grid.map(CharArray::copyOf).toTypedArray(), usedEnergy)
 
@@ -178,7 +167,7 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
         }.joinToString("\n")
 
         companion object {
-            val burrowToUsedEnergyMap = HashMap<Burrow, Int>()
+            val burrowToMinimumUsedEnergyMap = HashMap<Burrow, Int>()
         }
     }
 }
