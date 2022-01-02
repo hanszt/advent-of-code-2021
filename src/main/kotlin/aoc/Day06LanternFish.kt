@@ -34,6 +34,6 @@ internal object Day06LanternFish : ChallengeDay {
         return daysLeftTillNewSpawn
     }
 
-    override fun part1() = part1("input/day6.txt")
-    override fun part2() = part2("input/day6.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day6.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day6.txt")
 }

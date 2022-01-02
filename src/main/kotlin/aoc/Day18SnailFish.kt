@@ -116,6 +116,6 @@ internal object Day18SnailFish : ChallengeDay {
     fun part1(path: String): Int = File(path).readLines().map(::toSnailNr).reduce(SnailNr::plus).magnitude()
     fun part2(path: String): Int = File(path).readLines().map(::toSnailNr).findLargestSum()
 
-    override fun part1() = part1("input/day18.txt")
-    override fun part2() = part2("input/day18.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day18.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day18.txt")
 }

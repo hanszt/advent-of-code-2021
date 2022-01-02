@@ -33,6 +33,6 @@ internal object Day05HydrothermalVenture : ChallengeDay {
         return grid
     }
 
-    override fun part1() = part1("input/day5.txt")
-    override fun part2() = part2("input/day5.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day5.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day5.txt")
 }

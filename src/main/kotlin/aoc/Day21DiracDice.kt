@@ -10,7 +10,7 @@ internal object Day21DiracDice : ChallengeDay {
         .map { Player(0, position = it) }
         .let { (player1, player2) -> playGame(player1, player2) }
 
-    override fun part1() = part1("input/day21.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day21.txt")
 
     private fun playGame(player1: Player, player2: Player, winningScore: Int = 1000): Int {
         var round = 0
@@ -63,7 +63,7 @@ internal object Day21DiracDice : ChallengeDay {
     fun part2(path: String): Long =
         File(path).toStartingPositions().let { (player1, player2) -> findMaxWinningCount(player1, player2, 21) }
 
-    override fun part2() = part2("input/day21.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day21.txt")
 
     // I've not been able to solve part 2 of day 21 myself. This solution is from the repo from Elizarov. All credits go to him.
     //

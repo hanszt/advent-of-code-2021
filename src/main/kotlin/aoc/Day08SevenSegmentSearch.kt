@@ -16,6 +16,6 @@ internal object Day08SevenSegmentSearch : ChallengeDay {
         .map(::toSignalEntry)
         .sumOf(SignalEntry::decodeNumber)
 
-    override fun part1() = part1("input/day8.txt")
-    override fun part2() = part2("input/day8.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day8.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day8.txt")
 }

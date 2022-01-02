@@ -61,6 +61,6 @@ internal object Day14ExtendedPolymerization : ChallengeDay {
         return charToCountMap.values.run { maxOf(::self) to minOf(::self) }
     }
 
-    override fun part1() = part1("input/day14.txt")
-    override fun part2() = part2("input/day14.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day14.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day14.txt")
 }

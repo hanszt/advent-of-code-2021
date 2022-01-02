@@ -49,6 +49,6 @@ internal object Day04GiantSquid : ChallengeDay {
 
     private fun List<String>.nrsToDrawList() = first().split(",").map(String::toInt)
 
-    override fun part1() = part1("input/day4.txt")
-    override fun part2() = part2("input/day4.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day4.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day4.txt")
 }

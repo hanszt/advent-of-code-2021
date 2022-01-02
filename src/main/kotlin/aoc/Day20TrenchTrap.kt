@@ -44,6 +44,6 @@ internal object Day20TrenchTrap : ChallengeDay {
         return Pair(algo, image)
     }
 
-    override fun part1() = part1("input/day20.txt")
-    override fun part2() = part2("input/day20.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day20.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day20.txt")
 }

@@ -57,8 +57,8 @@ internal object Day12PassagePathing : ChallengeDay {
         return uniquePaths
     }
 
-    override fun part1() = part1("input/day12.txt")
-    override fun part2() = part2("input/day12.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day12.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day12.txt")
 
     internal data class Cave(val label: String, var allowedToVisitTwice: Boolean)
 }

@@ -45,7 +45,7 @@ internal object Day09SmokeBasin : ChallengeDay {
         if (basinSize == bassinPoints.size) return
     }
 
-    override fun part1() = part1("input/day9.txt")
-    override fun part2() = part2("input/day9.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day9.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day9.txt")
 }
 

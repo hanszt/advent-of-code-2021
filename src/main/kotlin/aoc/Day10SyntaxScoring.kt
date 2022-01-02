@@ -60,6 +60,6 @@ internal object Day10SyntaxScoring : ChallengeDay {
     private fun toScoreCompletionList(chars: List<Char>): Long =
         chars.mapNotNull(closingToScorePart2::get).map(Int::toLong).reduce { score, cur -> score * 5 + cur }
 
-    override fun part1() = part1("input/day10.txt")
-    override fun part2() = part2("input/day10.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day10.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day10.txt")
 }

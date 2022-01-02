@@ -12,8 +12,8 @@ internal object Day16PacketDecoder : ChallengeDay {
         .map { it.digitToInt(radix = 16).toString(radix = 2).padStart(4, '0') }
         .joinToString("").let(::Packet)
 
-    override fun part1() = part1("input/day16.txt")
-    override fun part2() = part2("input/day16.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day16.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day16.txt")
 
     class Packet(val binary: String) {
 

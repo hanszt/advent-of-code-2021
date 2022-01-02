@@ -75,8 +75,8 @@ internal object Day22ReactorReboot : ChallengeDay {
     private fun toIntRange(xRange: String) = xRange.substring(2).split("..")
         .map(String::toInt).let { (start, end) -> start..end }
 
-    override fun part1() = part1("input/day22.txt")
-    override fun part2() = part2("input/day22.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day22.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day22.txt")
 
     data class Cuboid(val on: Boolean, val xRange: IntRange, val yRange: IntRange, val zRange: IntRange)
 }

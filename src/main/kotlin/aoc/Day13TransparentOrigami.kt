@@ -77,6 +77,6 @@ internal object Day13TransparentOrigami : ChallengeDay {
     private fun Array<Array<Char>>.foldByInstructions(instructions: List<Pair<Char, Int>>): Array<Array<Char>> =
         instructions.fold(this) { grid, instruction -> grid.foldGrid(instruction)}
 
-    override fun part1() = part1("input/day13.txt")
-    override fun part2() = part2("input/day13.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day13.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day13.txt")
 }

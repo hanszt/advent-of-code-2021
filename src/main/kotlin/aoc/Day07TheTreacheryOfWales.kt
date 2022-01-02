@@ -19,6 +19,6 @@ internal object Day07TheTreacheryOfWales : ChallengeDay {
 
     private fun toFuelConsumptionPart2(start: Int, alignmentPos: Int) = sumNaturalNrs(bound = abs(start - alignmentPos))
 
-    override fun part1() = part1("input/day7.txt")
-    override fun part2() = part2("input/day7.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day7.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day7.txt")
 }

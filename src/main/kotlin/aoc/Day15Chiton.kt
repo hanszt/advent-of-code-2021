@@ -38,6 +38,6 @@ internal object Day15Chiton : ChallengeDay {
         return enlarged
     }
 
-    override fun part1() = part1("input/day15.txt")
-    override fun part2() = part2("input/day15.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day15.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day15.txt")
 }

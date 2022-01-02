@@ -37,6 +37,6 @@ internal object Day25SeaCucumber : ChallengeDay {
         return movedX || movedY
     }
 
-    override fun part1() = part1("input/day25.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day25.txt")
     override fun part2() = "To get the key, all fifty stars are required"
 }

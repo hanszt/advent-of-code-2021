@@ -62,7 +62,7 @@ internal object Day11DumboOctopus : ChallengeDay {
         override fun toString(): String = "$energyLevel $flashed $nrFlashes"
     }
 
-    override fun part1() = part1("input/day11.txt")
-    override fun part2() = part2("input/day11.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day11.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day11.txt")
 }
 

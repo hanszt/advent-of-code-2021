@@ -6,8 +6,8 @@ internal interface ChallengeDay {
 
     fun runParts(): List<AocResult> {
         val name = javaClass.simpleName.camelCaseToSentence()
-        val result1 = runChallengeTimed(::part1, "$name part 1")
-        val result2 = runChallengeTimed(::part2, "$name part 2")
+        val result1 = runChallengeTimed({ part1() }, "$name part 1")
+        val result2 = runChallengeTimed({ part2() }, "$name part 2")
         return listOf(result1, result2)
     }
 
@@ -19,4 +19,8 @@ internal interface ChallengeDay {
 
     fun part1(): Any
     fun part2(): Any
+
+    companion object {
+        var inputDir: String = "input"
+    }
 }

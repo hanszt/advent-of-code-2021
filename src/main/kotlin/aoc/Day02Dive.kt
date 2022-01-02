@@ -37,6 +37,6 @@ internal object Day02Dive : ChallengeDay {
 
     private fun Sequence<String>.toDirAndStepSizes() = map { it.split(" ").toEnds().mapSecond(String::toInt) }.toList()
 
-    override fun part1() = part1("input/day2.txt")
-    override fun part2() = part2("input/day2.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day2.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day2.txt")
 }

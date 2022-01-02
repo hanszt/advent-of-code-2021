@@ -25,6 +25,6 @@ internal object Day01SonarSweep : ChallengeDay {
             .count { (x, y) -> y > x }
     }
 
-    override fun part1() = part1("input/day1.txt")
-    override fun part2() = part2( "input/day1.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day1.txt")
+    override fun part2() = part2( ChallengeDay.inputDir + "/day1.txt")
 }

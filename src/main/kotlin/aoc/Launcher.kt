@@ -2,7 +2,8 @@ package aoc
 
 import utils.*
 
-fun main() {
+fun main(args: Array<String>) {
+    if (args.isNotEmpty()) ChallengeDay.inputDir = args.first()
     println(readTextFromResource("/title.txt").withColor(RED))
     val results = sequenceOf(
         Day01SonarSweep,

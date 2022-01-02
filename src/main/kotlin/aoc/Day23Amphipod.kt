@@ -24,8 +24,8 @@ internal class Day23Amphipod(private val testMode: Boolean = false) : ChallengeD
         .let { input -> Burrow(input.map(String::toCharArray).toTypedArray()) }.also { if (testMode) println(it) }
         .let(::calculateMinimumUsedEnergy)
 
-    override fun part1() = part1("input/day23.txt")
-    override fun part2() = part2("input/day23.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day23.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day23.txt")
 
     // adapted form of Dijkstra
     private fun calculateMinimumUsedEnergy(start: Burrow): Int {

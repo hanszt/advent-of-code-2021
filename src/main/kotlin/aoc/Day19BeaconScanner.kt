@@ -72,6 +72,6 @@ internal object Day19BeaconScanner : ChallengeDay {
     fun part1(path: String): Int = calculateBeaconCountAndScannerPositions(path).first
     fun part2(path: String): Int = calculateBeaconCountAndScannerPositions(path).second.largestDistance()
 
-    override fun part1() = part1("input/day19.txt")
-    override fun part2() = part2("input/day19.txt")
+    override fun part1() = part1(ChallengeDay.inputDir + "/day19.txt")
+    override fun part2() = part2(ChallengeDay.inputDir + "/day19.txt")
 }
