@@ -5,6 +5,8 @@ import utils.*
 fun main(args: Array<String>) {
     if (args.isNotEmpty()) ChallengeDay.inputDir = args.first()
     println(readTextFromResource("/title.txt").withColor(RED))
+    println("By Hans Zuidervaart")
+    println("Credits to Roman Elizarov, The Turkey Dev and William Y Feng%n%n".format())
     val results = sequenceOf(
         Day01SonarSweep,
         Day02Dive,
