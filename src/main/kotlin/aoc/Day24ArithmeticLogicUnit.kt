@@ -1,6 +1,7 @@
 package aoc
 
-import utils.self
+import java.io.File
+import kotlin.math.absoluteValue
 
 //
 // Thanks to William Y. Feng for explaining the solution: See https://www.youtube.com/watch?v=Eswmo7Y7C4U
@@ -9,25 +10,6 @@ import utils.self
 //
 //
 internal object Day24ArithmeticLogicUnit : ChallengeDay {
-
-    // these values are extracted from the input dataset. See https://www.youtube.com/watch?v=Eswmo7Y7C4U for how these
-    // values where obtained
-    private val incrementToRequired = listOf(
-        8 to null,
-        8 to null,
-        12 to null,
-        null to 8,
-        2 to null,
-        8 to null,
-        null to 11,
-        9 to null,
-        null to 3,
-        3 to null,
-        null to 3,
-        null to 1,
-        null to 10,
-        null to 16
-    )
 
     private fun createInputSpace(intProgression: IntProgression) = buildList {
         intProgression.forEach { i1 ->
@@ -46,7 +28,7 @@ internal object Day24ArithmeticLogicUnit : ChallengeDay {
     }
 
     @Suppress("KotlinConstantConditions")
-    private fun validNr(digits: IntArray): IntArray? {
+    private fun IntArray.toValidNr(incrementToRequired: List<Pair<Int?, Int?>>): IntArray? {
         var z = 0
         var digitsIndex = 0
         val result = IntArray(14)
@@ -55,8 +37,8 @@ internal object Day24ArithmeticLogicUnit : ChallengeDay {
             val (increment, modReq) = pair
             val constant = 26
             if (increment != null) {
-                z = z * constant + digits[digitsIndex] + increment
-                result[index] = digits[digitsIndex]
+                z = z * constant + this[digitsIndex] + increment
+                result[index] = this[digitsIndex]
                 digitsIndex += 1
             } else if (modReq != null) {
                 result[index] = ((z % constant) - modReq)
@@ -69,12 +51,39 @@ internal object Day24ArithmeticLogicUnit : ChallengeDay {
         return result
     }
 
-    override fun part1() = solve(9 downTo 1)
-    override fun part2() = solve(1..9)
+    fun part1(path: String) = solve(9 downTo 1, path)
+    fun part2(path: String) = solve(1..9, path)
 
-    private fun solve(intProgression: IntProgression) = createInputSpace(intProgression).asSequence()
-        .map(::validNr)
-        .firstNotNullOf(::self)
-        .joinToString("")
-        .toLong()
+    override fun part1() = part1( ChallengeDay.inputDir + "/day24.txt")
+    override fun part2() = part2( ChallengeDay.inputDir + "/day24.txt")
+
+    private fun solve(intProgression: IntProgression, path: String): Long {
+        val incrementToRequired = extractKeyValues(path)
+        return createInputSpace(intProgression)
+            .firstNotNullOf { it.toValidNr(incrementToRequired) }
+            .joinToString("")
+            .toLong()
+    }
+
+    private fun extractKeyValues(path: String): List<Pair<Int?, Int?>> {
+        return File(path).readText()
+            .split("inp")
+            .filter(String::isNotBlank)
+            .map(::incrementToRequired)
+    }
+
+    // these values are extracted from the input dataset.
+    // See https://www.youtube.com/watch?v=Eswmo7Y7C4U for why these values where obtained
+    private fun incrementToRequired(block: String): Pair<Int?, Int?> {
+        val lines = block.lines().filter(String::isNotBlank)
+
+        val increment = lines.lastOrNull { it.startsWith("add").and(it.last().isDigit()) }
+            ?.split(" ")?.last()?.toInt()
+
+        val required = lines.map { it.split(" ").last() }.mapNotNull(String::toIntOrNull)
+            .firstOrNull { it < 0 }
+            ?.absoluteValue
+
+        return (if (required == null) increment else null) to required
+    }
 }
